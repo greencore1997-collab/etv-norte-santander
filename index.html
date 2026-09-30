@@ -1,0 +1,1341 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>ETV Norte de Santander</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>/* required styles */
+ 
+ .leaflet-pane,
+ .leaflet-tile,
+ .leaflet-marker-icon,
+ .leaflet-marker-shadow,
+ .leaflet-tile-container,
+ .leaflet-pane > svg,
+ .leaflet-pane > canvas,
+ .leaflet-zoom-box,
+ .leaflet-image-layer,
+ .leaflet-layer {
+ 	position: absolute;
+ 	left: 0;
+ 	top: 0;
+ 	}
+ .leaflet-container {
+ 	overflow: hidden;
+ 	}
+ .leaflet-tile,
+ .leaflet-marker-icon,
+ .leaflet-marker-shadow {
+ 	-webkit-user-select: none;
+ 	 -moz-user-select: none;
+ 	 user-select: none;
+ 	 -webkit-user-drag: none;
+ 	}
+ /* Prevents IE11 from highlighting tiles in blue */
+ .leaflet-tile::selection {
+ 	background: transparent;
+ }
+ /* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+ .leaflet-safari .leaflet-tile {
+ 	image-rendering: -webkit-optimize-contrast;
+ 	}
+ /* hack that prevents hw layers "stretching" when loading new tiles */
+ .leaflet-safari .leaflet-tile-container {
+ 	width: 1600px;
+ 	height: 1600px;
+ 	-webkit-transform-origin: 0 0;
+ 	}
+ .leaflet-marker-icon,
+ .leaflet-marker-shadow {
+ 	display: block;
+ 	}
+ /* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+ /* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+ .leaflet-container .leaflet-overlay-pane svg {
+ 	max-width: none !important;
+ 	max-height: none !important;
+ 	}
+ .leaflet-container .leaflet-marker-pane img,
+ .leaflet-container .leaflet-shadow-pane img,
+ .leaflet-container .leaflet-tile-pane img,
+ .leaflet-container img.leaflet-image-layer,
+ .leaflet-container .leaflet-tile {
+ 	max-width: none !important;
+ 	max-height: none !important;
+ 	width: auto;
+ 	padding: 0;
+ 	}
+ 
+ .leaflet-container img.leaflet-tile {
+ 	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+ 	mix-blend-mode: plus-lighter;
+ }
+ 
+ .leaflet-container.leaflet-touch-zoom {
+ 	-ms-touch-action: pan-x pan-y;
+ 	touch-action: pan-x pan-y;
+ 	}
+ .leaflet-container.leaflet-touch-drag {
+ 	-ms-touch-action: pinch-zoom;
+ 	/* Fallback for FF which doesn't support pinch-zoom */
+ 	touch-action: none;
+ 	touch-action: pinch-zoom;
+ }
+ .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+ 	-ms-touch-action: none;
+ 	touch-action: none;
+ }
+ .leaflet-container {
+ 	-webkit-tap-highlight-color: transparent;
+ }
+ .leaflet-container a {
+ 	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+ }
+ .leaflet-tile {
+ 	filter: inherit;
+ 	visibility: hidden;
+ 	}
+ .leaflet-tile-loaded {
+ 	visibility: inherit;
+ 	}
+ .leaflet-zoom-box {
+ 	width: 0;
+ 	height: 0;
+ 	-moz-box-sizing: border-box;
+ 	 box-sizing: border-box;
+ 	z-index: 800;
+ 	}
+ /* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+ .leaflet-overlay-pane svg {
+ 	-moz-user-select: none;
+ 	}
+ 
+ .leaflet-pane { z-index: 400; }
+ 
+ .leaflet-tile-pane { z-index: 200; }
+ .leaflet-overlay-pane { z-index: 400; }
+ .leaflet-shadow-pane { z-index: 500; }
+ .leaflet-marker-pane { z-index: 600; }
+ .leaflet-tooltip-pane { z-index: 650; }
+ .leaflet-popup-pane { z-index: 700; }
+ 
+ .leaflet-map-pane canvas { z-index: 100; }
+ .leaflet-map-pane svg { z-index: 200; }
+ 
+ .leaflet-vml-shape {
+ 	width: 1px;
+ 	height: 1px;
+ 	}
+ .lvml {
+ 	behavior: url(#default#VML);
+ 	display: inline-block;
+ 	position: absolute;
+ 	}
+ 
+ 
+ /* control positioning */
+ 
+ .leaflet-control {
+ 	position: relative;
+ 	z-index: 800;
+ 	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+ 	pointer-events: auto;
+ 	}
+ .leaflet-top,
+ .leaflet-bottom {
+ 	position: absolute;
+ 	z-index: 1000;
+ 	pointer-events: none;
+ 	}
+ .leaflet-top {
+ 	top: 0;
+ 	}
+ .leaflet-right {
+ 	right: 0;
+ 	}
+ .leaflet-bottom {
+ 	bottom: 0;
+ 	}
+ .leaflet-left {
+ 	left: 0;
+ 	}
+ .leaflet-control {
+ 	float: left;
+ 	clear: both;
+ 	}
+ .leaflet-right .leaflet-control {
+ 	float: right;
+ 	}
+ .leaflet-top .leaflet-control {
+ 	margin-top: 10px;
+ 	}
+ .leaflet-bottom .leaflet-control {
+ 	margin-bottom: 10px;
+ 	}
+ .leaflet-left .leaflet-control {
+ 	margin-left: 10px;
+ 	}
+ .leaflet-right .leaflet-control {
+ 	margin-right: 10px;
+ 	}
+ 
+ 
+ /* zoom and fade animations */
+ 
+ .leaflet-fade-anim .leaflet-popup {
+ 	opacity: 0;
+ 	-webkit-transition: opacity 0.2s linear;
+ 	 -moz-transition: opacity 0.2s linear;
+ 	 transition: opacity 0.2s linear;
+ 	}
+ .leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+ 	opacity: 1;
+ 	}
+ .leaflet-zoom-animated {
+ 	-webkit-transform-origin: 0 0;
+ 	 -ms-transform-origin: 0 0;
+ 	 transform-origin: 0 0;
+ 	}
+ svg.leaflet-zoom-animated {
+ 	will-change: transform;
+ }
+ 
+ .leaflet-zoom-anim .leaflet-zoom-animated {
+ 	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+ 	 -moz-transition: -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+ 	 transition: transform 0.25s cubic-bezier(0,0,0.25,1);
+ 	}
+ .leaflet-zoom-anim .leaflet-tile,
+ .leaflet-pan-anim .leaflet-tile {
+ 	-webkit-transition: none;
+ 	 -moz-transition: none;
+ 	 transition: none;
+ 	}
+ 
+ .leaflet-zoom-anim .leaflet-zoom-hide {
+ 	visibility: hidden;
+ 	}
+ 
+ 
+ /* cursors */
+ 
+ .leaflet-interactive {
+ 	cursor: pointer;
+ 	}
+ .leaflet-grab {
+ 	cursor: -webkit-grab;
+ 	cursor: -moz-grab;
+ 	cursor: grab;
+ 	}
+ .leaflet-crosshair,
+ .leaflet-crosshair .leaflet-interactive {
+ 	cursor: crosshair;
+ 	}
+ .leaflet-popup-pane,
+ .leaflet-control {
+ 	cursor: auto;
+ 	}
+ .leaflet-dragging .leaflet-grab,
+ .leaflet-dragging .leaflet-grab .leaflet-interactive,
+ .leaflet-dragging .leaflet-marker-draggable {
+ 	cursor: move;
+ 	cursor: -webkit-grabbing;
+ 	cursor: -moz-grabbing;
+ 	cursor: grabbing;
+ 	}
+ 
+ /* marker & overlays interactivity */
+ .leaflet-marker-icon,
+ .leaflet-marker-shadow,
+ .leaflet-image-layer,
+ .leaflet-pane > svg path,
+ .leaflet-tile-container {
+ 	pointer-events: none;
+ 	}
+ 
+ .leaflet-marker-icon.leaflet-interactive,
+ .leaflet-image-layer.leaflet-interactive,
+ .leaflet-pane > svg path.leaflet-interactive,
+ svg.leaflet-image-layer.leaflet-interactive path {
+ 	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+ 	pointer-events: auto;
+ 	}
+ 
+ /* visual tweaks */
+ 
+ .leaflet-container {
+ 	background: #ddd;
+ 	outline-offset: 1px;
+ 	}
+ .leaflet-container a {
+ 	color: #0078A8;
+ 	}
+ .leaflet-zoom-box {
+ 	border: 2px dotted #38f;
+ 	background: rgba(255,255,255,0.5);
+ 	}
+ 
+ 
+ /* general typography */
+ .leaflet-container {
+ 	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+ 	font-size: 12px;
+ 	font-size: 0.75rem;
+ 	line-height: 1.5;
+ 	}
+ 
+ 
+ /* general toolbar styles */
+ 
+ .leaflet-bar {
+ 	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+ 	border-radius: 4px;
+ 	}
+ .leaflet-bar a {
+ 	background-color: #fff;
+ 	border-bottom: 1px solid #ccc;
+ 	width: 26px;
+ 	height: 26px;
+ 	line-height: 26px;
+ 	display: block;
+ 	text-align: center;
+ 	text-decoration: none;
+ 	color: black;
+ 	}
+ .leaflet-bar a,
+ .leaflet-control-layers-toggle {
+ 	background-position: 50% 50%;
+ 	background-repeat: no-repeat;
+ 	display: block;
+ 	}
+ .leaflet-bar a:hover,
+ .leaflet-bar a:focus {
+ 	background-color: #f4f4f4;
+ 	}
+ .leaflet-bar a:first-child {
+ 	border-top-left-radius: 4px;
+ 	border-top-right-radius: 4px;
+ 	}
+ .leaflet-bar a:last-child {
+ 	border-bottom-left-radius: 4px;
+ 	border-bottom-right-radius: 4px;
+ 	border-bottom: none;
+ 	}
+ .leaflet-bar a.leaflet-disabled {
+ 	cursor: default;
+ 	background-color: #f4f4f4;
+ 	color: #bbb;
+ 	}
+ 
+ .leaflet-touch .leaflet-bar a {
+ 	width: 30px;
+ 	height: 30px;
+ 	line-height: 30px;
+ 	}
+ .leaflet-touch .leaflet-bar a:first-child {
+ 	border-top-left-radius: 2px;
+ 	border-top-right-radius: 2px;
+ 	}
+ .leaflet-touch .leaflet-bar a:last-child {
+ 	border-bottom-left-radius: 2px;
+ 	border-bottom-right-radius: 2px;
+ 	}
+ 
+ /* zoom control */
+ 
+ .leaflet-control-zoom-in,
+ .leaflet-control-zoom-out {
+ 	font: bold 18px 'Lucida Console', Monaco, monospace;
+ 	text-indent: 1px;
+ 	}
+ 
+ .leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out {
+ 	font-size: 22px;
+ 	}
+ 
+ 
+ /* layers control */
+ 
+ .leaflet-control-layers {
+ 	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+ 	background: #fff;
+ 	border-radius: 5px;
+ 	}
+ .leaflet-control-layers-toggle {
+ 	background-image: url(data:,layers.png);
+ 	width: 36px;
+ 	height: 36px;
+ 	}
+ .leaflet-retina .leaflet-control-layers-toggle {
+ 	background-image: url(data:,layers-2x.png);
+ 	background-size: 26px 26px;
+ 	}
+ .leaflet-touch .leaflet-control-layers-toggle {
+ 	width: 44px;
+ 	height: 44px;
+ 	}
+ .leaflet-control-layers .leaflet-control-layers-list,
+ .leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+ 	display: none;
+ 	}
+ .leaflet-control-layers-expanded .leaflet-control-layers-list {
+ 	display: block;
+ 	position: relative;
+ 	}
+ .leaflet-control-layers-expanded {
+ 	padding: 6px 10px 6px 6px;
+ 	color: #333;
+ 	background: #fff;
+ 	}
+ .leaflet-control-layers-scrollbar {
+ 	overflow-y: scroll;
+ 	overflow-x: hidden;
+ 	padding-right: 5px;
+ 	}
+ .leaflet-control-layers-selector {
+ 	margin-top: 2px;
+ 	position: relative;
+ 	top: 1px;
+ 	}
+ .leaflet-control-layers label {
+ 	display: block;
+ 	font-size: 13px;
+ 	font-size: 1.08333em;
+ 	}
+ .leaflet-control-layers-separator {
+ 	height: 0;
+ 	border-top: 1px solid #ddd;
+ 	margin: 5px -10px 5px -6px;
+ 	}
+ 
+ /* Default icon URLs */
+ .leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+ 	background-image: url(data:,marker-icon.png);
+ 	}
+ 
+ 
+ /* attribution and scale controls */
+ 
+ .leaflet-container .leaflet-control-attribution {
+ 	background: #fff;
+ 	background: rgba(255, 255, 255, 0.8);
+ 	margin: 0;
+ 	}
+ .leaflet-control-attribution,
+ .leaflet-control-scale-line {
+ 	padding: 0 5px;
+ 	color: #333;
+ 	line-height: 1.4;
+ 	}
+ .leaflet-control-attribution a {
+ 	text-decoration: none;
+ 	}
+ .leaflet-control-attribution a:hover,
+ .leaflet-control-attribution a:focus {
+ 	text-decoration: underline;
+ 	}
+ .leaflet-attribution-flag {
+ 	display: inline !important;
+ 	vertical-align: baseline !important;
+ 	width: 1em;
+ 	height: 0.6669em;
+ 	}
+ .leaflet-left .leaflet-control-scale {
+ 	margin-left: 5px;
+ 	}
+ .leaflet-bottom .leaflet-control-scale {
+ 	margin-bottom: 5px;
+ 	}
+ .leaflet-control-scale-line {
+ 	border: 2px solid #777;
+ 	border-top: none;
+ 	line-height: 1.1;
+ 	padding: 2px 5px 1px;
+ 	white-space: nowrap;
+ 	-moz-box-sizing: border-box;
+ 	 box-sizing: border-box;
+ 	background: rgba(255, 255, 255, 0.8);
+ 	text-shadow: 1px 1px #fff;
+ 	}
+ .leaflet-control-scale-line:not(:first-child) {
+ 	border-top: 2px solid #777;
+ 	border-bottom: none;
+ 	margin-top: -2px;
+ 	}
+ .leaflet-control-scale-line:not(:first-child):not(:last-child) {
+ 	border-bottom: 2px solid #777;
+ 	}
+ 
+ .leaflet-touch .leaflet-control-attribution,
+ .leaflet-touch .leaflet-control-layers,
+ .leaflet-touch .leaflet-bar {
+ 	box-shadow: none;
+ 	}
+ .leaflet-touch .leaflet-control-layers,
+ .leaflet-touch .leaflet-bar {
+ 	border: 2px solid rgba(0,0,0,0.2);
+ 	background-clip: padding-box;
+ 	}
+ 
+ 
+ /* popup */
+ 
+ .leaflet-popup {
+ 	position: absolute;
+ 	text-align: center;
+ 	margin-bottom: 20px;
+ 	}
+ .leaflet-popup-content-wrapper {
+ 	padding: 1px;
+ 	text-align: left;
+ 	border-radius: 12px;
+ 	}
+ .leaflet-popup-content {
+ 	margin: 13px 24px 13px 20px;
+ 	line-height: 1.3;
+ 	font-size: 13px;
+ 	font-size: 1.08333em;
+ 	min-height: 1px;
+ 	}
+ .leaflet-popup-content p {
+ 	margin: 17px 0;
+ 	margin: 1.3em 0;
+ 	}
+ .leaflet-popup-tip-container {
+ 	width: 40px;
+ 	height: 20px;
+ 	position: absolute;
+ 	left: 50%;
+ 	margin-top: -1px;
+ 	margin-left: -20px;
+ 	overflow: hidden;
+ 	pointer-events: none;
+ 	}
+ .leaflet-popup-tip {
+ 	width: 17px;
+ 	height: 17px;
+ 	padding: 1px;
+ 
+ 	margin: -10px auto 0;
+ 	pointer-events: auto;
+ 
+ 	-webkit-transform: rotate(45deg);
+ 	 -moz-transform: rotate(45deg);
+ 	 -ms-transform: rotate(45deg);
+ 	 transform: rotate(45deg);
+ 	}
+ .leaflet-popup-content-wrapper,
+ .leaflet-popup-tip {
+ 	background: white;
+ 	color: #333;
+ 	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+ 	}
+ .leaflet-container a.leaflet-popup-close-button {
+ 	position: absolute;
+ 	top: 0;
+ 	right: 0;
+ 	border: none;
+ 	text-align: center;
+ 	width: 24px;
+ 	height: 24px;
+ 	font: 16px/24px Tahoma, Verdana, sans-serif;
+ 	color: #757575;
+ 	text-decoration: none;
+ 	background: transparent;
+ 	}
+ .leaflet-container a.leaflet-popup-close-button:hover,
+ .leaflet-container a.leaflet-popup-close-button:focus {
+ 	color: #585858;
+ 	}
+ .leaflet-popup-scrolled {
+ 	overflow: auto;
+ 	}
+ 
+ .leaflet-oldie .leaflet-popup-content-wrapper {
+ 	-ms-zoom: 1;
+ 	}
+ .leaflet-oldie .leaflet-popup-tip {
+ 	width: 24px;
+ 	margin: 0 auto;
+ 
+ 	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+ 	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+ 	}
+ 
+ .leaflet-oldie .leaflet-control-zoom,
+ .leaflet-oldie .leaflet-control-layers,
+ .leaflet-oldie .leaflet-popup-content-wrapper,
+ .leaflet-oldie .leaflet-popup-tip {
+ 	border: 1px solid #999;
+ 	}
+ 
+ 
+ /* div icon */
+ 
+ .leaflet-div-icon {
+ 	background: #fff;
+ 	border: 1px solid #666;
+ 	}
+ 
+ 
+ /* Tooltip */
+ /* Base styles for the element that has a tooltip */
+ .leaflet-tooltip {
+ 	position: absolute;
+ 	padding: 6px;
+ 	background-color: #fff;
+ 	border: 1px solid #fff;
+ 	border-radius: 3px;
+ 	color: #222;
+ 	white-space: nowrap;
+ 	-webkit-user-select: none;
+ 	-moz-user-select: none;
+ 	-ms-user-select: none;
+ 	user-select: none;
+ 	pointer-events: none;
+ 	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+ 	}
+ .leaflet-tooltip.leaflet-interactive {
+ 	cursor: pointer;
+ 	pointer-events: auto;
+ 	}
+ .leaflet-tooltip-top:before,
+ .leaflet-tooltip-bottom:before,
+ .leaflet-tooltip-left:before,
+ .leaflet-tooltip-right:before {
+ 	position: absolute;
+ 	pointer-events: none;
+ 	border: 6px solid transparent;
+ 	background: transparent;
+ 	content: "";
+ 	}
+ 
+ /* Directions */
+ 
+ .leaflet-tooltip-bottom {
+ 	margin-top: 6px;
+ }
+ .leaflet-tooltip-top {
+ 	margin-top: -6px;
+ }
+ .leaflet-tooltip-bottom:before,
+ .leaflet-tooltip-top:before {
+ 	left: 50%;
+ 	margin-left: -6px;
+ 	}
+ .leaflet-tooltip-top:before {
+ 	bottom: 0;
+ 	margin-bottom: -12px;
+ 	border-top-color: #fff;
+ 	}
+ .leaflet-tooltip-bottom:before {
+ 	top: 0;
+ 	margin-top: -12px;
+ 	margin-left: -6px;
+ 	border-bottom-color: #fff;
+ 	}
+ .leaflet-tooltip-left {
+ 	margin-left: -6px;
+ }
+ .leaflet-tooltip-right {
+ 	margin-left: 6px;
+ }
+ .leaflet-tooltip-left:before,
+ .leaflet-tooltip-right:before {
+ 	top: 50%;
+ 	margin-top: -6px;
+ 	}
+ .leaflet-tooltip-left:before {
+ 	right: 0;
+ 	margin-right: -12px;
+ 	border-left-color: #fff;
+ 	}
+ .leaflet-tooltip-right:before {
+ 	left: 0;
+ 	margin-left: -12px;
+ 	border-right-color: #fff;
+ 	}
+ 
+ /* Printing */
+ 
+ @media print {
+ 	/* Prevent printers from removing background-images of controls. */
+ 	.leaflet-control {
+ 		-webkit-print-color-adjust: exact;
+ 		print-color-adjust: exact;
+ 		}
+ 	}
+ </style>
+<style>
+/* Layout: barra institucional + pestañas; cada vista es una hoja de trabajo del programa ETV */
+:root{
+  --bg:#F2F5F3; --surface:#FFFFFF; --surface-2:#E8EEEB; --ink:#132629; --muted:#586B6C; --line:#D5DFDB;
+  --accent:#0E6B66; --accent-ink:#FFFFFF; --warm:#B8631A;
+  --ok:#2F7D4A; --warn:#B7791F; --crit:#B3261E;
+  --map-bg:#E4ECE9; --edge:#FFFFFF; --r0:#EEF1EF; --r1:#FBE7C6; --r2:#F3BE83; --r3:#E58A4E; --r4:#C9542A; --r5:#8F2419;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1618; --surface:#142124; --surface-2:#1B2B2E; --ink:#E1EBE9; --muted:#93A8A7; --line:#27393C;
+  --accent:#43B3AA; --accent-ink:#06201E; --warm:#E39A52; --ok:#5CB57A; --warn:#E0A94A; --crit:#EF6B61;
+  --map-bg:#101C1F; --edge:#0D1618; --r0:#223235; --r1:#5A4A2C; --r2:#8A5A2A; --r3:#BF6A31; --r4:#E2833F; --r5:#FFB070; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1618; --surface:#142124; --surface-2:#1B2B2E; --ink:#E1EBE9; --muted:#93A8A7; --line:#27393C;
+  --accent:#43B3AA; --accent-ink:#06201E; --warm:#E39A52; --ok:#5CB57A; --warn:#E0A94A; --crit:#EF6B61;
+  --map-bg:#101C1F; --edge:#0D1618; --r0:#223235; --r1:#5A4A2C; --r2:#8A5A2A; --r3:#BF6A31; --r4:#E2833F; --r5:#FFB070; color-scheme:dark}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+html{color-scheme:light}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
+img{max-width:100%}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* Gate */
+#gate{position:fixed;inset:0;z-index:5000;background:var(--bg);display:grid;place-items:center;padding:16px}
+.gate-card{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:28px;display:grid;gap:14px}
+.gate-card h1{font-size:34px;line-height:1.05}
+.gate-card p{margin:0;color:var(--muted)}
+.gate-err{color:var(--crit);font-size:14px;min-height:20px}
+.gate-mark{display:flex;gap:6px;align-items:center}
+.gate-mark span{width:10px;height:10px;border-radius:50%;background:var(--warm)}
+.gate-mark span:nth-child(2){background:var(--accent)}
+.gate-mark span:nth-child(3){background:var(--r4)}
+
+/* Shell */
+header.top{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:1000}
+.top-in{max-width:1280px;margin:0 auto;padding:12px 16px 0;display:flex;flex-wrap:wrap;gap:8px 24px;align-items:flex-end;justify-content:space-between}
+.brand h1{font-size:28px;line-height:1}
+.brand .eyebrow{margin-bottom:2px}
+.meta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding-bottom:10px;font-size:14px;color:var(--muted)}
+.epi{border:1px solid var(--line);border-radius:6px;padding:3px 8px;background:var(--surface-2);color:var(--ink)}
+nav.tabs{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 12px;cursor:pointer;color:var(--muted);font-weight:600;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs button:hover{color:var(--ink)}
+main{max-width:1280px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+.view{display:grid;gap:18px}
+.banner{border:1px dashed var(--warm);color:var(--ink);background:color-mix(in srgb,var(--warm) 10%,var(--surface));border-radius:8px;padding:10px 14px;font-size:14px}
+.banner b{color:var(--warm)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0}
+.panel h2{font-size:21px;margin-bottom:10px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
+label.f{display:grid;gap:3px;font-size:13px;color:var(--muted);font-weight:600;min-width:0}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-width:0}
+textarea{resize:vertical}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:8px 14px;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.sm{padding:4px 9px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* KPI strip */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;text-align:left;display:grid;gap:2px}
+.kpi[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.kpi .k-name{font-family:var(--f-display);font-size:18px;font-weight:600}
+.kpi .k-val{font-family:var(--f-mono);font-size:26px;font-weight:600;line-height:1.1}
+.kpi .k-sub{font-size:12px;color:var(--muted)}
+.chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700;border:1px solid currentColor}
+.up{color:var(--crit)} .down{color:var(--ok)} .flat{color:var(--muted)}
+
+/* chart */
+.chart svg{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font:11px var(--f-mono)}
+.bars{display:grid;gap:6px}
+.bar{display:grid;grid-template-columns:minmax(90px,150px) 1fr 52px;gap:8px;align-items:center;font-size:14px}
+.bar .t{height:12px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--warm)}
+.bar .n{text-align:right;font-family:var(--f-mono)}
+
+/* tables */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;white-space:nowrap}
+td.r,th.r{text-align:right}
+.risk{font-weight:700;font-size:12px;border-radius:4px;padding:2px 7px;white-space:nowrap}
+.risk.Alto{background:color-mix(in srgb,var(--crit) 16%,transparent);color:var(--crit)}
+.risk.Medio{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.risk.Bajo{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.risk.Sin{background:var(--surface-2);color:var(--muted)}
+
+/* geovisor */
+.geo{display:grid;grid-template-columns:300px 1fr;gap:14px;min-height:620px}
+@media (max-width:860px){.geo{grid-template-columns:1fr}}
+.geo-side{display:grid;gap:14px;align-content:start;min-width:0}
+.evlist{display:grid;gap:4px}
+.evlist label{display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:6px;cursor:pointer;border:1px solid transparent}
+.evlist label:has(input:checked){background:var(--surface-2);border-color:var(--line)}
+.evlist .dot{width:10px;height:10px;border-radius:2px;flex:none}
+.evlist .code{margin-left:auto;font:11px var(--f-mono);color:var(--muted)}
+#map{height:620px;border-radius:8px;border:1px solid var(--line);background:var(--map-bg)}
+@media (max-width:860px){#map{height:440px}}
+.leaflet-container{background:var(--map-bg);font-family:var(--f-body)}
+.leaflet-tooltip{background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:13px}
+.leaflet-tooltip-top:before{border-top-color:var(--line)}
+.leaflet-bar a{background:var(--surface);color:var(--ink);border-bottom-color:var(--line)}
+.legend{display:grid;gap:4px;font-size:13px}
+.legend div{display:flex;gap:8px;align-items:center}
+.legend i{width:22px;height:12px;border-radius:2px;border:1px solid var(--line)}
+.attr-table td:first-child{color:var(--muted)}
+.attr-table td:last-child{text-align:right;font-family:var(--f-mono);font-weight:600}
+.attr-table tr.sel td{background:var(--surface-2)}
+
+/* programa */
+.prose{max-width:70ch}
+.prose p{margin:.3em 0 .8em}
+.evcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.evcard{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--surface);display:grid;gap:4px;align-content:start}
+.evcard h3{font-size:20px;display:flex;gap:8px;align-items:center}
+.evcard .dot{width:12px;height:12px;border-radius:2px}
+.evcard dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px}
+.evcard dt{color:var(--muted)}
+.evcard dd{margin:0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:6px;font-weight:600;z-index:6000}
+footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t">
+  <form class="gate-card" id="gate-form" autocomplete="off">
+    <div class="gate-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="eyebrow">IDS · Norte de Santander</div>
+    <h1 id="gate-t">Programa ETV</h1>
+    <p>Enfermedades transmitidas por vectores. Ingresa la contraseña del programa para continuar.</p>
+    <label class="f" for="gate-pw">Contraseña
+      <input id="gate-pw" type="password" autocomplete="current-password" required>
+    </label>
+    <div class="gate-err" id="gate-err" aria-live="polite"></div>
+    <button class="btn" type="submit">Ingresar</button>
+  </form>
+</div>
+
+<div id="app" hidden>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div>
+      <h1>Programa ETV</h1>
+    </div>
+    <div class="meta">
+      <span class="epi mono" id="epi-now">SE —</span>
+      <span id="sync" class="small">Cargando…</span>
+      <button class="btn ghost sm" id="logout" type="button">Salir</button>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Secciones">
+    <button role="tab" data-tab="tablero" aria-selected="true">Tablero</button>
+    <button role="tab" data-tab="geovisor" aria-selected="false">Geovisor</button>
+    <button role="tab" data-tab="datos" aria-selected="false">Cargar casos</button>
+    <button role="tab" data-tab="actividades" aria-selected="false">Actividades</button>
+    <button role="tab" data-tab="municipios" aria-selected="false">Municipios</button>
+    <button role="tab" data-tab="programa" aria-selected="false">Programa</button>
+  </nav>
+</header>
+
+<main>
+  <div class="banner" id="demo-banner" hidden><b>Datos de ejemplo.</b> Aún no hay casos cargados, así que el tablero y el geovisor muestran cifras simuladas que no corresponden a la realidad. Desaparecen cuando se registra el primer dato en <em>Cargar casos</em>.</div>
+
+  <!-- TABLERO -->
+  <section class="view" id="v-tablero">
+    <div class="row">
+      <label class="f" for="t-year">Año<select id="t-year"></select></label>
+      <span class="small muted" id="t-range"></span>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="panel chart">
+        <h2 id="curve-t">Curva epidémica</h2>
+        <div id="curve"></div>
+        <div class="small muted">Casos por semana epidemiológica. La línea marca la media de las 8 semanas previas.</div>
+      </div>
+      <div class="panel">
+        <h2 id="top-t">Municipios con más casos</h2>
+        <div class="bars" id="topm"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Últimas actividades de campo</h2>
+      <div class="tw"><table id="t-acts"></table></div>
+    </div>
+  </section>
+
+  <!-- GEOVISOR -->
+  <section class="view" id="v-geovisor" hidden>
+    <div class="geo">
+      <div class="geo-side">
+        <div class="panel">
+          <h2>Evento</h2>
+          <div class="evlist" id="g-events"></div>
+        </div>
+        <div class="panel" style="display:grid;gap:10px">
+          <label class="f" for="g-var">Variable a representar<select id="g-var"></select></label>
+          <div class="row">
+            <label class="f" for="g-year">Año<select id="g-year"></select></label>
+            <label class="f" for="g-w1">SE desde<input id="g-w1" type="number" min="1" max="53" style="width:76px"></label>
+            <label class="f" for="g-w2">SE hasta<input id="g-w2" type="number" min="1" max="53" style="width:76px"></label>
+          </div>
+          <div class="legend" id="g-legend"></div>
+        </div>
+        <div class="panel">
+          <h2 id="g-sel-t">Atributos del departamento</h2>
+          <div class="small muted" id="g-sel-sub">Haz clic en un municipio para ver sus atributos.</div>
+          <table class="attr-table" id="g-attrs"></table>
+        </div>
+      </div>
+      <div id="map" role="application" aria-label="Mapa de municipios de Norte de Santander"></div>
+    </div>
+  </section>
+
+  <!-- DATOS -->
+  <section class="view" id="v-datos" hidden>
+    <div class="grid2">
+      <form class="panel" id="c-form" style="display:grid;gap:10px">
+        <h2>Registrar casos de una semana</h2>
+        <div class="row">
+          <label class="f" for="c-ev">Evento<select id="c-ev"></select></label>
+          <label class="f" for="c-mp">Municipio<select id="c-mp"></select></label>
+        </div>
+        <div class="row">
+          <label class="f" for="c-year">Año<input id="c-year" type="number" min="2000" max="2100" style="width:96px"></label>
+          <label class="f" for="c-wk">Semana epid.<input id="c-wk" type="number" min="1" max="53" style="width:86px"></label>
+        </div>
+        <div class="row" id="c-attrs"></div>
+        <div class="row"><button class="btn" type="submit" id="c-save">Guardar semana</button><span class="small muted">Si ya existe el registro de ese municipio y semana, se reemplaza.</span></div>
+      </form>
+      <div class="panel" style="display:grid;gap:10px">
+        <h2>Importar desde CSV (Sivigila / consolidado)</h2>
+        <p class="small muted" style="margin:0">Una fila por municipio y semana. Separador coma o punto y coma. El municipio puede ir como código DANE (54001) o nombre. Plantilla del evento seleccionado:</p>
+        <div class="row">
+          <label class="f" for="i-ev">Evento<select id="i-ev"></select></label>
+          <button class="btn ghost sm" type="button" id="i-copy">Copiar encabezado</button>
+        </div>
+        <code class="mono small" id="i-head" style="overflow-wrap:anywhere;background:var(--surface-2);padding:6px 8px;border-radius:6px"></code>
+        <label class="f" for="i-file">Archivo CSV<input id="i-file" type="file" accept=".csv,.txt,text/csv"></label>
+        <label class="f" for="i-text">…o pega el contenido<textarea id="i-text" rows="5" placeholder="cod_mpio,anio,semana,casos,…"></textarea></label>
+        <div class="row"><button class="btn" type="button" id="i-run">Importar</button><span class="small" id="i-msg" aria-live="polite"></span></div>
+      </div>
+    </div>
+    <div class="panel" style="display:grid;gap:10px">
+      <h2>Respaldo y consolidación</h2>
+      <p class="small muted" style="margin:0">Los datos se guardan en este navegador. Descarga un respaldo con frecuencia y compártelo para consolidar: al integrar un respaldo se suman los municipios y semanas que falten sin borrar lo que ya tienes.</p>
+      <div class="row">
+        <button class="btn" type="button" id="b-exp">Descargar respaldo (JSON)</button>
+        <button class="btn ghost" type="button" id="b-csv">Descargar casos del evento en CSV</button>
+        <label class="f" for="b-imp">Integrar respaldo<input id="b-imp" type="file" accept=".json,application/json"></label>
+      </div>
+      <span class="small" id="b-msg" aria-live="polite"></span>
+    </div>
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Registros cargados</h2>
+        <label class="f" for="r-ev">Evento<select id="r-ev"></select></label></div>
+      <div class="tw"><table id="r-table"></table></div>
+    </div>
+  </section>
+
+  <!-- ACTIVIDADES -->
+  <section class="view" id="v-actividades" hidden>
+    <form class="panel" id="a-form" style="display:grid;gap:10px">
+      <h2>Registrar actividad</h2>
+      <div class="row">
+        <label class="f" for="a-date">Fecha<input id="a-date" type="date" required></label>
+        <label class="f" for="a-mp">Municipio<select id="a-mp" required></select></label>
+        <label class="f" for="a-type">Tipo de acción<select id="a-type"></select></label>
+        <label class="f" for="a-ev">Evento<select id="a-ev"></select></label>
+      </div>
+      <div class="row">
+        <label class="f" for="a-viv">Viviendas intervenidas<input id="a-viv" type="number" min="0" style="width:120px"></label>
+        <label class="f" for="a-per">Personas alcanzadas<input id="a-per" type="number" min="0" style="width:120px"></label>
+        <label class="f" for="a-resp">Responsable<input id="a-resp" type="text" style="width:200px"></label>
+      </div>
+      <label class="f" for="a-desc">Descripción / hallazgos<textarea id="a-desc" rows="2"></textarea></label>
+      <div class="row"><button class="btn" type="submit" id="a-save">Guardar actividad</button></div>
+    </form>
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Bitácora</h2>
+        <div class="row">
+          <label class="f" for="af-mp">Municipio<select id="af-mp"></select></label>
+          <label class="f" for="af-type">Tipo<select id="af-type"></select></label>
+        </div></div>
+      <div class="tw"><table id="a-table"></table></div>
+    </div>
+  </section>
+
+  <!-- MUNICIPIOS -->
+  <section class="view" id="v-municipios" hidden>
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Directorio de municipios</h2><input id="m-q" type="search" placeholder="Buscar municipio" aria-label="Buscar municipio"></div>
+      <p class="small muted" style="margin:0 0 8px">40 municipios. Edita el nivel de riesgo, el responsable y el contacto, y guarda cada fila.</p>
+      <div class="tw"><table id="m-table"></table></div>
+    </div>
+  </section>
+
+  <!-- PROGRAMA -->
+  <section class="view" id="v-programa" hidden>
+    <div class="panel prose">
+      <h2>Sobre el programa</h2>
+      <p>El programa de Enfermedades Transmitidas por Vectores (ETV) del Instituto Departamental de Salud de Norte de Santander coordina la vigilancia, prevención y control de los eventos transmitidos por mosquitos, flebótomos y triatominos en los 40 municipios del departamento.</p>
+      <p>Trabaja bajo la Estrategia de Gestión Integrada (EGI) para las ETV, que articula vigilancia en salud pública, inteligencia epidemiológica, gestión del conocimiento, promoción de la salud, prevención y control integral de vectores, atención integral de pacientes y gestión y atención de contingencias.</p>
+      <p>Los casos se notifican a través del Sivigila con los códigos de evento del Instituto Nacional de Salud y se analizan por semana epidemiológica.</p>
+    </div>
+    <h2 style="font-size:24px">Eventos de interés</h2>
+    <div class="evcards" id="evcards"></div>
+    <div class="panel prose">
+      <h2>Líneas de acción en campo</h2>
+      <p id="acc-list"></p>
+    </div>
+  </section>
+</main>
+<footer>Herramienta interna de trabajo del programa ETV. Los datos se guardan en el navegador de cada equipo; usa los respaldos para consolidar.</footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const GEO = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"c":"54051","n":"Arboledas","a":456.1},"geometry":{"type":"Polygon","coordinates":[[[-72.6965,7.6334],[-72.743,7.6235],[-72.7993,7.6396],[-72.8446,7.5851],[-72.836,7.5392],[-72.896,7.4674],[-72.978,7.5293],[-72.9829,7.6198],[-72.9536,7.6669],[-72.8617,7.6756],[-72.8397,7.709],[-72.7467,7.7165],[-72.7246,7.7462],[-72.6965,7.6334]]]}},{"type":"Feature","properties":{"c":"54099","n":"Bochalema","a":170.3},"geometry":{"type":"Polygon","coordinates":[[[-72.5814,7.7611],[-72.5753,7.7214],[-72.5863,7.7016],[-72.6292,7.6421],[-72.6365,7.5665],[-72.7075,7.5256],[-72.743,7.6235],[-72.6965,7.6334],[-72.6463,7.6805],[-72.6194,7.7537],[-72.5814,7.7611]]]}},{"type":"Feature","properties":{"c":"54109","n":"Bucarasica","a":270.8},"geometry":{"type":"Polygon","coordinates":[[[-72.8556,8.0264],[-72.874,7.9978],[-72.9695,8.0226],[-73.0025,8.0995],[-73.0148,8.1491],[-72.9621,8.1875],[-72.8752,8.128],[-72.8397,8.0772],[-72.8556,8.0264]]]}},{"type":"Feature","properties":{"c":"54172","n":"Chinácota","a":166.3},"geometry":{"type":"Polygon","coordinates":[[[-72.5276,7.6372],[-72.5471,7.5504],[-72.5349,7.4897],[-72.5777,7.455],[-72.6365,7.5665],[-72.6292,7.6421],[-72.5863,7.7016],[-72.5276,7.6372]]]}},{"type":"Feature","properties":{"c":"54174","n":"Chitagá","a":1185.2},"geometry":{"type":"Polygon","coordinates":[[[-72.481,7.1587],[-72.3733,7.1104],[-72.2901,6.9964],[-72.3133,6.9319],[-72.3929,6.8724],[-72.5031,6.9084],[-72.5471,6.886],[-72.5533,6.9852],[-72.7222,7.005],[-72.7344,6.9864],[-72.7503,7.0596],[-72.6989,7.2455],[-72.6512,7.191],[-72.5802,7.2641],[-72.5777,7.2628],[-72.5765,7.1649],[-72.481,7.1587]]]}},{"type":"Feature","properties":{"c":"54206","n":"Convención","a":931.9},"geometry":{"type":"Polygon","coordinates":[[[-72.9854,9.1456],[-73.0025,9.0749],[-73.1029,9.0489],[-73.1482,8.9733],[-73.1054,8.9324],[-73.2106,8.8109],[-73.2474,8.7267],[-73.24,8.6696],[-73.2988,8.625],[-73.3159,8.5655],[-73.2853,8.4899],[-73.3245,8.4069],[-73.349,8.392],[-73.3428,8.4366],[-73.4138,8.4589],[-73.4065,8.5469],[-73.2804,8.7415],[-73.3,8.8023],[-73.2388,8.8543],[-73.2523,9.0043],[-73.1409,9.1146],[-73.0637,9.1369],[-73.0711,9.2212],[-73.0037,9.2745],[-72.9646,9.2001],[-72.9854,9.1456]]]}},{"type":"Feature","properties":{"c":"54223","n":"Cucutilla","a":374.9},"geometry":{"type":"Polygon","coordinates":[[[-72.743,7.6235],[-72.6904,7.4723],[-72.7393,7.4649],[-72.8177,7.3719],[-72.8385,7.3595],[-72.863,7.3831],[-72.896,7.4674],[-72.836,7.5392],[-72.8446,7.5851],[-72.7993,7.6396],[-72.743,7.6235]]]}},{"type":"Feature","properties":{"c":"54128","n":"Cáchira","a":615.8},"geometry":{"type":"Polygon","coordinates":[[[-73.0454,7.8677],[-72.9536,7.6669],[-72.9829,7.6198],[-73.049,7.6062],[-73.218,7.6322],[-73.2816,7.5479],[-73.3698,7.564],[-73.2755,7.6545],[-73.2669,7.7004],[-73.1776,7.7376],[-73.1531,7.8094],[-73.0711,7.7871],[-73.0454,7.8677]]]}},{"type":"Feature","properties":{"c":"54125","n":"Cácota","a":138.9},"geometry":{"type":"Polygon","coordinates":[[[-72.5802,7.2641],[-72.6512,7.191],[-72.6989,7.2455],[-72.7259,7.2566],[-72.7026,7.3236],[-72.6157,7.3298],[-72.5802,7.2641]]]}},{"type":"Feature","properties":{"c":"54239","n":"Durania","a":175.0},"geometry":{"type":"Polygon","coordinates":[[[-72.6194,7.7537],[-72.6463,7.6805],[-72.6965,7.6334],[-72.7246,7.7462],[-72.71,7.8008],[-72.6598,7.833],[-72.6194,7.7537]]]}},{"type":"Feature","properties":{"c":"54245","n":"El Carmen","a":1727.7},"geometry":{"type":"Polygon","coordinates":[[[-73.0037,9.2745],[-73.0711,9.2212],[-73.0637,9.1369],[-73.1409,9.1146],[-73.2523,9.0043],[-73.2388,8.8543],[-73.3,8.8023],[-73.2804,8.7415],[-73.4065,8.5469],[-73.4138,8.4589],[-73.4102,8.4304],[-73.4922,8.4217],[-73.5767,8.506],[-73.5314,8.5283],[-73.5522,8.6064],[-73.4628,8.7452],[-73.4285,8.8233],[-73.4469,8.8704],[-73.4261,8.9002],[-73.4359,8.9993],[-73.4114,9.0539],[-73.4249,9.122],[-73.3685,9.1729],[-73.2523,9.158],[-73.1764,9.1766],[-73.0699,9.2646],[-73.0037,9.2745]]]}},{"type":"Feature","properties":{"c":"54250","n":"El Tarra","a":704.1},"geometry":{"type":"Polygon","coordinates":[[[-73.016,8.5457],[-73.0821,8.5035],[-73.158,8.573],[-73.1482,8.6758],[-73.0564,8.7651],[-73.0601,8.8667],[-72.9756,8.8841],[-72.9474,8.8382],[-72.9597,8.7638],[-72.9168,8.7093],[-72.9058,8.6027],[-73.016,8.5457]]]}},{"type":"Feature","properties":{"c":"54261","n":"El Zulia","a":505.3},"geometry":{"type":"Polygon","coordinates":[[[-72.5875,7.9185],[-72.6561,7.9061],[-72.6904,7.9743],[-72.7601,7.9693],[-72.754,8.0177],[-72.6524,8.1491],[-72.6487,8.221],[-72.6071,8.2829],[-72.5471,8.2866],[-72.5594,8.2135],[-72.5288,8.1639],[-72.5777,8.1082],[-72.5973,7.9669],[-72.5875,7.9185]]]}},{"type":"Feature","properties":{"c":"54313","n":"Gramalote","a":149.0},"geometry":{"type":"Polygon","coordinates":[[[-72.7601,7.9693],[-72.7601,7.8479],[-72.8348,7.8516],[-72.9009,7.9024],[-72.8177,7.9235],[-72.7944,8.0053],[-72.754,8.0177],[-72.7601,7.9693]]]}},{"type":"Feature","properties":{"c":"54344","n":"Hacarí","a":419.0},"geometry":{"type":"Polygon","coordinates":[[[-72.9682,8.4329],[-72.9952,8.3908],[-72.9903,8.2854],[-73.0552,8.2854],[-73.1127,8.2433],[-73.1837,8.3114],[-73.1849,8.3697],[-73.1617,8.4354],[-73.1017,8.4205],[-73.0503,8.4874],[-72.9682,8.4329]]]}},{"type":"Feature","properties":{"c":"54347","n":"Herrán","a":107.0},"geometry":{"type":"Polygon","coordinates":[[[-72.4553,7.5529],[-72.4786,7.4983],[-72.4162,7.4004],[-72.4541,7.4066],[-72.5349,7.4897],[-72.5471,7.5504],[-72.4553,7.5529]]]}},{"type":"Feature","properties":{"c":"54385","n":"La Esperanza","a":669.9},"geometry":{"type":"Polygon","coordinates":[[[-73.1531,7.8094],[-73.1776,7.7376],[-73.2669,7.7004],[-73.2755,7.6545],[-73.3698,7.564],[-73.4628,7.5752],[-73.633,7.7487],[-73.5803,7.7388],[-73.4812,7.6768],[-73.4114,7.7165],[-73.349,7.8293],[-73.1531,7.8094]]]}},{"type":"Feature","properties":{"c":"54398","n":"La Playa","a":242.2},"geometry":{"type":"Polygon","coordinates":[[[-73.0552,8.2854],[-73.049,8.2309],[-73.2731,8.1912],[-73.2694,8.3238],[-73.1849,8.3697],[-73.1837,8.3114],[-73.1127,8.2433],[-73.0552,8.2854]]]}},{"type":"Feature","properties":{"c":"54377","n":"Labateca","a":256.0},"geometry":{"type":"Polygon","coordinates":[[[-72.481,7.1587],[-72.5765,7.1649],[-72.5777,7.3893],[-72.5692,7.393],[-72.5067,7.3831],[-72.4908,7.2913],[-72.4455,7.2294],[-72.481,7.1587]]]}},{"type":"Feature","properties":{"c":"54405","n":"Los Patios","a":127.6},"geometry":{"type":"Polygon","coordinates":[[[-72.4872,7.8578],[-72.4884,7.7561],[-72.5214,7.6483],[-72.5276,7.6372],[-72.5863,7.7016],[-72.5753,7.7214],[-72.5325,7.7549],[-72.4872,7.8578]]]}},{"type":"Feature","properties":{"c":"54418","n":"Lourdes","a":86.6},"geometry":{"type":"Polygon","coordinates":[[[-72.7944,8.0053],[-72.8177,7.9235],[-72.896,7.9049],[-72.874,7.9978],[-72.8556,8.0264],[-72.7944,8.0053]]]}},{"type":"Feature","properties":{"c":"54480","n":"Mutiscua","a":158.8},"geometry":{"type":"Polygon","coordinates":[[[-72.7026,7.3236],[-72.7259,7.2566],[-72.8336,7.3037],[-72.8385,7.3595],[-72.8177,7.3719],[-72.7197,7.3756],[-72.7026,7.3236]]]}},{"type":"Feature","properties":{"c":"54498","n":"Ocaña","a":522.6},"geometry":{"type":"MultiPolygon","coordinates":[[[[-73.2743,8.3895],[-73.2694,8.3238],[-73.2731,8.1912],[-73.2841,8.1243],[-73.3257,8.0908],[-73.3098,8.0152],[-73.3661,8.0226],[-73.393,8.1131],[-73.4322,8.1404],[-73.4053,8.2457],[-73.3612,8.3275],[-73.349,8.392],[-73.3245,8.4069],[-73.2743,8.3895]]],[[[-73.4114,8.3697],[-73.4567,8.361],[-73.4922,8.4217],[-73.4102,8.4304],[-73.4114,8.3697]]]]}},{"type":"Feature","properties":{"c":"54518","n":"Pamplona","a":298.3},"geometry":{"type":"Polygon","coordinates":[[[-72.6904,7.4723],[-72.6463,7.4017],[-72.5777,7.3893],[-72.5777,7.2628],[-72.6157,7.3298],[-72.7026,7.3236],[-72.7197,7.3756],[-72.8177,7.3719],[-72.7393,7.4649],[-72.6904,7.4723]]]}},{"type":"Feature","properties":{"c":"54520","n":"Pamplonita","a":170.9},"geometry":{"type":"Polygon","coordinates":[[[-72.5777,7.455],[-72.5692,7.393],[-72.5777,7.3893],[-72.6463,7.4017],[-72.6904,7.4723],[-72.7075,7.5256],[-72.6365,7.5665],[-72.5777,7.455]]]}},{"type":"Feature","properties":{"c":"54553","n":"Puerto Santander","a":44.9},"geometry":{"type":"Polygon","coordinates":[[[-72.3868,8.278],[-72.4394,8.3325],[-72.4272,8.3808],[-72.3892,8.3486],[-72.3868,8.278]]]}},{"type":"Feature","properties":{"c":"54599","n":"Ragonvalia","a":97.7},"geometry":{"type":"Polygon","coordinates":[[[-72.4749,7.6582],[-72.4553,7.5529],[-72.5471,7.5504],[-72.5276,7.6372],[-72.5214,7.6483],[-72.4749,7.6582]]]}},{"type":"Feature","properties":{"c":"54660","n":"Salazar","a":493.9},"geometry":{"type":"Polygon","coordinates":[[[-72.7601,7.8479],[-72.71,7.8008],[-72.7246,7.7462],[-72.7467,7.7165],[-72.8397,7.709],[-72.8617,7.6756],[-72.9536,7.6669],[-72.9989,7.7648],[-72.9009,7.9024],[-72.8348,7.8516],[-72.7601,7.8479]]]}},{"type":"Feature","properties":{"c":"54670","n":"San Calixto","a":398.0},"geometry":{"type":"Polygon","coordinates":[[[-73.016,8.5457],[-72.9695,8.4651],[-72.9682,8.4329],[-73.0503,8.4874],[-73.1017,8.4205],[-73.1617,8.4354],[-73.1849,8.3697],[-73.2694,8.3238],[-73.2743,8.3895],[-73.2718,8.454],[-73.2216,8.5271],[-73.158,8.573],[-73.0821,8.5035],[-73.016,8.5457]]]}},{"type":"Feature","properties":{"c":"54673","n":"San Cayetano","a":139.3},"geometry":{"type":"Polygon","coordinates":[[[-72.5875,7.9185],[-72.5643,7.7871],[-72.5814,7.7611],[-72.6194,7.7537],[-72.6598,7.833],[-72.6561,7.9061],[-72.5875,7.9185]]]}},{"type":"Feature","properties":{"c":"54001","n":"San José de Cúcuta","a":1133.5},"geometry":{"type":"Polygon","coordinates":[[[-72.4725,8.4304],[-72.4272,8.3808],[-72.4394,8.3325],[-72.3868,8.278],[-72.3537,8.1565],[-72.3733,8.1044],[-72.3464,8.0375],[-72.4872,7.9458],[-72.4602,7.9012],[-72.4872,7.8578],[-72.5325,7.7549],[-72.5753,7.7214],[-72.5814,7.7611],[-72.5643,7.7871],[-72.5973,7.9669],[-72.5777,8.1082],[-72.5288,8.1639],[-72.5594,8.2135],[-72.5471,8.2866],[-72.6071,8.2829],[-72.6035,8.3226],[-72.4725,8.4304]]]}},{"type":"Feature","properties":{"c":"54680","n":"Santiago","a":172.5},"geometry":{"type":"Polygon","coordinates":[[[-72.6561,7.9061],[-72.6598,7.833],[-72.71,7.8008],[-72.7601,7.8479],[-72.7601,7.9693],[-72.6904,7.9743],[-72.6561,7.9061]]]}},{"type":"Feature","properties":{"c":"54720","n":"Sardinata","a":1467.7},"geometry":{"type":"Polygon","coordinates":[[[-72.6035,8.3226],[-72.6071,8.2829],[-72.6487,8.221],[-72.6524,8.1491],[-72.754,8.0177],[-72.7944,8.0053],[-72.8556,8.0264],[-72.8397,8.0772],[-72.8752,8.128],[-72.9621,8.1875],[-72.9903,8.2854],[-72.9952,8.3908],[-72.9682,8.4329],[-72.9695,8.4651],[-72.9438,8.511],[-72.8311,8.4155],[-72.6965,8.4379],[-72.6035,8.3226]]]}},{"type":"Feature","properties":{"c":"54743","n":"Silos","a":316.9},"geometry":{"type":"Polygon","coordinates":[[[-72.8336,7.3037],[-72.6989,7.2455],[-72.7503,7.0596],[-72.8189,7.072],[-72.8483,7.1377],[-72.8409,7.1947],[-72.8764,7.2641],[-72.8336,7.3037]]]}},{"type":"Feature","properties":{"c":"54800","n":"Teorama","a":927.1},"geometry":{"type":"Polygon","coordinates":[[[-72.9854,9.1456],[-72.9474,9.0923],[-73.065,8.9832],[-73.0564,8.7651],[-73.1482,8.6758],[-73.158,8.573],[-73.2216,8.5271],[-73.2718,8.454],[-73.2743,8.3895],[-73.3245,8.4069],[-73.2853,8.4899],[-73.3159,8.5655],[-73.2988,8.625],[-73.24,8.6696],[-73.2474,8.7267],[-73.2106,8.8109],[-73.1054,8.9324],[-73.1482,8.9733],[-73.1029,9.0489],[-73.0025,9.0749],[-72.9854,9.1456]]]}},{"type":"Feature","properties":{"c":"54810","n":"Tibú","a":2680.1},"geometry":{"type":"Polygon","coordinates":[[[-72.4725,8.4304],[-72.6035,8.3226],[-72.6965,8.4379],[-72.8311,8.4155],[-72.9438,8.511],[-72.9695,8.4651],[-73.016,8.5457],[-72.9058,8.6027],[-72.9168,8.7093],[-72.9597,8.7638],[-72.9474,8.8382],[-72.9756,8.8841],[-73.0601,8.8667],[-73.065,8.9832],[-72.9474,9.0923],[-72.8826,9.1307],[-72.7663,9.0997],[-72.7197,8.9411],[-72.6549,8.6151],[-72.6169,8.5953],[-72.4725,8.4304]]]}},{"type":"Feature","properties":{"c":"54820","n":"Toledo","a":1480.7},"geometry":{"type":"Polygon","coordinates":[[[-72.4541,7.4066],[-72.2558,7.3781],[-72.1983,7.3868],[-72.1542,7.3285],[-72.1701,7.2517],[-72.0477,7.0385],[-72.1995,7.041],[-72.2203,6.9864],[-72.2901,6.9964],[-72.3733,7.1104],[-72.481,7.1587],[-72.4455,7.2294],[-72.4908,7.2913],[-72.5067,7.3831],[-72.5692,7.393],[-72.5777,7.455],[-72.5349,7.4897],[-72.4541,7.4066]]]}},{"type":"Feature","properties":{"c":"54871","n":"Villa Caro","a":401.1},"geometry":{"type":"Polygon","coordinates":[[[-72.874,7.9978],[-72.896,7.9049],[-72.9009,7.9024],[-72.9989,7.7648],[-73.0454,7.8677],[-73.0821,8.0276],[-73.0282,8.0425],[-73.0025,8.0995],[-72.9695,8.0226],[-72.874,7.9978]]]}},{"type":"Feature","properties":{"c":"54874","n":"Villa del Rosario","a":90.6},"geometry":{"type":"Polygon","coordinates":[[[-72.4749,7.6582],[-72.5214,7.6483],[-72.4884,7.7561],[-72.4872,7.8578],[-72.4602,7.9012],[-72.4749,7.6582]]]}},{"type":"Feature","properties":{"c":"54003","n":"Ábrego","a":1382.4},"geometry":{"type":"Polygon","coordinates":[[[-72.9903,8.2854],[-72.9621,8.1875],[-73.0148,8.1491],[-73.0025,8.0995],[-73.0282,8.0425],[-73.0821,8.0276],[-73.0454,7.8677],[-73.0711,7.7871],[-73.1531,7.8094],[-73.349,7.8293],[-73.3514,7.8925],[-73.2792,7.9359],[-73.3098,8.0152],[-73.3257,8.0908],[-73.2841,8.1243],[-73.2731,8.1912],[-73.049,8.2309],[-73.0552,8.2854],[-72.9903,8.2854]]]}}]};
+const PASS_HASH = "0434295eabf12d3c7c015a006c876c3d225c56bc586e0496f1cd9d46296edc25";
+
+const EVENTOS = {
+  dengue:{n:"Dengue",cod:"210 · 220 · 580",vec:"Aedes aegypti",col:"#C9542A",
+    desc:"Arbovirosis endémica del área metropolitana de Cúcuta y municipios por debajo de 1.800 m s. n. m.",
+    attrs:[["casos","Casos totales"],["sin_alarma","Sin signos de alarma"],["con_alarma","Con signos de alarma"],["grave","Dengue grave"],["hospitalizados","Hospitalizados"],["muertes","Muertes probables"],["ib","Índice de Breteau","avg"]]},
+  malaria:{n:"Malaria",cod:"465",vec:"Anopheles spp.",col:"#0E6B66",
+    desc:"Transmisión concentrada en la subregión del Catatumbo.",
+    attrs:[["casos","Casos totales"],["vivax","P. vivax"],["falciparum","P. falciparum"],["mixta","Infección mixta"],["complicada","Malaria complicada"],["importados","Casos importados"],["muertes","Muertes"]]},
+  leish:{n:"Leishmaniasis",cod:"420 · 430 · 440",vec:"Lutzomyia spp.",col:"#7A5AA6",
+    desc:"Formas cutánea, mucosa y visceral; asociada a zonas rurales y selváticas.",
+    attrs:[["casos","Casos totales"],["cutanea","Cutánea"],["mucosa","Mucosa"],["visceral","Visceral"],["menores15","Menores de 15 años"]]},
+  chagas:{n:"Chagas",cod:"205",vec:"Rhodnius prolixus, Triatoma spp.",col:"#8A6A2A",
+    desc:"Vigilancia de casos agudos y crónicos, tamizaje en gestantes y donantes.",
+    attrs:[["casos","Casos totales"],["agudo","Agudos"],["cronico","Crónicos"],["gestantes","En gestantes"],["viviendas_pos","Viviendas positivas a triatominos"]]},
+  chik:{n:"Chikunguña",cod:"217",vec:"Aedes aegypti, Ae. albopictus",col:"#B7791F",
+    desc:"Arbovirosis con compromiso articular; comparte vector con dengue.",
+    attrs:[["casos","Casos totales"],["hospitalizados","Hospitalizados"],["cronicos","Casos crónicos"],["muertes","Muertes"]]},
+  zika:{n:"Zika",cod:"895",vec:"Aedes aegypti",col:"#2F6FB0",
+    desc:"Seguimiento prioritario a gestantes y recién nacidos.",
+    attrs:[["casos","Casos totales"],["gestantes","En gestantes"],["sindrome_congenito","Síndrome congénito asociado"]]},
+  fa:{n:"Fiebre amarilla",cod:"310",vec:"Haemagogus, Sabethes, Aedes",col:"#5B6E2A",
+    desc:"Evento de notificación inmediata; vigilancia de epizootias y coberturas de vacunación.",
+    attrs:[["casos","Casos probables"],["confirmados","Confirmados"],["muertes","Muertes"],["epizootias","Epizootias en primates"],["cobertura_vac","Cobertura de vacunación (%)","avg"]]}
+};
+const EV_KEYS = Object.keys(EVENTOS);
+const ACCIONES = ["Control focal / larvario","Nebulización espacial (fumigación)","Rociado residual intradomiciliario","Visita domiciliaria","Levantamiento de índices aédicos","Búsqueda activa de casos","Jornada educativa / movilización social","Entrega de toldillos","Investigación de campo de caso","Otra"];
+const RIESGOS = ["Alto","Medio","Bajo","Sin clasificar"];
+
+const MPIOS = GEO.features.map(f=>({c:f.properties.c,n:f.properties.n,a:f.properties.a})).sort((a,b)=>a.n.localeCompare(b.n,"es"));
+const MP_BY = Object.fromEntries(MPIOS.map(m=>[m.c,m]));
+const norm = s => String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"");
+const MP_BY_NAME = Object.fromEntries(MPIOS.map(m=>[norm(m.n),m.c]));
+MP_BY_NAME["cucuta"]="54001";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => n==null||isNaN(n) ? "—" : (Math.round(n*10)/10).toLocaleString("es-CO");
+function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2600)}
+
+/* ---------- Semana epidemiológica (calendario Sivigila, domingo a sábado) ---------- */
+function epiStart(yr){const j=new Date(yr,0,1);const d=j.getDay();const s=new Date(yr,0,1-d);if(d>3)s.setDate(s.getDate()+7);return s}
+function epiWeek(date){const d=new Date(date.getFullYear(),date.getMonth(),date.getDate());let yr=d.getFullYear();let s=epiStart(yr);
+  if(d<s){yr--;s=epiStart(yr)}else{const n=epiStart(yr+1);if(d>=n){yr++;s=n}}
+  return {yr,wk:Math.floor(Math.round((d-s)/864e5)/7)+1}}
+const NOW = epiWeek(new Date());
+
+/* ---------- Estado ---------- */
+const S = { casos:[], acts:[], mun:{}, db:null, canWrite:true, demo:true, loadedCasos:false,
+  ev:"dengue", year:NOW.yr, gEv:"dengue", gVar:"casos", gYear:NOW.yr, w1:1, w2:NOW.wk, sel:null };
+
+/* ---------- Datos de ejemplo (solo en memoria) ---------- */
+function demoData(){
+  let seed=20260930;const rnd=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+  const W={dengue:{"54001":60,"54874":14,"54405":10,"54810":6,"54261":5,"54498":6,"54172":3,"54553":2,"54099":1.5,"54250":2,"54720":1.5,"54670":1,"54206":1,"54003":1},
+    malaria:{"54810":9,"54250":5,"54720":3,"54800":2,"54206":1.2,"54344":1,"54001":.6},
+    leish:{"54810":3,"54720":2,"54250":1.5,"54344":1,"54800":1.2,"54206":1,"54670":.6,"54128":.6},
+    chagas:{"54001":.4,"54313":.3,"54239":.25,"54599":.2,"54871":.2},
+    chik:{"54001":2,"54874":.6,"54405":.5,"54810":.4},
+    zika:{"54001":.8,"54874":.3,"54405":.2},
+    fa:{"54810":.05,"54250":.03}};
+  const out=[];const yr=NOW.yr;
+  for(const ev of EV_KEYS){for(let wk=1;wk<=NOW.wk;wk++){const m={};
+    const season= ev==="dengue"||ev==="chik"||ev==="zika" ? 1+0.8*Math.sin((wk-6)/52*2*Math.PI*1.6)**2 : 1+0.3*Math.sin(wk/8);
+    for(const [c,w] of Object.entries(W[ev])){const lam=w*season*(0.6+rnd()*0.8);let n=Math.floor(lam+(rnd()<lam%1?1:0));if(n<=0&&rnd()>0.15)continue;
+      const v={casos:n};const p=(f)=>Math.round(n*f*(0.8+rnd()*0.4));
+      if(ev==="dengue"){v.con_alarma=p(.42);v.grave=Math.min(n,p(.025));v.sin_alarma=Math.max(0,n-v.con_alarma-v.grave);v.hospitalizados=p(.38);v.muertes=rnd()<.004*n?1:0;v.ib=Math.round((6+rnd()*18)*10)/10}
+      if(ev==="malaria"){v.falciparum=p(.3);v.mixta=p(.03);v.vivax=Math.max(0,n-v.falciparum-v.mixta);v.complicada=p(.02);v.importados=p(.08);v.muertes=0}
+      if(ev==="leish"){v.mucosa=p(.03);v.visceral=0;v.cutanea=Math.max(0,n-v.mucosa);v.menores15=p(.18)}
+      if(ev==="chagas"){v.cronico=n;v.agudo=0;v.gestantes=p(.2);v.viviendas_pos=Math.round(rnd()*3)}
+      if(ev==="chik"){v.hospitalizados=p(.1);v.cronicos=p(.05);v.muertes=0}
+      if(ev==="zika"){v.gestantes=p(.2);v.sindrome_congenito=0}
+      if(ev==="fa"){v.confirmados=0;v.muertes=0;v.epizootias=0;v.cobertura_vac=Math.round(78+rnd()*18)}
+      m[c]=v}
+    out.push({id:`${ev}_${yr}_${wk}`,evento:ev,anio:yr,semana:wk,m})}}
+  return out;
+}
+const DEMO = demoData();
+const casos = () => S.demo ? DEMO : S.casos;
+
+/* ---------- Agregación ---------- */
+function agg(ev, yr, w1, w2){ // -> {mpio:{attr:val}}, total:{attr:val}
+  const A=EVENTOS[ev].attrs;const res={};const tot={};const cnt={};const tcnt={};
+  for(const r of casos()){if(r.evento!==ev||r.anio!==yr||r.semana<w1||r.semana>w2)continue;
+    for(const [c,v] of Object.entries(r.m||{})){const o=res[c]||(res[c]={});const k=cnt[c]||(cnt[c]={});
+      for(const [a,,t] of A){const x=Number(v[a]);if(v[a]==null||v[a]===""||isNaN(x))continue;
+        if(t==="avg"){o[a]=(o[a]||0)+x;k[a]=(k[a]||0)+1;tot[a]=(tot[a]||0)+x;tcnt[a]=(tcnt[a]||0)+1}
+        else{o[a]=(o[a]||0)+x;tot[a]=(tot[a]||0)+x}}}}
+  for(const c in res)for(const a in (cnt[c]||{}))res[c][a]/=cnt[c][a];
+  for(const a in tcnt)tot[a]/=tcnt[a];
+  return {res,tot};
+}
+function weekly(ev, yr){const w=new Array(54).fill(0);for(const r of casos()){if(r.evento!==ev||r.anio!==yr)continue;for(const v of Object.values(r.m||{}))w[r.semana]+=Number(v.casos)||0}return w}
+function years(){const s=new Set([NOW.yr]);for(const r of casos())s.add(r.anio);return [...s].sort((a,b)=>b-a)}
+function maxWeek(yr){let m=0;for(const r of casos())if(r.anio===yr&&r.semana>m)m=r.semana;return m||(yr===NOW.yr?NOW.wk:52)}
+
+/* ---------- Tablero ---------- */
+function fillYears(sel,val){const ys=years();sel.innerHTML=ys.map(y=>`<option ${y===val?"selected":""}>${y}</option>`).join("")}
+function renderTablero(){
+  fillYears($("#t-year"),S.year);
+  const mw=maxWeek(S.year);$("#t-range").textContent=`Semanas 1 a ${mw}`;
+  $("#kpis").innerHTML=EV_KEYS.map(ev=>{const w=weekly(ev,S.year);const tot=w.reduce((a,b)=>a+b,0);
+    const last4=w.slice(Math.max(1,mw-3),mw+1).reduce((a,b)=>a+b,0), prev4=w.slice(Math.max(1,mw-7),Math.max(1,mw-3)).reduce((a,b)=>a+b,0);
+    const ch=prev4?Math.round((last4-prev4)/prev4*100):null;const cls=ch==null?"flat":ch>10?"up":ch<-10?"down":"flat";
+    return `<button type="button" class="kpi" data-ev="${ev}" aria-pressed="${ev===S.ev}"><span class="k-name">${EVENTOS[ev].n}</span><span class="k-val">${fmt(tot)}</span><span class="k-sub">${ch==null?"Sin variación calculable":`<span class="chip ${cls}">${ch>0?"+":""}${ch}%</span> últimas 4 SE`}</span></button>`}).join("");
+  $("#kpis").querySelectorAll(".kpi").forEach(b=>b.onclick=()=>{S.ev=b.dataset.ev;renderTablero()});
+  const E=EVENTOS[S.ev];$("#curve-t").textContent=`Curva epidémica · ${E.n} ${S.year}`;$("#top-t").textContent=`Municipios con más casos · ${E.n}`;
+  // curve
+  const w=weekly(S.ev,S.year).slice(1,Math.max(mw,1)+1);const W=640,H=230,L=36,B=24,T=10;const mx=Math.max(4,...w);
+  const nice=Math.ceil(mx/4/ (mx>40?10:1))*(mx>40?10:1)*4;const x=i=>L+(i+.5)*(W-L-8)/w.length,y=v=>H-B-(v/nice)*(H-B-T),bw=Math.max(2,(W-L-8)/w.length-2);
+  let g="";for(let k=0;k<=4;k++){const v=nice*k/4;g+=`<line x1="${L}" x2="${W-4}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${fmt(v)}</text>`}
+  const bars=w.map((v,i)=>`<rect x="${x(i)-bw/2}" y="${y(v)}" width="${bw}" height="${Math.max(0,H-B-y(v))}" fill="${E.col}" opacity="${i===w.length-1?1:.72}"><title>SE ${i+1}: ${v} casos</title></rect>`).join("");
+  const ma=w.map((_,i)=>{const s=w.slice(Math.max(0,i-8),i);return s.length?s.reduce((a,b)=>a+b,0)/s.length:null});
+  const path=ma.map((v,i)=>v==null?"":`${i&&ma[i-1]!=null?"L":"M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
+  const ticks=w.map((_,i)=>(i+1)%(w.length>26?5:2)===0||i===0?`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${i+1}</text>`:"").join("");
+  $("#curve").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Curva epidémica">${g}${bars}<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/>${ticks}</svg>`;
+  // top
+  const {res}=agg(S.ev,S.year,1,53);const top=Object.entries(res).map(([c,v])=>[c,v.casos||0]).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const tm=top.length?top[0][1]:1;
+  $("#topm").innerHTML=top.length?top.map(([c,v])=>`<div class="bar"><span>${esc(MP_BY[c]?.n||c)}</span><span class="t"><i style="width:${v/tm*100}%;background:${E.col}"></i></span><span class="n">${fmt(v)}</span></div>`).join(""):`<p class="muted">Sin casos registrados de ${E.n} en ${S.year}.</p>`;
+  renderActsTable($("#t-acts"),S.acts.slice(0,6),false);
+}
+
+/* ---------- Geovisor ---------- */
+let map=null, layer=null, breaks=[];
+function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function ramp(){return ["--r1","--r2","--r3","--r4","--r5"].map(cssv)}
+function renderGeoSide(){
+  $("#g-events").innerHTML=EV_KEYS.map(ev=>`<label><input type="radio" name="gev" value="${ev}" ${ev===S.gEv?"checked":""}><span class="dot" style="background:${EVENTOS[ev].col}"></span>${EVENTOS[ev].n}<span class="code">${EVENTOS[ev].cod}</span></label>`).join("");
+  $("#g-events").querySelectorAll("input").forEach(i=>i.onchange=()=>{S.gEv=i.value;S.gVar="casos";renderGeoSide();renderMap()});
+  $("#g-var").innerHTML=EVENTOS[S.gEv].attrs.map(([k,l])=>`<option value="${k}" ${k===S.gVar?"selected":""}>${l}</option>`).join("");
+  fillYears($("#g-year"),S.gYear);$("#g-w1").value=S.w1;$("#g-w2").value=S.w2;
+}
+function renderMap(){
+  if(!window.L){$("#map").innerHTML='<p class="muted" style="padding:16px">No se pudo cargar la librería del mapa. Revisa la conexión y recarga la página.</p>';return}
+  if(!map){map=L.map("map",{zoomSnap:.25,attributionControl:false,minZoom:7});
+    layer=L.geoJSON(GEO,{style:styleF,onEachFeature:(f,l)=>{l.on({click:()=>{S.sel=S.sel===f.properties.c?null:f.properties.c;renderMap()},
+      mouseover:e=>e.target.setStyle({weight:2.5}),mouseout:e=>layer.resetStyle(e.target)})}}).addTo(map);
+    map.fitBounds(layer.getBounds(),{padding:[10,10]});}
+  const {res,tot}=agg(S.gEv,S.gYear,S.w1,S.w2);S._res=res;
+  const vals=Object.values(res).map(v=>v[S.gVar]).filter(v=>v>0).sort((a,b)=>a-b);
+  breaks=[];if(vals.length){for(let k=1;k<5;k++)breaks.push(vals[Math.min(vals.length-1,Math.floor(vals.length*k/5))]);breaks.push(vals[vals.length-1]);breaks=[...new Set(breaks)]}
+  layer.setStyle(styleF);
+  layer.eachLayer(l=>{const c=l.feature.properties.c;const v=res[c]?.[S.gVar];l.bindTooltip(`<b>${esc(l.feature.properties.n)}</b><br>${esc(label(S.gEv,S.gVar))}: ${fmt(v??0)}`,{sticky:true})});
+  const r=ramp();const E=EVENTOS[S.gEv];
+  let lg=`<div><i style="background:${cssv("--r0")}"></i>0 / sin dato</div>`;let lo=vals.length?vals[0]:0;
+  breaks.forEach((b,i)=>{lg+=`<div><i style="background:${r[Math.min(4,i+(5-breaks.length))]}"></i>${fmt(lo)}${lo===b?"":" – "+fmt(b)}</div>`;lo=b});
+  $("#g-legend").innerHTML=`<div class="eyebrow">${esc(label(S.gEv,S.gVar))} · SE ${S.w1}–${S.w2}</div>`+lg;
+  const src=S.sel?res[S.sel]||{}:tot;
+  $("#g-sel-t").textContent=S.sel?MP_BY[S.sel].n:"Todo el departamento";
+  $("#g-sel-sub").innerHTML=`${E.n} · ${S.gYear}, SE ${S.w1} a ${S.w2}${S.sel?` · código DANE <span class="mono">${S.sel}</span> · ${fmt(MP_BY[S.sel].a)} km²`:" · haz clic en un municipio para ver sus atributos"}`;
+  $("#g-attrs").innerHTML=E.attrs.map(([k,l,t])=>`<tr class="${k===S.gVar?"sel":""}"><td>${l}${t==="avg"?" <span class='small'>(prom.)</span>":""}</td><td>${fmt(src[k]??(t==="avg"?null:0))}</td></tr>`).join("");
+}
+function label(ev,k){return (EVENTOS[ev].attrs.find(a=>a[0]===k)||[k,k])[1]}
+function styleF(f){const c=f.properties.c;const v=S._res?.[c]?.[S.gVar];const r=ramp();let fill=cssv("--r0");
+  if(v>0){const i=breaks.findIndex(b=>v<=b);fill=r[Math.min(4,(i<0?breaks.length-1:i)+(5-breaks.length))]}
+  const sel=S.sel===c;return {fillColor:fill,fillOpacity:.92,color:sel?cssv("--ink"):cssv("--edge"),weight:sel?3:1}}
+
+/* ---------- Carga de casos ---------- */
+function opts(list,val,withAll){return (withAll?`<option value="">${withAll}</option>`:"")+list.map(([v,t])=>`<option value="${esc(v)}" ${v===val?"selected":""}>${esc(t)}</option>`).join("")}
+const EV_OPTS=EV_KEYS.map(k=>[k,EVENTOS[k].n]);const MP_OPTS=MPIOS.map(m=>[m.c,m.n]);
+function renderCForm(){
+  const ev=$("#c-ev").value||"dengue";
+  $("#c-attrs").innerHTML=EVENTOS[ev].attrs.map(([k,l])=>`<label class="f" for="ca-${k}">${l}<input id="ca-${k}" data-k="${k}" type="number" min="0" step="any" style="width:130px"></label>`).join("");
+  $("#i-head").textContent="cod_mpio,anio,semana,"+EVENTOS[$("#i-ev").value||"dengue"].attrs.map(a=>a[0]).join(",");
+}
+function renderRecords(){
+  const ev=$("#r-ev").value||"dengue";const E=EVENTOS[ev];const rows=[];
+  for(const r of S.casos)if(r.evento===ev)for(const [c,v] of Object.entries(r.m||{}))rows.push({r,c,v});
+  rows.sort((a,b)=>b.r.anio-a.r.anio||b.r.semana-a.r.semana||(MP_BY[a.c]?.n||"").localeCompare(MP_BY[b.c]?.n||"","es"));
+  const t=$("#r-table");
+  if(!rows.length){t.innerHTML=`<tr><td class="muted">Aún no hay registros de ${E.n}. Usa el formulario o importa un CSV para agregar el primero.</td></tr>`;return}
+  t.innerHTML=`<tr><th>Año</th><th>SE</th><th>Municipio</th>${E.attrs.map(a=>`<th class="r">${a[1]}</th>`).join("")}<th></th></tr>`+
+    rows.slice(0,300).map(({r,c,v})=>`<tr><td class="num">${r.anio}</td><td class="num">${r.semana}</td><td>${esc(MP_BY[c]?.n||c)}</td>${E.attrs.map(a=>`<td class="r num">${fmt(v[a[0]])}</td>`).join("")}<td>${S.canWrite?`<button class="btn ghost sm" data-del="${r.id}|${c}">Quitar</button>`:""}</td></tr>`).join("")+
+    (rows.length>300?`<tr><td colspan="99" class="muted small">Mostrando 300 de ${rows.length} filas.</td></tr>`:"");
+  t.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(b.dataset.confirm!=="1"){b.dataset.confirm="1";b.textContent="¿Confirmar?";return}
+    const [id,c]=b.dataset.del.split("|");const doc=S.casos.find(x=>x.id===id);if(!doc)return;const m={...doc.m};delete m[c];
+    try{ if(Object.keys(m).length) await S.db.doc("casos/"+id).set({...stripId(doc),m}); else await S.db.doc("casos/"+id).delete(); toast("Registro quitado")}catch(e){toast("No se pudo quitar: "+(e.code||e.message))}});
+}
+const stripId=d=>{const {id,...rest}=d;return rest};
+async function saveWeek(ev,yr,wk,entries){ // entries: {cod:{attr:val}}
+  const id=`${ev}_${yr}_${wk}`;const cur=S.casos.find(x=>x.id===id);const m={...(cur?.m||{}),...entries};
+  await S.db.doc("casos/"+id).set({evento:ev,anio:yr,semana:wk,m,actualizado:new Date().toISOString()});
+}
+function parseCSV(txt){const lines=txt.replace(/\r/g,"").split("\n").filter(l=>l.trim());if(!lines.length)return [];
+  const sep=(lines[0].match(/;/g)||[]).length>(lines[0].match(/,/g)||[]).length?";":",";
+  const split=l=>{const out=[];let cur="",q=false;for(const ch of l){if(ch==='"'){q=!q;continue}if(ch===sep&&!q){out.push(cur);cur="";continue}cur+=ch}out.push(cur);return out.map(s=>s.trim())};
+  const head=split(lines[0]).map(h=>norm(h));return lines.slice(1).map(l=>{const c=split(l);const o={};head.forEach((h,i)=>o[h]=c[i]);return o})}
+async function runImport(){
+  const msg=$("#i-msg");if(!S.db||!S.canWrite){msg.textContent="No tienes permiso para cargar datos en esta página.";return}
+  const ev=$("#i-ev").value;let txt=$("#i-text").value;const f=$("#i-file").files[0];if(f)txt=await f.text();
+  const rows=parseCSV(txt);if(!rows.length){msg.textContent="No se encontraron filas. Revisa que la primera línea sea el encabezado.";return}
+  const groups={};const bad=[];const keys=EVENTOS[ev].attrs.map(a=>a[0]);
+  rows.forEach((o,i)=>{let c=o.codmpio||o.cod_mpio||o.codigo||o.dane||o.municipio||o.mpio;c=String(c||"").trim();
+    let code=MP_BY[c]?c:MP_BY["54"+c.padStart(3,"0")]&&/^\d{1,3}$/.test(c)?"54"+c.padStart(3,"0"):MP_BY_NAME[norm(c)];
+    const yr=parseInt(o.anio||o.ano||o.year),wk=parseInt(o.semana||o.se||o.semanaepidemiologica);
+    if(!code||!yr||!wk||wk<1||wk>53){bad.push(i+2);return}
+    const v={};keys.forEach(k=>{const raw=o[norm(k)];if(raw!=null&&raw!==""){const x=Number(String(raw).replace(",","."));if(!isNaN(x))v[k]=x}});
+    const g=groups[`${yr}_${wk}`]||(groups[`${yr}_${wk}`]={yr,wk,e:{}});g.e[code]=v});
+  const list=Object.values(groups);let n=0;
+  for(const g of list){msg.textContent=`Guardando semana ${g.wk}/${g.yr}… (${++n} de ${list.length})`;
+    try{await saveWeek(ev,g.yr,g.wk,g.e)}catch(e){msg.textContent=`Se detuvo en la semana ${g.wk}: ${e.code||e.message}`;return}}
+  msg.textContent=`Importadas ${rows.length-bad.length} filas en ${list.length} semanas.`+(bad.length?` Se omitieron las líneas ${bad.slice(0,12).join(", ")}${bad.length>12?"…":""} por municipio, año o semana no válidos.`:"");
+  $("#i-text").value="";$("#i-file").value="";
+}
+
+/* ---------- Actividades ---------- */
+function renderActsTable(t,list,full){
+  if(!list.length){t.innerHTML=`<tr><td class="muted">No hay actividades registradas${full?" con estos filtros":""}. Registra la primera en la pestaña Actividades.</td></tr>`;return}
+  t.innerHTML=`<tr><th>Fecha</th><th>Municipio</th><th>Acción</th><th>Evento</th><th class="r">Viviendas</th><th class="r">Personas</th>${full?"<th>Responsable</th><th>Descripción</th><th></th>":""}</tr>`+
+    list.map(a=>`<tr><td class="num">${esc(a.fecha)}</td><td>${esc(MP_BY[a.mpio]?.n||a.mpio)}</td><td>${esc(a.tipo)}</td><td>${esc(EVENTOS[a.evento]?.n||"—")}</td><td class="r num">${fmt(a.viviendas)}</td><td class="r num">${fmt(a.personas)}</td>${full?`<td>${esc(a.responsable||"")}</td><td style="max-width:36ch">${esc(a.descripcion||"")}</td><td>${S.canWrite?`<button class="btn ghost sm" data-adel="${esc(a.id)}">Borrar</button>`:""}</td>`:""}</tr>`).join("");
+  if(full)t.querySelectorAll("[data-adel]").forEach(b=>b.onclick=async()=>{if(b.dataset.confirm!=="1"){b.dataset.confirm="1";b.textContent="¿Confirmar?";return}
+    try{await S.db.doc("actividades/"+b.dataset.adel).delete();toast("Actividad borrada")}catch(e){toast("No se pudo borrar: "+(e.code||e.message))}});
+}
+function renderActs(){const mp=$("#af-mp").value,tp=$("#af-type").value;
+  renderActsTable($("#a-table"),S.acts.filter(a=>(!mp||a.mpio===mp)&&(!tp||a.tipo===tp)),true)}
+
+/* ---------- Municipios ---------- */
+function renderMun(){
+  const q=norm($("#m-q").value);const tot={};for(const ev of EV_KEYS){const {res}=agg(ev,NOW.yr,1,53);for(const [c,v] of Object.entries(res))tot[c]=(tot[c]||0)+(v.casos||0)}
+  const rows=MPIOS.filter(m=>!q||norm(m.n).includes(q)||m.c.includes(q));
+  $("#m-table").innerHTML=`<tr><th>Código</th><th>Municipio</th><th class="r">Área km²</th><th class="r">Casos ETV ${NOW.yr}</th><th>Riesgo</th><th>Responsable</th><th>Contacto</th><th>Notas</th><th></th></tr>`+
+   rows.map(m=>{const d=S.mun[m.c]||{};const r=d.riesgo||"Sin clasificar";const dis=S.canWrite&&S.db?"":"disabled";
+    return `<tr data-c="${m.c}"><td class="num">${m.c}</td><td><b>${esc(m.n)}</b><br><span class="risk ${r.split(" ")[0]}">${esc(r)}</span></td><td class="r num">${fmt(m.a)}</td><td class="r num">${fmt(tot[m.c]||0)}</td>
+    <td><select id="mr-${m.c}" aria-label="Riesgo ${esc(m.n)}" ${dis}>${RIESGOS.map(x=>`<option ${x===r?"selected":""}>${x}</option>`).join("")}</select></td>
+    <td><input id="mp-${m.c}" value="${esc(d.responsable||"")}" placeholder="Nombre" aria-label="Responsable ${esc(m.n)}" style="width:150px" ${dis}></td>
+    <td><input id="mt-${m.c}" value="${esc(d.contacto||"")}" placeholder="Teléfono o correo" aria-label="Contacto ${esc(m.n)}" style="width:160px" ${dis}></td>
+    <td><input id="mn-${m.c}" value="${esc(d.notas||"")}" aria-label="Notas ${esc(m.n)}" style="width:180px" ${dis}></td>
+    <td><button class="btn sm" data-ms="${m.c}" ${dis}>Guardar</button></td></tr>`}).join("");
+  document.querySelectorAll("[data-ms]").forEach(b=>b.onclick=async()=>{const c=b.dataset.ms;
+    try{await S.db.doc("municipios/"+c).set({riesgo:$("#mr-"+c).value,responsable:$("#mp-"+c).value.trim(),contacto:$("#mt-"+c).value.trim(),notas:$("#mn-"+c).value.trim(),actualizado:new Date().toISOString()});toast(MP_BY[c].n+" guardado")}
+    catch(e){toast("No se pudo guardar: "+(e.code||e.message))}});
+}
+
+/* ---------- Programa ---------- */
+function renderPrograma(){
+  $("#evcards").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="evcard"><h3><span class="dot" style="background:${E.col}"></span>${E.n}</h3><dl><dt>Código INS</dt><dd class="mono">${E.cod}</dd><dt>Vector</dt><dd><i>${E.vec}</i></dd></dl><p class="small" style="margin:4px 0 0">${E.desc}</p><p class="small muted" style="margin:0">Variables: ${E.attrs.map(a=>a[1]).join(", ")}.</p></div>`}).join("");
+  $("#acc-list").textContent=ACCIONES.filter(a=>a!=="Otra").join(" · ")+".";
+}
+
+/* ---------- Navegación ---------- */
+let tab="tablero";
+function show(t){tab=t;document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
+  document.querySelectorAll("main .view").forEach(v=>v.hidden=v.id!=="v-"+t);
+  try{sessionStorage.setItem("etv-tab",t)}catch(e){}
+  renderCurrent();if(t==="geovisor"&&map)setTimeout(()=>{map.invalidateSize();map.fitBounds(layer.getBounds(),{padding:[10,10]})},60)}
+function renderCurrent(){
+  $("#demo-banner").hidden=!S.demo||!["tablero","geovisor"].includes(tab);
+  if(tab==="tablero")renderTablero();else if(tab==="geovisor"){renderGeoSide();renderMap()}
+  else if(tab==="datos")renderRecords();else if(tab==="actividades")renderActs();else if(tab==="municipios")renderMun();}
+
+function setWrite(ok){S.canWrite=ok;["#c-save","#i-run","#a-save"].forEach(s=>$(s).disabled=!ok)}
+
+/* ---------- Arranque ---------- */
+function initUI(){
+  $("#epi-now").textContent=`SE ${NOW.wk} · ${NOW.yr}`;
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>show(b.dataset.tab));
+  $("#t-year").onchange=e=>{S.year=+e.target.value;renderTablero()};
+  $("#g-var").onchange=e=>{S.gVar=e.target.value;renderMap()};
+  $("#g-year").onchange=e=>{S.gYear=+e.target.value;S.w1=1;S.w2=maxWeek(S.gYear);renderGeoSide();renderMap()};
+  const wch=()=>{let a=+$("#g-w1").value||1,b=+$("#g-w2").value||53;a=Math.max(1,Math.min(53,a));b=Math.max(a,Math.min(53,b));S.w1=a;S.w2=b;renderMap()};
+  $("#g-w1").onchange=wch;$("#g-w2").onchange=wch;
+  $("#c-ev").innerHTML=opts(EV_OPTS,"dengue");$("#i-ev").innerHTML=opts(EV_OPTS,"dengue");$("#r-ev").innerHTML=opts(EV_OPTS,"dengue");
+  $("#c-mp").innerHTML=opts(MP_OPTS,"54001");$("#c-year").value=NOW.yr;$("#c-wk").value=NOW.wk;
+  $("#c-ev").onchange=renderCForm;$("#i-ev").onchange=renderCForm;$("#r-ev").onchange=renderRecords;renderCForm();
+  $("#i-copy").onclick=async()=>{const t=$("#i-head").textContent;try{await navigator.clipboard.writeText(t);toast("Encabezado copiado")}catch(e){const r=document.createRange();r.selectNodeContents($("#i-head"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Selecciona y copia con Ctrl+C")}};
+  $("#i-run").onclick=runImport;
+  $("#c-form").onsubmit=async e=>{e.preventDefault();if(!S.db)return toast("Base de datos no disponible");
+    const ev=$("#c-ev").value,c=$("#c-mp").value,yr=+$("#c-year").value,wk=+$("#c-wk").value;if(!yr||wk<1||wk>53)return toast("Revisa el año y la semana");
+    const v={};$("#c-attrs").querySelectorAll("input").forEach(i=>{if(i.value!=="")v[i.dataset.k]=Number(i.value)});
+    if(v.casos==null)return toast("Ingresa al menos los casos totales");
+    try{await saveWeek(ev,yr,wk,{[c]:v});toast(`Guardado: ${EVENTOS[ev].n}, ${MP_BY[c].n}, SE ${wk}`);$("#c-attrs").querySelectorAll("input").forEach(i=>i.value="")}catch(err){toast("No se pudo guardar: "+(err.code||err.message))}};
+  $("#a-mp").innerHTML=opts(MP_OPTS,"54001");$("#a-type").innerHTML=opts(ACCIONES.map(a=>[a,a]),ACCIONES[0]);$("#a-ev").innerHTML=opts(EV_OPTS,"dengue","Varios / general");
+  $("#af-mp").innerHTML=opts(MP_OPTS,"","Todos");$("#af-type").innerHTML=opts(ACCIONES.map(a=>[a,a]),"","Todos");
+  $("#af-mp").onchange=renderActs;$("#af-type").onchange=renderActs;
+  const d=new Date();$("#a-date").value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  $("#a-form").onsubmit=async e=>{e.preventDefault();if(!S.db)return toast("Base de datos no disponible");
+    const a={fecha:$("#a-date").value,mpio:$("#a-mp").value,tipo:$("#a-type").value,evento:$("#a-ev").value,viviendas:$("#a-viv").value===""?null:+$("#a-viv").value,personas:$("#a-per").value===""?null:+$("#a-per").value,responsable:$("#a-resp").value.trim(),descripcion:$("#a-desc").value.trim(),creado:new Date().toISOString()};
+    try{await S.db.collection("actividades").add(a);toast("Actividad guardada");["#a-viv","#a-per","#a-desc"].forEach(s=>$(s).value="")}catch(err){toast("No se pudo guardar: "+(err.code||err.message))}};
+  $("#m-q").oninput=renderMun;
+  $("#logout").onclick=()=>{try{sessionStorage.removeItem("etv-ok")}catch(e){}location.reload()};
+  renderPrograma();
+  let t0="tablero";try{t0=sessionStorage.getItem("etv-tab")||"tablero"}catch(e){}
+  show(t0);
+  mq.addEventListener?.("change",()=>{if(map){layer.setStyle(styleF)}renderCurrent()});
+}
+const mq=matchMedia("(prefers-color-scheme: dark)");
+
+/* ---------- Almacenamiento local (navegador) ---------- */
+function localDB(){
+  const KEY="etv-db-v1";let store={};const subs=new Set();
+  const load=()=>{try{store=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){store={}}};load();
+  const emit=()=>subs.forEach(f=>f());
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){toast("No se pudo guardar: el almacenamiento del navegador está lleno o bloqueado")}emit()};
+  window.addEventListener("storage",e=>{if(e.key===KEY){load();emit()}});
+  const col=n=>store[n]||(store[n]={});
+  const newId=()=>"a"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+  const docRef=(n,id)=>({id,set:async d=>{col(n)[id]=JSON.parse(JSON.stringify(d));save()},delete:async()=>{delete col(n)[id];save()}});
+  const query=(n,ord,lim)=>({orderBy:(f,d)=>query(n,[f,d||"asc"],lim),limit:k=>query(n,ord,k),
+    onSnapshot(next){const run=()=>{let docs=Object.entries(col(n)).map(([id,d])=>({id,data:()=>d}));
+      if(ord)docs.sort((a,b)=>{const x=a.data()[ord[0]]??"",y=b.data()[ord[0]]??"";return (x<y?-1:x>y?1:0)*(ord[1]==="desc"?-1:1)});
+      if(lim)docs=docs.slice(0,lim);next({docs})};subs.add(run);setTimeout(run,0);return()=>subs.delete(run)},
+    doc:id=>docRef(n,id||newId()),add:async d=>{const r=docRef(n,newId());await r.set(d);return r}});
+  return {collection:n=>query(n),doc:p=>{const [c,id]=p.split("/");return docRef(c,id)},
+    dump:()=>JSON.parse(JSON.stringify(store)),
+    merge(obj){let n=0;for(const [c,docs] of Object.entries(obj||{})){if(!["casos","actividades","municipios"].includes(c)||typeof docs!=="object")continue;
+      for(const [id,d] of Object.entries(docs)){if(c==="casos"&&col(c)[id]){col(c)[id]={...d,m:{...(col(c)[id].m||{}),...(d.m||{})}}}else col(c)[id]=d;n++}}save();return n}};
+}
+function download(name,text,type){const b=new Blob([text],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+function stamp(){const d=new Date();return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`}
+async function connect(){
+  const db=localDB();S.db=db;$("#sync").textContent="Guardado en este navegador";
+  db.collection("casos").onSnapshot(s=>{S.casos=s.docs.map(d=>({id:d.id,...d.data()}));S.loadedCasos=true;
+    const was=S.demo;S.demo=S.casos.length===0;if(was&&!S.demo){S.year=S.gYear=Math.max(...years());S.w1=1;S.w2=maxWeek(S.gYear)}renderCurrent()});
+  db.collection("actividades").orderBy("fecha","desc").limit(500).onSnapshot(s=>{S.acts=s.docs.map(d=>({id:d.id,...d.data()}));renderCurrent()});
+  db.collection("municipios").onSnapshot(s=>{const m={};s.docs.forEach(d=>m[d.id]=d.data());S.mun=m;if(tab==="municipios"&&!document.activeElement?.closest?.("#m-table"))renderMun()});
+  $("#b-exp").onclick=()=>{download(`etv-respaldo-${stamp()}.json`,JSON.stringify({app:"etv-nds",version:1,exportado:new Date().toISOString(),datos:db.dump()},null,1),"application/json");toast("Respaldo descargado")};
+  $("#b-csv").onclick=()=>{const ev=$("#r-ev").value||"dengue";const A=EVENTOS[ev].attrs.map(a=>a[0]);const rows=[["cod_mpio","municipio","anio","semana",...A].join(",")];
+    for(const r of S.casos)if(r.evento===ev)for(const [c,v] of Object.entries(r.m||{}))rows.push([c,`"${MP_BY[c]?.n||c}"`,r.anio,r.semana,...A.map(k=>v[k]??"")].join(","));
+    download(`etv-${ev}-${stamp()}.csv`,"﻿"+rows.join("\n"),"text/csv");toast("CSV descargado")};
+  $("#b-imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text());const n=db.merge(j.datos||j);$("#b-msg").textContent=`Respaldo integrado: ${n} documentos.`}catch(err){$("#b-msg").textContent="El archivo no es un respaldo válido de esta herramienta."}e.target.value=""};
+}
+
+/* ---------- Contraseña ---------- */
+async function sha(s){if(crypto?.subtle){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}return null}
+let started=false;
+function unlock(){$("#gate").hidden=true;$("#app").hidden=false;if(!started){started=true;initUI();connect()}}
+$("#gate-form").onsubmit=async e=>{e.preventDefault();const v=$("#gate-pw").value.trim();const h=await sha(v);
+  if(h===PASS_HASH){try{sessionStorage.setItem("etv-ok","1")}catch(_){}unlock()}
+  else{$("#gate-err").textContent="Contraseña incorrecta. Verifica mayúsculas y vuelve a intentar.";$("#gate-pw").select()}};
+try{if(sessionStorage.getItem("etv-ok")==="1")unlock();else $("#gate-pw").focus()}catch(e){$("#gate-pw").focus()}
+</script>
+
+</body>
+</html>
