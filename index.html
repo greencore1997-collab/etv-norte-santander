@@ -770,7 +770,8 @@ td.r,th.r{text-align:right}
 .risk.Sin{background:var(--surface-2);color:var(--muted)}
 
 /* geovisor */
-.geo{display:grid;grid-template-columns:300px 1fr;gap:14px;min-height:620px}
+.geo{display:grid;grid-template-columns:300px 1fr;gap:14px;min-height:600px}
+.filters{padding-block:12px}
 @media (max-width:860px){.geo{grid-template-columns:1fr}}
 .geo-side{display:grid;gap:14px;align-content:start;min-width:0}
 .evlist{display:grid;gap:4px}
@@ -778,7 +779,7 @@ td.r,th.r{text-align:right}
 .evlist label:has(input:checked){background:var(--surface-2);border-color:var(--line)}
 .evlist .dot{width:10px;height:10px;border-radius:2px;flex:none}
 .evlist .code{margin-left:auto;font:11px var(--f-mono);color:var(--muted)}
-#map{height:620px;border-radius:8px;border:1px solid var(--line);background:var(--map-bg)}
+#map{height:600px;border-radius:8px;border:1px solid var(--line);background:var(--map-bg)}
 @media (max-width:860px){#map{height:440px}}
 .leaflet-container{background:var(--map-bg);font-family:var(--f-body)}
 .leaflet-tooltip{background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:13px}
@@ -842,8 +843,7 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
     </div>
   </div>
   <nav class="tabs" role="tablist" aria-label="Secciones">
-    <button role="tab" data-tab="tablero" aria-selected="true">Tablero</button>
-    <button role="tab" data-tab="geovisor" aria-selected="false">Geovisor</button>
+    <button role="tab" data-tab="tablero" aria-selected="true">Tablero y geovisor</button>
     <button role="tab" data-tab="datos" aria-selected="false">Cargar casos</button>
     <button role="tab" data-tab="actividades" aria-selected="false">Actividades</button>
     <button role="tab" data-tab="municipios" aria-selected="false">Municipios</button>
@@ -854,45 +854,24 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
 <main>
   <div class="banner" id="demo-banner" hidden><b>Datos de ejemplo.</b> Aún no hay casos cargados, así que el tablero y el geovisor muestran cifras simuladas que no corresponden a la realidad. Desaparecen cuando se registra el primer dato en <em>Cargar casos</em>.</div>
 
-  <!-- TABLERO -->
+  <!-- TABLERO + GEOVISOR -->
   <section class="view" id="v-tablero">
-    <div class="row">
-      <label class="f" for="t-year">Año<select id="t-year"></select></label>
-      <span class="small muted" id="t-range"></span>
+    <div class="panel filters">
+      <div class="row">
+        <label class="f" for="t-year">Año<select id="t-year"></select></label>
+        <label class="f" for="g-w1">SE desde<input id="g-w1" type="number" min="1" max="53" style="width:80px"></label>
+        <label class="f" for="g-w2">SE hasta<input id="g-w2" type="number" min="1" max="53" style="width:80px"></label>
+        <button class="btn ghost sm" type="button" id="w-all">Todo el año</button>
+        <button class="btn ghost sm" type="button" id="w-4">Últimas 4 SE</button>
+        <span class="small muted" id="t-range"></span>
+      </div>
     </div>
     <div class="kpis" id="kpis"></div>
-    <div class="grid2">
-      <div class="panel chart">
-        <h2 id="curve-t">Curva epidémica</h2>
-        <div id="curve"></div>
-        <div class="small muted">Casos por semana epidemiológica. La línea marca la media de las 8 semanas previas.</div>
-      </div>
-      <div class="panel">
-        <h2 id="top-t">Municipios con más casos</h2>
-        <div class="bars" id="topm"></div>
-      </div>
-    </div>
-    <div class="panel">
-      <h2>Últimas actividades de campo</h2>
-      <div class="tw"><table id="t-acts"></table></div>
-    </div>
-  </section>
-
-  <!-- GEOVISOR -->
-  <section class="view" id="v-geovisor" hidden>
     <div class="geo">
       <div class="geo-side">
-        <div class="panel">
-          <h2>Evento</h2>
-          <div class="evlist" id="g-events"></div>
-        </div>
         <div class="panel" style="display:grid;gap:10px">
+          <h2 id="g-ev-t">Geovisor</h2>
           <label class="f" for="g-var">Variable a representar<select id="g-var"></select></label>
-          <div class="row">
-            <label class="f" for="g-year">Año<select id="g-year"></select></label>
-            <label class="f" for="g-w1">SE desde<input id="g-w1" type="number" min="1" max="53" style="width:76px"></label>
-            <label class="f" for="g-w2">SE hasta<input id="g-w2" type="number" min="1" max="53" style="width:76px"></label>
-          </div>
           <div class="legend" id="g-legend"></div>
         </div>
         <div class="panel">
@@ -902,6 +881,22 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
         </div>
       </div>
       <div id="map" role="application" aria-label="Mapa de municipios de Norte de Santander"></div>
+    </div>
+    <div class="grid2">
+      <div class="panel chart">
+        <h2 id="curve-t">Curva epidémica</h2>
+        <div id="curve"></div>
+        <div class="small muted">Casos por semana epidemiológica. Las barras resaltadas son el rango seleccionado; la línea marca la media de las 8 semanas previas.</div>
+      </div>
+      <div class="panel">
+        <h2 id="top-t">Municipios con más casos</h2>
+        <div class="bars" id="topm"></div>
+        <div class="small muted" style="margin-top:8px">Haz clic en un municipio para ubicarlo en el mapa.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Últimas actividades de campo</h2>
+      <div class="tw"><table id="t-acts"></table></div>
     </div>
   </section>
 
@@ -1111,27 +1106,31 @@ function maxWeek(yr){let m=0;for(const r of casos())if(r.anio===yr&&r.semana>m)m
 /* ---------- Tablero ---------- */
 function fillYears(sel,val){const ys=years();sel.innerHTML=ys.map(y=>`<option ${y===val?"selected":""}>${y}</option>`).join("")}
 function renderTablero(){
-  fillYears($("#t-year"),S.year);
-  const mw=maxWeek(S.year);$("#t-range").textContent=`Semanas 1 a ${mw}`;
-  $("#kpis").innerHTML=EV_KEYS.map(ev=>{const w=weekly(ev,S.year);const tot=w.reduce((a,b)=>a+b,0);
+  S.gEv=S.ev;S.gYear=S.year;
+  fillYears($("#t-year"),S.year);$("#g-w1").value=S.w1;$("#g-w2").value=S.w2;
+  const mw=maxWeek(S.year);$("#t-range").textContent=`Datos disponibles hasta la SE ${mw}. Las cifras de las tarjetas, el mapa y el ranking corresponden a SE ${S.w1}–${S.w2}. Toca una tarjeta para ver ese evento en el mapa.`;
+  $("#kpis").innerHTML=EV_KEYS.map(ev=>{const w=weekly(ev,S.year);const tot=w.slice(S.w1,S.w2+1).reduce((a,b)=>a+b,0);
     const last4=w.slice(Math.max(1,mw-3),mw+1).reduce((a,b)=>a+b,0), prev4=w.slice(Math.max(1,mw-7),Math.max(1,mw-3)).reduce((a,b)=>a+b,0);
     const ch=prev4?Math.round((last4-prev4)/prev4*100):null;const cls=ch==null?"flat":ch>10?"up":ch<-10?"down":"flat";
     return `<button type="button" class="kpi" data-ev="${ev}" aria-pressed="${ev===S.ev}"><span class="k-name">${EVENTOS[ev].n}</span><span class="k-val">${fmt(tot)}</span><span class="k-sub">${ch==null?"Sin variación calculable":`<span class="chip ${cls}">${ch>0?"+":""}${ch}%</span> últimas 4 SE`}</span></button>`}).join("");
-  $("#kpis").querySelectorAll(".kpi").forEach(b=>b.onclick=()=>{S.ev=b.dataset.ev;renderTablero()});
+  $("#kpis").querySelectorAll(".kpi").forEach(b=>b.onclick=()=>{if(S.ev!==b.dataset.ev){S.ev=b.dataset.ev;S.gVar="casos"}renderTablero()});
   const E=EVENTOS[S.ev];$("#curve-t").textContent=`Curva epidémica · ${E.n} ${S.year}`;$("#top-t").textContent=`Municipios con más casos · ${E.n}`;
   // curve
   const w=weekly(S.ev,S.year).slice(1,Math.max(mw,1)+1);const W=640,H=230,L=36,B=24,T=10;const mx=Math.max(4,...w);
   const nice=Math.ceil(mx/4/ (mx>40?10:1))*(mx>40?10:1)*4;const x=i=>L+(i+.5)*(W-L-8)/w.length,y=v=>H-B-(v/nice)*(H-B-T),bw=Math.max(2,(W-L-8)/w.length-2);
   let g="";for(let k=0;k<=4;k++){const v=nice*k/4;g+=`<line x1="${L}" x2="${W-4}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${fmt(v)}</text>`}
-  const bars=w.map((v,i)=>`<rect x="${x(i)-bw/2}" y="${y(v)}" width="${bw}" height="${Math.max(0,H-B-y(v))}" fill="${E.col}" opacity="${i===w.length-1?1:.72}"><title>SE ${i+1}: ${v} casos</title></rect>`).join("");
+  const bars=w.map((v,i)=>`<rect x="${x(i)-bw/2}" y="${y(v)}" width="${bw}" height="${Math.max(0,H-B-y(v))}" fill="${E.col}" opacity="${i+1>=S.w1&&i+1<=S.w2?.9:.25}"><title>SE ${i+1}: ${v} casos</title></rect>`).join("");
   const ma=w.map((_,i)=>{const s=w.slice(Math.max(0,i-8),i);return s.length?s.reduce((a,b)=>a+b,0)/s.length:null});
   const path=ma.map((v,i)=>v==null?"":`${i&&ma[i-1]!=null?"L":"M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
   const ticks=w.map((_,i)=>(i+1)%(w.length>26?5:2)===0||i===0?`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${i+1}</text>`:"").join("");
   $("#curve").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Curva epidémica">${g}${bars}<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/>${ticks}</svg>`;
   // top
-  const {res}=agg(S.ev,S.year,1,53);const top=Object.entries(res).map(([c,v])=>[c,v.casos||0]).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const {res}=agg(S.ev,S.year,S.w1,S.w2);const top=Object.entries(res).map(([c,v])=>[c,v.casos||0]).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,10);
   const tm=top.length?top[0][1]:1;
-  $("#topm").innerHTML=top.length?top.map(([c,v])=>`<div class="bar"><span>${esc(MP_BY[c]?.n||c)}</span><span class="t"><i style="width:${v/tm*100}%;background:${E.col}"></i></span><span class="n">${fmt(v)}</span></div>`).join(""):`<p class="muted">Sin casos registrados de ${E.n} en ${S.year}.</p>`;
+  $("#topm").innerHTML=top.length?top.map(([c,v])=>`<div class="bar" data-c="${c}" style="cursor:pointer" title="Ver en el mapa"><span>${esc(MP_BY[c]?.n||c)}</span><span class="t"><i style="width:${v/tm*100}%;background:${E.col}"></i></span><span class="n">${fmt(v)}</span></div>`).join(""):`<p class="muted">Sin casos registrados de ${E.n} en ${S.year}.</p>`;
+  $("#topm").querySelectorAll("[data-c]").forEach(d=>d.onclick=()=>{S.sel=d.dataset.c;renderMap();if(map){const l=layer.getLayers().find(x=>x.feature.properties.c===d.dataset.c);if(l)map.fitBounds(l.getBounds(),{padding:[30,30],maxZoom:11})}});
+  $("#top-t").textContent=`Municipios con más casos · ${E.n}, SE ${S.w1}–${S.w2}`;
+  renderGeoSide();renderMap();
   renderActsTable($("#t-acts"),S.acts.slice(0,6),false);
 }
 
@@ -1140,10 +1139,8 @@ let map=null, layer=null, breaks=[];
 function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
 function ramp(){return ["--r1","--r2","--r3","--r4","--r5"].map(cssv)}
 function renderGeoSide(){
-  $("#g-events").innerHTML=EV_KEYS.map(ev=>`<label><input type="radio" name="gev" value="${ev}" ${ev===S.gEv?"checked":""}><span class="dot" style="background:${EVENTOS[ev].col}"></span>${EVENTOS[ev].n}<span class="code">${EVENTOS[ev].cod}</span></label>`).join("");
-  $("#g-events").querySelectorAll("input").forEach(i=>i.onchange=()=>{S.gEv=i.value;S.gVar="casos";renderGeoSide();renderMap()});
-  $("#g-var").innerHTML=EVENTOS[S.gEv].attrs.map(([k,l])=>`<option value="${k}" ${k===S.gVar?"selected":""}>${l}</option>`).join("");
-  fillYears($("#g-year"),S.gYear);$("#g-w1").value=S.w1;$("#g-w2").value=S.w2;
+  const E=EVENTOS[S.gEv];$("#g-ev-t").innerHTML=`<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:${E.col};margin-right:6px"></span>${E.n}`;
+  $("#g-var").innerHTML=E.attrs.map(([k,l])=>`<option value="${k}" ${k===S.gVar?"selected":""}>${l}</option>`).join("");
 }
 function renderMap(){
   if(!window.L){$("#map").innerHTML='<p class="muted" style="padding:16px">No se pudo cargar la librería del mapa. Revisa la conexión y recarga la página.</p>';return}
@@ -1296,10 +1293,10 @@ let tab="tablero";
 function show(t){tab=t;document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
   document.querySelectorAll("main .view").forEach(v=>v.hidden=v.id!=="v-"+t);
   try{sessionStorage.setItem("etv-tab",t)}catch(e){}
-  renderCurrent();if(t==="geovisor"&&map)setTimeout(()=>{map.invalidateSize();map.fitBounds(layer.getBounds(),{padding:[10,10]})},60)}
+  renderCurrent();if(t==="tablero"&&map)setTimeout(()=>map.invalidateSize(),60)}
 function renderCurrent(){
-  $("#demo-banner").hidden=!S.demo||!["tablero","geovisor"].includes(tab);
-  if(tab==="tablero")renderTablero();else if(tab==="geovisor"){renderGeoSide();renderMap()}
+  $("#demo-banner").hidden=!S.demo||tab!=="tablero";
+  if(tab==="tablero")renderTablero();
   else if(tab==="datos")renderRecords();else if(tab==="actividades")renderActs();else if(tab==="municipios")renderMun();}
 
 function setWrite(ok){S.canWrite=ok;["#c-save","#i-run","#a-save"].forEach(s=>$(s).disabled=!ok)}
@@ -1308,10 +1305,11 @@ function setWrite(ok){S.canWrite=ok;["#c-save","#i-run","#a-save"].forEach(s=>$(
 function initUI(){
   $("#epi-now").textContent=`SE ${NOW.wk} · ${NOW.yr}`;
   document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>show(b.dataset.tab));
-  $("#t-year").onchange=e=>{S.year=+e.target.value;renderTablero()};
+  $("#t-year").onchange=e=>{S.year=S.gYear=+e.target.value;S.w1=1;S.w2=maxWeek(S.year);renderTablero()};
+  $("#w-all").onclick=()=>{S.w1=1;S.w2=maxWeek(S.year);renderTablero()};
+  $("#w-4").onclick=()=>{const m=maxWeek(S.year);S.w1=Math.max(1,m-3);S.w2=m;renderTablero()};
   $("#g-var").onchange=e=>{S.gVar=e.target.value;renderMap()};
-  $("#g-year").onchange=e=>{S.gYear=+e.target.value;S.w1=1;S.w2=maxWeek(S.gYear);renderGeoSide();renderMap()};
-  const wch=()=>{let a=+$("#g-w1").value||1,b=+$("#g-w2").value||53;a=Math.max(1,Math.min(53,a));b=Math.max(a,Math.min(53,b));S.w1=a;S.w2=b;renderMap()};
+  const wch=()=>{let a=+$("#g-w1").value||1,b=+$("#g-w2").value||53;a=Math.max(1,Math.min(53,a));b=Math.max(a,Math.min(53,b));S.w1=a;S.w2=b;renderTablero()};
   $("#g-w1").onchange=wch;$("#g-w2").onchange=wch;
   $("#c-ev").innerHTML=opts(EV_OPTS,"dengue");$("#i-ev").innerHTML=opts(EV_OPTS,"dengue");$("#r-ev").innerHTML=opts(EV_OPTS,"dengue");
   $("#c-mp").innerHTML=opts(MP_OPTS,"54001");$("#c-year").value=NOW.yr;$("#c-wk").value=NOW.wk;
@@ -1333,7 +1331,7 @@ function initUI(){
   $("#m-q").oninput=renderMun;
   $("#logout").onclick=()=>{try{sessionStorage.removeItem("etv-ok")}catch(e){}location.reload()};
   renderPrograma();
-  let t0="tablero";try{t0=sessionStorage.getItem("etv-tab")||"tablero"}catch(e){}
+  let t0="tablero";try{t0=sessionStorage.getItem("etv-tab")||"tablero"}catch(e){}if(t0==="geovisor")t0="tablero";
   show(t0);
   mq.addEventListener?.("change",()=>{if(map){layer.setStyle(styleF)}renderCurrent()});
 }
