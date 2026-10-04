@@ -900,6 +900,10 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
 .gprog{position:absolute;left:0;top:0;height:3px;background:#F3B26B;width:0;z-index:2}
 .gprog.run{animation:gprog 7s linear forwards}
 @keyframes gprog{to{width:100%}}
+
+.gslide{overflow:hidden;background:var(--navy)}
+.gslide .gbg{position:absolute;inset:-30px;width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;filter:blur(24px) brightness(.55) saturate(1.15)}
+.gslide .gimg{position:relative;width:100%;height:100%;object-fit:contain;display:block}
 @media (prefers-reduced-motion:reduce){.gtrack{transition:none}.gprog{display:none}}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -1649,10 +1653,13 @@ const VIDEOS = [
 ];
 // FOTOS: archivos en media/fotos del sitio. Ejemplo: {src:"media/fotos/control-larvario.jpg", titulo:"…", descripcion:"…"}
 const FOTOS = [
-  {reservado:true, titulo:"Foto 1", descripcion:"Espacio reservado para una foto del subprograma."},
-  {reservado:true, titulo:"Foto 2", descripcion:"Espacio reservado para una foto del subprograma."},
-  {reservado:true, titulo:"Foto 3", descripcion:"Espacio reservado para una foto del subprograma."},
-  {reservado:true, titulo:"Foto 4", descripcion:"Espacio reservado para una foto del subprograma."}
+  {src:"media/fotos/accion-01.jpg", titulo:"Aprender jugando", descripcion:"Niñas y niños conocen de cerca los vectores con modelos didácticos."},
+  {src:"media/fotos/accion-02.jpg", titulo:"Encuentro con las familias", descripcion:"Madres, niñas y niños construyen juntos mensajes sobre el cuidado del entorno."},
+  {src:"media/fotos/accion-03.jpg", titulo:"Atención cercana", descripcion:"Acompañamiento a las familias durante la toma de muestras."},
+  {src:"media/fotos/accion-04.jpg", titulo:"Visitas casa a casa", descripcion:"Educación en la vivienda con el apoyo de un modelo del pito."},
+  {src:"media/fotos/accion-05.jpg", titulo:"El Chagas en el aula", descripcion:"Estudiantes explican la zona de riesgo para el Chagas en el municipio de Los Patios."},
+  {src:"media/fotos/accion-06.jpg", titulo:"Los Patios, libre de Chagas", descripcion:"Jornada de sensibilización: «Cuídate del pito»."},
+  {src:"media/fotos/accion-07.jpg", titulo:"Muralismo comunitario", descripcion:"La comunidad pinta el ciclo de transmisión del Chagas."}
 ];
 const ICON_SOUND_OFF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></svg>';
 const ICON_SOUND_ON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
@@ -1680,7 +1687,7 @@ function renderVideos(){
 let gIdx=0,gTimer=null;
 function renderGallery(){
   $("#gtrack").innerHTML=FOTOS.map((f,i)=>`<figure class="gslide" style="margin:0" aria-roledescription="diapositiva" aria-label="${i+1} de ${FOTOS.length}">
-    ${f.reservado||!f.src?`<div class="ph">${ICON_PHOTO}<small>Foto por publicar</small></div>`:`<img src="${esc(f.src)}" alt="${esc(f.titulo)}" loading="${i<2?"eager":"lazy"}">`}
+    ${f.reservado||!f.src?`<div class="ph">${ICON_PHOTO}<small>Foto por publicar</small></div>`:`<img class="gbg" src="${esc(f.src)}" alt="" aria-hidden="true" loading="${i<2?"eager":"lazy"}"><img class="gimg" src="${esc(f.src)}" alt="${esc(f.titulo)}: ${esc(f.descripcion||"")}" loading="${i<2?"eager":"lazy"}">`}
     <figcaption class="gcap"><b>${esc(f.titulo)}</b>${f.descripcion?`<span>${esc(f.descripcion)}</span>`:""}</figcaption></figure>`).join("");
   $("#gdots").innerHTML=FOTOS.map((_,i)=>`<button type="button" aria-label="Ir a la foto ${i+1}" aria-current="${i===gIdx}"></button>`).join("");
   $("#gdots").querySelectorAll("button").forEach((b,i)=>b.onclick=()=>{goPhoto(i);restartGallery()});
