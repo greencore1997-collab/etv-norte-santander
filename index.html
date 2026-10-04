@@ -1042,6 +1042,12 @@ footer{padding-top:8px}
 .qr-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .qr-actions .btn{text-decoration:none}
 .qr-x{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+
+.slide.slide-img{max-width:none;justify-items:center;align-content:center;padding:6px clamp(0px,2vw,24px) 74px}
+.slide.slide-img img{display:block;width:auto;height:auto;max-width:100%;max-height:470px;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.hero.img-on canvas{opacity:0}
+.hero canvas{transition:opacity .5s ease}
+@media (max-width:760px){.hero{min-height:0}}
 </style>
 </head>
 <body>
@@ -1734,9 +1740,8 @@ function restartGallery(){clearTimeout(gTimer);const p=$("#gprog");p.classList.r
 /* ---------- Inicio: casos de éxito ---------- */
 // Para publicar un caso real: reemplaza un elemento de esta lista y quita "reservado: true".
 const CASOS_EXITO = [
-  {reservado:true, evento:"dengue", etiqueta:"Caso de éxito 1", titulo:"Espacio para el primer caso de éxito",
-   texto:"Aquí se publicará un logro del Subprograma de Vigilancia y Control de Vectores en Norte de Santander: el municipio, la estrategia aplicada y el resultado alcanzado.",
-   cifra:"—", detalle:"Indicador de resultado del caso"},
+  {imagen:"media/banner/chagas-pito.jpg", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
+   alt:"Pieza informativa: Norte de Santander combate la enfermedad de Chagas. Cuídate del pito y así evitarás tener la enfermedad de Chagas. Ciclo de transmisión: el pito pica al animal infectado, llega a las viviendas, se alimenta del humano, defeca sobre la piel y regresa al bosque."},
   {reservado:true, evento:"malaria", etiqueta:"Caso de éxito 2", titulo:"Espacio para el segundo caso de éxito",
    texto:"Cada caso muestra un titular, una breve descripción y la cifra que mejor resume el impacto en la comunidad.",
    cifra:"—", detalle:"Indicador de resultado del caso"},
@@ -1747,6 +1752,7 @@ const CASOS_EXITO = [
 let heroIdx=0, heroTimer=null;
 function renderHero(){
   $("#hero-slides").innerHTML=CASOS_EXITO.map((c,i)=>{const E=EVENTOS[c.evento]||{n:"ETV",col:"#F3B26B"};
+    if(c.imagen)return `<article class="slide slide-img${i===heroIdx?" on":""}" aria-roledescription="diapositiva" aria-label="${i+1} de ${CASOS_EXITO.length}" ${i===heroIdx?"":"aria-hidden=\"true\""}><img src="${esc(c.imagen)}" alt="${esc(c.alt||c.etiqueta||"")}" loading="eager"></article>`;
     return `<article class="slide${i===heroIdx?" on":""}" aria-roledescription="diapositiva" aria-label="${i+1} de ${CASOS_EXITO.length}" ${i===heroIdx?"":"aria-hidden=\"true\""}>
       <div class="s-eyebrow"><i style="background:${E.col}"></i>${esc(c.etiqueta)} · ${esc(E.n)}${c.municipio?` · ${esc(c.municipio)}`:""}${c.anio?` · ${esc(c.anio)}`:""}${c.reservado?` <span class="s-tag">Por publicar</span>`:""}</div>
       <h2>${esc(c.titulo)}</h2><p>${esc(c.texto)}</p>
@@ -1756,7 +1762,8 @@ function renderHero(){
 }
 function goHero(i){heroIdx=(i+CASOS_EXITO.length)%CASOS_EXITO.length;
   document.querySelectorAll("#hero-slides .slide").forEach((s,k)=>{s.classList.toggle("on",k===heroIdx);if(k===heroIdx)s.removeAttribute("aria-hidden");else s.setAttribute("aria-hidden","true")});
-  document.querySelectorAll("#hero-dots button").forEach((b,k)=>b.setAttribute("aria-current",k===heroIdx))}
+  document.querySelectorAll("#hero-dots button").forEach((b,k)=>b.setAttribute("aria-current",k===heroIdx));
+  $(".hero").classList.toggle("img-on",!!CASOS_EXITO[heroIdx].imagen)}
 function restartHero(){clearInterval(heroTimer);if(matchMedia("(prefers-reduced-motion: reduce)").matches||CASOS_EXITO.length<2)return;heroTimer=setInterval(()=>{if(!$("#landing").hidden)goHero(heroIdx+1)},7000)}
 function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect();if(!r.width)return;const dpr=window.devicePixelRatio||1;
   cv.width=r.width*dpr;cv.height=r.height*dpr;const ctx=cv.getContext("2d");ctx.scale(dpr,dpr);
@@ -1773,7 +1780,7 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
 function initLanding(){
   initQR();
   $("#l-se").textContent=`SE ${NOW.wk}`;
-  renderHero();restartHero();renderVideos();renderGallery();
+  renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
   $(".hero").addEventListener("mouseenter",()=>clearInterval(heroTimer));$(".hero").addEventListener("mouseleave",restartHero);
   $("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev" style="--evc:${E.col}"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span><span><i>${E.vec}</i></span></div>`}).join("");
