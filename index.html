@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>ETV Norte de Santander</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>/* required styles */
  
  .leaflet-pane,
@@ -671,23 +671,29 @@
  </style>
 <style>
 /* Layout: barra institucional + pestañas; cada vista es una hoja de trabajo del programa ETV */
+/* Paleta: azul profundo (confianza institucional), verde azulado (salud) y ámbar (acción y compromiso) */
 :root{
-  --bg:#F2F5F3; --surface:#FFFFFF; --surface-2:#E8EEEB; --ink:#132629; --muted:#586B6C; --line:#D5DFDB;
-  --accent:#0E6B66; --accent-ink:#FFFFFF; --warm:#B8631A;
-  --ok:#2F7D4A; --warn:#B7791F; --crit:#B3261E;
-  --map-bg:#E4ECE9; --dpto:#4A2E17; --edge:#FFFFFF; --r0:#EEF1EF; --r1:#FBE7C6; --r2:#F3BE83; --r3:#E58A4E; --r4:#C9542A; --r5:#8F2419;
-  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --bg:#F3F6FA; --surface:#FFFFFF; --surface-2:#EAF0F7; --ink:#0F2238; --muted:#56677D; --line:#DCE4EE;
+  --accent:#1D5FA6; --accent-ink:#FFFFFF; --teal:#0E8A86; --cta:#F29F2E; --cta-ink:#2A1700; --navy:#0E2A47; --navy-2:#123B5E;
+  --warm:#C7731C; --ok:#1F8A5B; --warn:#B7791F; --crit:#C2362B;
+  --shadow:0 1px 2px rgba(15,34,56,.06),0 8px 24px rgba(15,34,56,.07); --shadow-lg:0 18px 48px rgba(14,42,71,.18);
+  --map-bg:#E6EDF4; --dpto:#3A2A1A; --edge:#FFFFFF; --r0:#EEF1EF; --r1:#FBE7C6; --r2:#F3BE83; --r3:#E58A4E; --r4:#C9542A; --r5:#8F2419;
+  --f-display:"Lexend","Segoe UI",system-ui,sans-serif;
   --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0D1618; --surface:#142124; --surface-2:#1B2B2E; --ink:#E1EBE9; --muted:#93A8A7; --line:#27393C;
-  --accent:#43B3AA; --accent-ink:#06201E; --warm:#E39A52; --ok:#5CB57A; --warn:#E0A94A; --crit:#EF6B61;
-  --map-bg:#101C1F; --edge:#0D1618; --r0:#223235; --r1:#5A4A2C; --r2:#8A5A2A; --r3:#BF6A31; --r4:#E2833F; --r5:#FFB070; color-scheme:dark}}
+  --bg:#0B1622; --surface:#12202F; --surface-2:#18293B; --ink:#E4ECF5; --muted:#95A6BA; --line:#24384D;
+  --accent:#5AA6E6; --accent-ink:#071828; --teal:#3CC0B8; --cta:#F4AA45; --cta-ink:#241400; --navy:#0A1E33; --navy-2:#0F2C47;
+  --warm:#E9A04F; --ok:#4FC08A; --warn:#E0A94A; --crit:#F0706A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --shadow-lg:0 18px 48px rgba(0,0,0,.45);
+  --map-bg:#101C27; --edge:#0B1622; --r0:#223235; --r1:#5A4A2C; --r2:#8A5A2A; --r3:#BF6A31; --r4:#E2833F; --r5:#FFB070; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0D1618; --surface:#142124; --surface-2:#1B2B2E; --ink:#E1EBE9; --muted:#93A8A7; --line:#27393C;
-  --accent:#43B3AA; --accent-ink:#06201E; --warm:#E39A52; --ok:#5CB57A; --warn:#E0A94A; --crit:#EF6B61;
-  --map-bg:#101C1F; --edge:#0D1618; --r0:#223235; --r1:#5A4A2C; --r2:#8A5A2A; --r3:#BF6A31; --r4:#E2833F; --r5:#FFB070; color-scheme:dark}
+  --bg:#0B1622; --surface:#12202F; --surface-2:#18293B; --ink:#E4ECF5; --muted:#95A6BA; --line:#24384D;
+  --accent:#5AA6E6; --accent-ink:#071828; --teal:#3CC0B8; --cta:#F4AA45; --cta-ink:#241400; --navy:#0A1E33; --navy-2:#0F2C47;
+  --warm:#E9A04F; --ok:#4FC08A; --warn:#E0A94A; --crit:#F0706A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --shadow-lg:0 18px 48px rgba(0,0,0,.45);
+  --map-bg:#101C27; --edge:#0B1622; --r0:#223235; --r1:#5A4A2C; --r2:#8A5A2A; --r3:#BF6A31; --r4:#E2833F; --r5:#FFB070; color-scheme:dark}
 [hidden]{display:none!important}
 *{box-sizing:border-box}
 html{color-scheme:light}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
@@ -813,9 +819,9 @@ td.r,th.r{text-align:right}
 footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:13px}
 
 /* ---------- Inicio ---------- */
-:root{--hero-bg:#0B3B38;--hero-ink:#EEF4F2;--hero-muted:#A9C4BF;--hero-line:rgba(238,244,242,.16)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hero-bg:#0A2A28;--hero-ink:#E6F0EE;--hero-muted:#93B3AE;--hero-line:rgba(230,240,238,.14)}}
-:root[data-theme="dark"]{--hero-bg:#0A2A28;--hero-ink:#E6F0EE;--hero-muted:#93B3AE;--hero-line:rgba(230,240,238,.14)}
+:root{--hero-bg:#0E2A47;--hero-ink:#EEF4F2;--hero-muted:#A9C4BF;--hero-line:rgba(238,244,242,.16)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hero-bg:#0A1E33;--hero-ink:#E6F0EE;--hero-muted:#93B3AE;--hero-line:rgba(230,240,238,.14)}}
+:root[data-theme="dark"]{--hero-bg:#0A1E33;--hero-ink:#E6F0EE;--hero-muted:#93B3AE;--hero-line:rgba(230,240,238,.14)}
 #landing{min-height:100%;display:flex;flex-direction:column}
 .l-top{max-width:1280px;width:100%;margin:0 auto;padding:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
 .l-brand .eyebrow{margin-bottom:2px}
@@ -896,19 +902,136 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
 @media (prefers-reduced-motion:reduce){.gtrack{transition:none}.gprog{display:none}}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ================= Rediseño visual ================= */
+body{font-size:15.5px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:-.01em}
+.eyebrow{letter-spacing:.14em}
+.btn{border-radius:999px;padding:9px 18px;transition:transform .15s ease,box-shadow .15s ease,background .15s}
+.btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 30%,transparent)}
+.btn.ghost{border-color:var(--line);background:var(--surface)}
+.btn.ghost:hover:not(:disabled){box-shadow:var(--shadow)}
+input,select,textarea{border-radius:10px;background:var(--surface);border-color:var(--line);padding:8px 11px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.panel{border:0;border-radius:16px;box-shadow:var(--shadow);padding:18px 20px}
+.panel h2{font-size:19px}
+.chip{border-radius:999px}
+.banner{border:0;border-left:4px solid var(--cta);border-radius:12px;background:color-mix(in srgb,var(--cta) 12%,var(--surface));box-shadow:var(--shadow)}
+.banner b{color:var(--warm)}
+table th{background:var(--surface-2)}
+table th:first-child{border-top-left-radius:8px}table th:last-child{border-top-right-radius:8px}
+tbody tr:hover td,table tr:hover td{background:color-mix(in srgb,var(--accent) 4%,transparent)}
+
+/* --- Logo --- */
+.logo{display:inline-flex;align-items:center;gap:12px}
+.logo-mark{width:46px;height:46px;flex:none}
+.logo h1{font-size:26px;line-height:1.05}
+.logo .eyebrow{font-size:11px}
+
+/* --- Inicio: banda superior --- */
+#landing{background:var(--bg)}
+.l-band{position:relative;color:#fff;background:
+  radial-gradient(60% 80% at 85% 20%,color-mix(in srgb,var(--teal) 55%,transparent) 0%,transparent 60%),
+  radial-gradient(50% 70% at 10% 90%,color-mix(in srgb,var(--accent) 50%,transparent) 0%,transparent 65%),
+  linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#0F4A63 100%);padding-bottom:70px;overflow:hidden}
+.l-band::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1.2px);background-size:22px 22px;mask-image:linear-gradient(180deg,#000 0%,transparent 85%);pointer-events:none}
+.l-band .l-top{position:relative;z-index:3}
+.l-band .eyebrow{color:rgba(255,255,255,.72)}
+.l-band .logo h1{color:#fff}
+.l-wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:70px;display:block}
+.l-wave path{fill:var(--bg)}
+.btn-office{background:var(--cta);color:var(--cta-ink);border-radius:999px;font:600 15px/1 var(--f-display);letter-spacing:.06em;box-shadow:0 8px 22px rgba(242,159,46,.35)}
+.btn-office.sm{font-size:14px;padding:12px 20px;box-shadow:0 8px 22px rgba(242,159,46,.3)}
+.btn-office:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(242,159,46,.45)}
+.hero{background:transparent;border-radius:0;min-height:400px;max-width:1280px;margin:0 auto;width:100%;z-index:2}
+.l-hero-wrap{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 16px}
+.slide{padding:28px clamp(4px,3vw,40px) 84px}
+.slide h2{font-weight:700;letter-spacing:-.02em}
+.slide .s-metric b{color:var(--cta)}
+.dots button[aria-current="true"]{background:var(--cta)}
+.hero-nav{left:clamp(4px,3vw,40px)}
+.hero-nav button{border-radius:999px;background:rgba(255,255,255,.06)}
+.slide .s-tag{border-color:rgba(255,255,255,.45);color:rgba(255,255,255,.8)}
+
+/* --- Inicio: franja de cifras --- */
+.l-stats{position:relative;z-index:4;margin-top:-58px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow-lg);overflow:hidden}
+@media (max-width:760px){.l-stats{grid-template-columns:repeat(2,1fr)}}
+.l-stat{padding:18px 22px;display:grid;gap:2px;border-right:1px solid var(--line)}
+.l-stat:last-child{border-right:0}
+@media (max-width:760px){.l-stat:nth-child(2){border-right:0}.l-stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.l-stat b{font:600 30px/1.1 var(--f-display);color:var(--navy)}
+:root[data-theme="dark"] .l-stat b{color:var(--ink)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .l-stat b{color:var(--ink)}}
+.l-stat span{font-size:13.5px;color:var(--muted)}
+.l-stat i{display:block;width:28px;height:4px;border-radius:2px;margin-bottom:8px}
+
+/* --- Inicio: secciones --- */
+.l-main{gap:46px;padding-block:0 56px}
+.l-sec-h{display:grid;gap:4px;justify-content:start}
+.l-kicker{display:inline-flex;align-items:center;gap:8px;font:600 12px var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.l-kicker::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+.l-sec-h h2{font-size:clamp(26px,3.2vw,34px);font-weight:700;letter-spacing:-.02em}
+.vcard{border:0;border-radius:18px;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease}
+.vcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.vframe{background:var(--navy)}
+.ph{background:radial-gradient(80% 90% at 70% 20%,color-mix(in srgb,var(--teal) 35%,transparent),transparent 70%),linear-gradient(135deg,var(--navy),var(--navy-2));color:rgba(255,255,255,.75)}
+.vbody{padding:14px 16px 16px}
+.vbody b{font-size:17px}
+.gallery{border-radius:22px;box-shadow:var(--shadow-lg);background:var(--navy)}
+.gprog,.gnav .dots button[aria-current="true"]{background:var(--cta)}
+.l-evgrid{gap:14px}
+.l-ev{border:0;border-radius:16px;box-shadow:var(--shadow);padding:16px 16px 14px;position:relative;overflow:hidden;transition:transform .2s ease}
+.l-ev:hover{transform:translateY(-3px)}
+.l-ev::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--evc)}
+.l-ev b{font-size:16px}
+.l-ev b i{border-radius:50%}
+.l-foot{max-width:none;margin:0;padding:0;color:rgba(255,255,255,.75);background:linear-gradient(135deg,var(--navy),var(--navy-2))}
+.l-foot-in{max-width:1280px;margin:0 auto;padding:28px 16px 34px;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;align-items:center;font-size:14px}
+.l-foot-in b{color:#fff;font-family:var(--f-display);font-weight:600}
+
+/* --- Oficina virtual --- */
+header.top{background:linear-gradient(120deg,var(--navy) 0%,var(--navy-2) 60%,#0F4A63 100%);border-bottom:0;color:#fff;box-shadow:0 6px 24px rgba(14,42,71,.25)}
+header.top .eyebrow{color:rgba(255,255,255,.7)}
+header.top .brand h1,header.top .logo h1{color:#fff}
+header.top .meta{color:rgba(255,255,255,.75)}
+header.top .epi{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:4px 12px}
+header.top .btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#fff}
+header.top .btn.ghost:hover{background:rgba(255,255,255,.16);box-shadow:none}
+nav.tabs{gap:6px;padding-bottom:12px;padding-top:4px}
+nav.tabs button{border:0;border-radius:999px;padding:8px 16px;color:rgba(255,255,255,.75);background:transparent}
+nav.tabs button:hover{color:#fff;background:rgba(255,255,255,.08)}
+nav.tabs button[aria-selected="true"]{background:#fff;color:var(--navy);box-shadow:0 4px 14px rgba(0,0,0,.18)}
+main{padding-block:24px 56px}
+.filters{border-radius:18px;padding:12px 22px}
+.kpis{gap:12px}
+.kpi{border:0;border-radius:16px;box-shadow:var(--shadow);position:relative;overflow:hidden;padding:14px 16px 10px;transition:transform .15s ease,box-shadow .15s ease}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--evc)}
+.kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.kpi[aria-pressed="true"]{box-shadow:0 0 0 2px var(--evc),var(--shadow-lg)}
+.kpi .k-name{font-size:15px}
+.kpi .k-val{font-size:28px}
+.spark{width:100%;height:30px;display:block;margin-top:4px}
+#map{border:0;border-radius:18px;box-shadow:var(--shadow)}
+.evcard{border:0;border-radius:16px;box-shadow:var(--shadow)}
+footer{padding-top:8px}
+#gate{background:color-mix(in srgb,var(--navy) 55%,transparent)}
+.gate-card{border:0;border-radius:20px;box-shadow:var(--shadow-lg)}
+.gate-card h1{font-size:30px}
+.gate-actions .btn[type=submit]{background:var(--accent)}
+.leaflet-control-layers,.scale-box{border-radius:12px!important;box-shadow:var(--shadow)!important;border:0!important}
+.leaflet-bar{border:0!important;box-shadow:var(--shadow)!important;border-radius:12px!important;overflow:hidden}
+@media (prefers-reduced-motion:reduce){.vcard,.l-ev,.kpi,.btn,.btn-office{transition:none}}
 </style>
 </head>
 <body>
 <section id="landing">
+  <div class="l-band">
   <header class="l-top">
-    <div class="l-brand">
-      <div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div>
-      <h1>Programa ETV</h1>
-    </div>
+    <div class="logo"><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lg-a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E8BD8"/><stop offset="1" stop-color="#12A39C"/></linearGradient></defs><rect x="1" y="1" width="46" height="46" rx="14" fill="url(#lg-a)"/><path d="M24 10c5 7 10 12.4 10 18a10 10 0 0 1-20 0c0-5.6 5-11 10-18z" fill="#fff" opacity=".95"/><path d="M19.5 29.5a5 5 0 0 0 4.5 4.6" stroke="#12A39C" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="36.5" cy="11.5" r="4" fill="#F29F2E"/></svg><div class="l-brand"><div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div><h1>Programa ETV</h1></div></div>
     <button class="btn-office sm" type="button" data-office>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Oficina virtual</button>
   </header>
-  <main class="l-main">
+  <div class="l-hero-wrap">
     <section class="hero" aria-roledescription="carrusel" aria-label="Casos de éxito del programa ETV">
       <canvas id="hero-map" aria-hidden="true"></canvas>
       <div class="hero-slides" id="hero-slides"></div>
@@ -918,12 +1041,23 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
         <button type="button" id="hero-next" aria-label="Caso siguiente">&#8594;</button>
       </div>
     </section>
+  </div>
+  <svg class="l-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40C180 70 360 10 560 22s380 46 600 30 280-36 280-36V70H0z"/></svg>
+  </div>
+  <main class="l-main">
+    <section class="l-stats" aria-label="El programa en cifras">
+      <div class="l-stat"><i style="background:#1D5FA6"></i><b>40</b><span>municipios acompañados</span></div>
+      <div class="l-stat"><i style="background:#0E8A86"></i><b>1.635</b><span>veredas en el mapa de vigilancia</span></div>
+      <div class="l-stat"><i style="background:#F29F2E"></i><b>7</b><span>eventos transmitidos por vectores bajo vigilancia</span></div>
+      <div class="l-stat"><i style="background:#C9542A"></i><b id="l-se">SE —</b><span>semana epidemiológica en curso</span></div>
+    </section>
+
     <section class="l-sec" id="l-videos-sec">
-      <div class="l-sec-h"><h2>Primero la comunidad</h2></div>
+      <div class="l-sec-h"><span class="l-kicker">Videos</span><h2>Primero la comunidad</h2></div>
       <div class="vgrid" id="l-videos"></div>
     </section>
     <section class="l-sec" id="l-fotos-sec">
-      <div class="l-sec-h"><h2>Acciones para la gente</h2></div>
+      <div class="l-sec-h"><span class="l-kicker">Galería</span><h2>Acciones para la gente</h2></div>
       <div class="gallery" id="gallery" aria-roledescription="carrusel" aria-label="Galería de fotos del programa ETV">
         <div class="gprog" id="gprog"></div>
         <div class="gtrack" id="gtrack"></div>
@@ -931,16 +1065,16 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
       </div>
     </section>
     <section class="l-events">
-      <h2>Eventos que vigila el programa</h2>
+      <div class="l-sec-h" style="margin-bottom:14px"><span class="l-kicker">Vigilancia</span><h2>Eventos que vigila el programa</h2></div>
       <div class="l-evgrid" id="l-events"></div>
     </section>
   </main>
-  <footer class="l-foot">Programa de Enfermedades Transmitidas por Vectores · Norte de Santander · 40 municipios.</footer>
+  <footer class="l-foot"><div class="l-foot-in"><div><b>Programa ETV</b> · Enfermedades Transmitidas por Vectores</div><div>Instituto Departamental de Salud · Norte de Santander</div></div></footer>
 </section>
 
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t" hidden>
   <form class="gate-card" id="gate-form" autocomplete="off">
-    <div class="gate-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+    <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lg-c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E8BD8"/><stop offset="1" stop-color="#12A39C"/></linearGradient></defs><rect x="1" y="1" width="46" height="46" rx="14" fill="url(#lg-c)"/><path d="M24 10c5 7 10 12.4 10 18a10 10 0 0 1-20 0c0-5.6 5-11 10-18z" fill="#fff" opacity=".95"/><path d="M19.5 29.5a5 5 0 0 0 4.5 4.6" stroke="#12A39C" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="36.5" cy="11.5" r="4" fill="#F29F2E"/></svg>
     <div class="eyebrow">IDS · Norte de Santander</div>
     <h1 id="gate-t">Programa ETV</h1>
     <p>Oficina virtual. Ingresa la contraseña del programa para continuar.</p>
@@ -955,9 +1089,8 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
 <div id="app" hidden>
 <header class="top">
   <div class="top-in">
-    <div class="brand">
-      <div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div>
-      <h1>Programa ETV</h1>
+    <div class="brand logo"><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lg-b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E8BD8"/><stop offset="1" stop-color="#12A39C"/></linearGradient></defs><rect x="1" y="1" width="46" height="46" rx="14" fill="url(#lg-b)"/><path d="M24 10c5 7 10 12.4 10 18a10 10 0 0 1-20 0c0-5.6 5-11 10-18z" fill="#fff" opacity=".95"/><path d="M19.5 29.5a5 5 0 0 0 4.5 4.6" stroke="#12A39C" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="36.5" cy="11.5" r="4" fill="#F29F2E"/></svg><div><div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div>
+      <h1>Programa ETV · Oficina virtual</h1></div>
     </div>
     <div class="meta">
       <span class="epi mono" id="epi-now">SE —</span>
@@ -1236,7 +1369,9 @@ function renderTablero(){
   $("#kpis").innerHTML=EV_KEYS.map(ev=>{const w=weekly(ev,S.year);const tot=w.slice(S.w1,S.w2+1).reduce((a,b)=>a+b,0);
     const last4=w.slice(Math.max(1,mw-3),mw+1).reduce((a,b)=>a+b,0), prev4=w.slice(Math.max(1,mw-7),Math.max(1,mw-3)).reduce((a,b)=>a+b,0);
     const ch=prev4?Math.round((last4-prev4)/prev4*100):null;const cls=ch==null?"flat":ch>10?"up":ch<-10?"down":"flat";
-    return `<button type="button" class="kpi" data-ev="${ev}" aria-pressed="${ev===S.ev}"><span class="k-name">${EVENTOS[ev].n}</span><span class="k-val">${fmt(tot)}</span><span class="k-sub">${ch==null?"Sin variación calculable":`<span class="chip ${cls}">${ch>0?"+":""}${ch}%</span> últimas 4 SE`}</span></button>`}).join("");
+    const sw=w.slice(1,mw+1);const smx=Math.max(1,...sw);const spts=sw.map((v,i)=>`${(i/(Math.max(1,sw.length-1))*100).toFixed(1)},${(28-v/smx*24).toFixed(1)}`).join(" ");
+    const spark=`<svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,30 ${spts} 100,30" fill="${EVENTOS[ev].col}" opacity=".14" stroke="none"/><polyline points="${spts}" fill="none" stroke="${EVENTOS[ev].col}" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>`;
+    return `<button type="button" class="kpi" style="--evc:${EVENTOS[ev].col}" data-ev="${ev}" aria-pressed="${ev===S.ev}"><span class="k-name">${EVENTOS[ev].n}</span><span class="k-val">${fmt(tot)}</span><span class="k-sub">${ch==null?"Sin variación calculable":`<span class="chip ${cls}">${ch>0?"+":""}${ch}%</span> últimas 4 SE`}</span>${spark}</button>`}).join("");
   $("#kpis").querySelectorAll(".kpi").forEach(b=>b.onclick=()=>{if(S.ev!==b.dataset.ev){S.ev=b.dataset.ev;S.gVar="casos"}renderTablero()});
   const E=EVENTOS[S.ev];$("#curve-t").textContent=`Curva epidémica · ${E.n} ${S.year}`;$("#top-t").textContent=`Municipios con más casos · ${E.n}`;
   // curve
@@ -1595,15 +1730,14 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
   ctx.lineJoin="round";
   GEO.features.forEach((f,i)=>each(f.geometry,ring=>{ctx.beginPath();ring.forEach((c,j)=>{const [a,b]=P(c);j?ctx.lineTo(a,b):ctx.moveTo(a,b)});ctx.closePath();
     ctx.fillStyle=`rgba(243,178,107,${0.03+((i*37)%9)/120})`;ctx.fill();ctx.strokeStyle=ink;ctx.globalAlpha=.22;ctx.lineWidth=1;ctx.stroke();ctx.globalAlpha=1}));
-  if(!narrow){const g=ctx.createLinearGradient(0,0,r.width*.62,0);const bg=getComputedStyle(document.documentElement).getPropertyValue("--hero-bg").trim();
-    g.addColorStop(0,bg);g.addColorStop(.75,bg+"cc");g.addColorStop(1,bg+"00");ctx.fillStyle=g;ctx.fillRect(0,0,r.width*.62,r.height)}
-  else{ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue("--hero-bg").trim()+"b3";ctx.fillRect(0,0,r.width,r.height)}
+
 }
 function initLanding(){
+  $("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
   $(".hero").addEventListener("mouseenter",()=>clearInterval(heroTimer));$(".hero").addEventListener("mouseleave",restartHero);
-  $("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span><span><i>${E.vec}</i></span></div>`}).join("");
+  $("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev" style="--evc:${E.col}"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span><span><i>${E.vec}</i></span></div>`}).join("");
   document.querySelectorAll("[data-office]").forEach(b=>b.onclick=openOffice);
   $("#gate-cancel").onclick=closeGate;
   $("#gate").addEventListener("keydown",e=>{if(e.key==="Escape")closeGate()});
