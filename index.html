@@ -1043,11 +1043,12 @@ footer{padding-top:8px}
 .qr-actions .btn{text-decoration:none}
 .qr-x{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 
-.slide.slide-img{max-width:none;justify-items:center;align-content:center;padding:6px clamp(0px,2vw,24px) 74px}
-.slide.slide-img img{display:block;width:auto;height:auto;max-width:100%;max-height:470px;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.slide.slide-img{max-width:none;justify-items:center;align-content:center;padding:4px 0 8px}
+.slide.slide-img img{display:block;width:100%;height:auto;max-width:1280px;max-height:none;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
 .hero.img-on canvas{opacity:0}
 .hero canvas{transition:opacity .5s ease}
 @media (max-width:760px){.hero{min-height:0}}
+.hero.img-on{min-height:0}
 </style>
 </head>
 <body>
@@ -1741,13 +1742,7 @@ function restartGallery(){clearTimeout(gTimer);const p=$("#gprog");p.classList.r
 // Para publicar un caso real: reemplaza un elemento de esta lista y quita "reservado: true".
 const CASOS_EXITO = [
   {imagen:"media/banner/chagas-pito.jpg", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
-   alt:"Pieza informativa: Norte de Santander combate la enfermedad de Chagas. Cuídate del pito y así evitarás tener la enfermedad de Chagas. Ciclo de transmisión: el pito pica al animal infectado, llega a las viviendas, se alimenta del humano, defeca sobre la piel y regresa al bosque."},
-  {reservado:true, evento:"malaria", etiqueta:"Caso de éxito 2", titulo:"Espacio para el segundo caso de éxito",
-   texto:"Cada caso muestra un titular, una breve descripción y la cifra que mejor resume el impacto en la comunidad.",
-   cifra:"—", detalle:"Indicador de resultado del caso"},
-  {reservado:true, evento:"leish", etiqueta:"Caso de éxito 3", titulo:"Espacio para el tercer caso de éxito",
-   texto:"El banner rota automáticamente y también se puede recorrer con las flechas o los indicadores de abajo.",
-   cifra:"—", detalle:"Indicador de resultado del caso"}
+   alt:"Pieza informativa: Norte de Santander combate la enfermedad de Chagas. Cuídate del pito y así evitarás tener la enfermedad de Chagas. Ciclo de transmisión: el pito pica al animal infectado, llega a las viviendas, se alimenta del humano, defeca sobre la piel y regresa al bosque."}
 ];
 let heroIdx=0, heroTimer=null;
 function renderHero(){
@@ -1759,6 +1754,7 @@ function renderHero(){
       <div class="s-metric"><b>${esc(c.cifra)}</b><span>${esc(c.detalle)}</span></div></article>`}).join("");
   $("#hero-dots").innerHTML=CASOS_EXITO.map((_,i)=>`<button type="button" aria-label="Ir al caso ${i+1}" aria-current="${i===heroIdx}"></button>`).join("");
   $("#hero-dots").querySelectorAll("button").forEach((b,i)=>b.onclick=()=>{goHero(i);restartHero()});
+  $(".hero-nav").hidden=CASOS_EXITO.length<2;
 }
 function goHero(i){heroIdx=(i+CASOS_EXITO.length)%CASOS_EXITO.length;
   document.querySelectorAll("#hero-slides .slide").forEach((s,k)=>{s.classList.toggle("on",k===heroIdx);if(k===heroIdx)s.removeAttribute("aria-hidden");else s.setAttribute("aria-hidden","true")});
