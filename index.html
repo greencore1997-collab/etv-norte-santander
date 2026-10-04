@@ -668,7 +668,22 @@
  		print-color-adjust: exact;
  		}
  	}
- </style>
+ 
+  /* ── Tablero analítico ── */
+  .dash-divider{display:flex;align-items:center;gap:12px;margin:28px 0 16px;color:var(--muted);font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+  .dash-divider::before,.dash-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+  .dash-curve-full{width:100%}
+  #hist-table{width:100%;border-collapse:collapse;font-size:.85rem}
+  #hist-table th,#hist-table td{padding:6px 10px;border-bottom:1px solid var(--border);text-align:center}
+  #hist-table th{font-weight:600;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+  #hist-table td:first-child{text-align:left;font-weight:500}
+  #hist-table tr:last-child td{border-bottom:2px solid var(--border);font-weight:700}
+  .tend-up{color:#e05c1a;font-weight:700;font-size:1rem}
+  .tend-down{color:#0E6B66;font-weight:700;font-size:1rem}
+  .tend-eq{color:var(--muted);font-size:1rem}
+  #anual-chart svg text{font-size:11px;fill:var(--muted)}
+  
+  </style>
 <style>
 /* Layout: barra institucional + pestañas; cada vista es una hoja de trabajo del programa ETV */
 :root{
@@ -856,6 +871,7 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
 
   <!-- TABLERO + GEOVISOR -->
   <section class="view" id="v-tablero">
+    <!-- FILTROS -->
     <div class="panel filters">
       <div class="row">
         <label class="f" for="t-year">Año<select id="t-year"></select></label>
@@ -866,7 +882,11 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
         <span class="small muted" id="t-range"></span>
       </div>
     </div>
+
+    <!-- KPI CARDS -->
     <div class="kpis" id="kpis"></div>
+
+    <!-- GEOVISOR — SIN MODIFICAR -->
     <div class="geo">
       <div class="geo-side">
         <div class="panel" style="display:grid;gap:10px">
@@ -882,24 +902,57 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
       </div>
       <div id="map" role="application" aria-label="Mapa de municipios de Norte de Santander"></div>
     </div>
+
+    <!-- ═══ TABLERO ANALÍTICO (debajo del geovisor al hacer scroll) ═══ -->
+    <div class="dash-divider">
+      <span>📊 TABLERO ANALÍTICO</span>
+    </div>
+
+    <!-- CURVA EPIDÉMICA — ancho completo -->
+    <div class="panel chart dash-curve-full">
+      <h2 id="curve-t">Curva epidémica</h2>
+      <div id="curve"></div>
+      <p class="small muted">Casos por semana epidemiológica · barras resaltadas = rango seleccionado · línea = media 8 semanas previas</p>
+    </div>
+
+    <!-- FILA: Municipios + Comparativo histórico -->
     <div class="grid2">
-      <div class="panel chart">
-        <h2 id="curve-t">Curva epidémica</h2>
-        <div id="curve"></div>
-        <div class="small muted">Casos por semana epidemiológica. Las barras resaltadas son el rango seleccionado; la línea marca la media de las 8 semanas previas.</div>
-      </div>
       <div class="panel">
         <h2 id="top-t">Municipios con más casos</h2>
         <div class="bars" id="topm"></div>
-        <div class="small muted" style="margin-top:8px">Haz clic en un municipio para ubicarlo en el mapa.</div>
+        <p class="small muted" style="margin-top:8px">Haz clic en un municipio para ubicarlo en el mapa.</p>
+      </div>
+      <div class="panel">
+        <h2 id="hist-t">Comparativo histórico · municipios</h2>
+        <p class="small muted" id="hist-sub" style="margin:0 0 10px"></p>
+        <div class="tw"><table id="hist-table">
+          <thead><tr>
+            <th style="text-align:left">Municipio</th>
+            <th title="Promedio de los 5 años anteriores">Esperado</th>
+            <th>Observado</th>
+            <th>Ratio</th>
+            <th>Tendencia</th>
+          </tr></thead>
+          <tbody id="hist-body"></tbody>
+        </table></div>
       </div>
     </div>
+
+    <!-- FILA: Distribución anual histórica -->
+    <div class="panel">
+      <h2 id="anual-t">Serie histórica por año</h2>
+      <div id="anual-chart"></div>
+      <p class="small muted">Total de casos anuales acumulados del departamento para el evento seleccionado.</p>
+    </div>
+
+    <!-- ACTIVIDADES -->
     <div class="panel">
       <h2>Últimas actividades de campo</h2>
       <div class="tw"><table id="t-acts"></table></div>
     </div>
   </section>
 
+  <!-- DATOS -->
   <!-- DATOS -->
   <section class="view" id="v-datos" hidden>
     <div class="grid2">
@@ -1135,7 +1188,7 @@ function renderTablero(){
   $("#topm").querySelectorAll("[data-c]").forEach(d=>d.onclick=()=>{S.sel=d.dataset.c;renderMap();if(map){const l=layer.getLayers().find(x=>x.feature.properties.c===d.dataset.c);if(l)map.fitBounds(l.getBounds(),{padding:[30,30],maxZoom:11})}});
   $("#top-t").textContent=`Municipios con más casos · ${E.n}, SE ${S.w1}–${S.w2}`;
   renderGeoSide();renderMap();
-  renderActsTable($("#t-acts"),S.acts.slice(0,6),false);
+  renderActsTable(renderHistTable();renderAnual();$("#t-acts"),S.acts.slice(0,6),false);
 }
 
 /* ---------- Geovisor ---------- */
@@ -1384,6 +1437,80 @@ $("#gate-form").onsubmit=async e=>{e.preventDefault();const v=$("#gate-pw").valu
   if(h===PASS_HASH){try{sessionStorage.setItem("etv-ok","1")}catch(_){}unlock()}
   else{$("#gate-err").textContent="Contraseña incorrecta. Verifica mayúsculas y vuelve a intentar.";$("#gate-pw").select()}};
 try{if(sessionStorage.getItem("etv-ok")==="1")unlock();else $("#gate-pw").focus()}catch(e){$("#gate-pw").focus()}
+
+  /* ── Comparativo histórico por municipio ── */
+  function renderHistTable(){
+    const ev = S.ev; const yr = S.year; const E = EVENTOS[ev];
+    $("#hist-t").textContent = "Comparativo histórico · " + E.n;
+    const mpios = MPIOS.map(m=>m.c);
+    // Años disponibles en datos
+    const allYears = [...new Set(casos().filter(r=>r.evento===ev).map(r=>r.anio))].sort();
+    const prevYears = allYears.filter(y=>y<yr).slice(-5);
+    $("#hist-sub").textContent = "Esperado = promedio " + (prevYears.length ? prevYears[0]+"–"+prevYears[prevYears.length-1] : "histórico") + " · Observado = "+yr;
+    // Calcular esperado por municipio (promedio años previos)
+    const esperado={}, observado={};
+    for(const py of prevYears){
+      const {res}=agg(ev,py,1,53);
+      for(const [c,v] of Object.entries(res)) esperado[c]=(esperado[c]||0)+(v.casos||0);
+    }
+    for(const c in esperado) esperado[c]=(esperado[c]/(prevYears.length||1));
+    const {res:resObs}=agg(ev,yr,1,53);
+    for(const [c,v] of Object.entries(resObs)) observado[c]=v.casos||0;
+    // Municipios con datos
+    const todos = [...new Set([...Object.keys(esperado),...Object.keys(observado)])];
+    const rows = todos.map(c=>({c, n:MP_BY[c]?.n||c, esp:esperado[c]||0, obs:observado[c]||0}))
+                      .filter(r=>r.esp>0||r.obs>0).sort((a,b)=>b.obs-a.obs);
+    // Total dpto
+    const totEsp=rows.reduce((s,r)=>s+r.esp,0), totObs=rows.reduce((s,r)=>s+r.obs,0);
+    function tend(esp,obs){
+      if(!esp) return '<span class="tend-eq">—</span>';
+      const ratio=obs/esp;
+      if(ratio>=1.1) return '<span class="tend-up" title="Incremento">↑↑</span>';
+      if(ratio<=0.9) return '<span class="tend-down" title="Descenso">↓↓</span>';
+      return '<span class="tend-eq" title="Sin cambio significativo">≈</span>';
+    }
+    const tbody = rows.map(r=>{
+      const ratio=r.esp?r.obs/r.esp:null;
+      return `<tr>
+        <td>${esc(r.n)}</td>
+        <td>${fmt(Math.round(r.esp))}</td>
+        <td style="color:${E.col};font-weight:600">${fmt(r.obs)}</td>
+        <td>${ratio!=null?(ratio>=1.1?'<b style="color:#e05c1a">':ratio<=0.9?'<b style="color:#0E6B66">':'<b>')+fmt(Math.round(ratio*100)/100)+'</b>':'—'}</td>
+        <td style="text-align:center">${tend(r.esp,r.obs)}</td>
+      </tr>`;
+    }).join("");
+    const ratioTot=totEsp?totObs/totEsp:null;
+    $("#hist-body").innerHTML=tbody+`<tr>
+      <td>Total departamento</td>
+      <td>${fmt(Math.round(totEsp))}</td>
+      <td style="color:${E.col};font-weight:600">${fmt(totObs)}</td>
+      <td>${ratioTot!=null?'<b>'+fmt(Math.round(ratioTot*100)/100)+'</b>':'—'}</td>
+      <td style="text-align:center">${tend(totEsp,totObs)}</td>
+    </tr>`;
+  }
+
+  /* ── Serie histórica anual ── */
+  function renderAnual(){
+    const ev=S.ev; const E=EVENTOS[ev];
+    $("#anual-t").textContent="Serie histórica anual · "+E.n;
+    const allYears=[...new Set(casos().filter(r=>r.evento===ev).map(r=>r.anio))].sort();
+    if(!allYears.length){$("#anual-chart").innerHTML='<p class="muted">Sin datos.</p>';return;}
+    const totals=allYears.map(yr=>{
+      const w=weekly(ev,yr); return {yr,tot:w.slice(1).reduce((a,b)=>a+b,0)};
+    });
+    const W=640,H=160,L=40,B=28,T=8;
+    const mx=Math.max(1,...totals.map(d=>d.tot));
+    const nice=Math.ceil(mx/4/100)*100*4||4;
+    const bw=Math.max(4,(W-L-8)/totals.length-3);
+    const x=(i)=>L+(i+.5)*(W-L-8)/totals.length;
+    const y=(v)=>H-B-(v/nice)*(H-B-T);
+    let g="";
+    for(let k=0;k<=4;k++){const v=nice*k/4;g+=`<line x1="${L}" x2="${W-4}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-4}" y="${y(v)+4}" text-anchor="end">${v>=1000?(v/1000).toFixed(1)+"k":v}</text>`}
+    const bars=totals.map((d,i)=>`<rect x="${x(i)-bw/2}" y="${y(d.tot)}" width="${bw}" height="${Math.max(0,H-B-y(d.tot))}" fill="${d.yr===S.year?E.col:'var(--surface-2)'}"><title>${d.yr}: ${d.tot} casos</title></rect>`).join("");
+    const labels=totals.map((d,i)=>(i%3===0||d.yr===S.year)?`<text x="${x(i)}" y="${H-10}" text-anchor="middle" ${d.yr===S.year?`fill="${E.col}" font-weight="600"`:``}>${d.yr}</text>`:"").join("");
+    $("#anual-chart").innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:100%" role="img">${g}${bars}${labels}</svg>`;
+  }
+
 </script>
 
 </body>
