@@ -1188,7 +1188,7 @@ function renderTablero(){
   $("#topm").querySelectorAll("[data-c]").forEach(d=>d.onclick=()=>{S.sel=d.dataset.c;renderMap();if(map){const l=layer.getLayers().find(x=>x.feature.properties.c===d.dataset.c);if(l)map.fitBounds(l.getBounds(),{padding:[30,30],maxZoom:11})}});
   $("#top-t").textContent=`Municipios con más casos · ${E.n}, SE ${S.w1}–${S.w2}`;
   renderGeoSide();renderMap();
-  renderActsTable(renderHistTable();renderAnual();$("#t-acts"),S.acts.slice(0,6),false);
+  renderHistTable();renderAnual();renderActsTable($("#t-acts"),S.acts.slice(0,6),false);
 }
 
 /* ---------- Geovisor ---------- */
@@ -1437,10 +1437,6 @@ $("#gate-form").onsubmit=async e=>{e.preventDefault();const v=$("#gate-pw").valu
   if(h===PASS_HASH){try{sessionStorage.setItem("etv-ok","1")}catch(_){}unlock()}
   else{$("#gate-err").textContent="Contraseña incorrecta. Verifica mayúsculas y vuelve a intentar.";$("#gate-pw").select()}};
 try{if(sessionStorage.getItem("etv-ok")==="1")unlock();else $("#gate-pw").focus()}catch(e){$("#gate-pw").focus()}
-
-  /* ── Helpers ── */
-  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-  function fmt(n){return n==null?"—":Number(n).toLocaleString("es-CO")}
 
   /* ── Comparativo histórico por municipio ── */
   function renderHistTable(){
