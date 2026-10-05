@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html><!-- v2026.10.05c -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -1093,6 +1093,16 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
 .medios-card:first-child .medios-cap b{font-size:21px}
 .medios-cap span{font-size:13.5px;opacity:.9;line-height:1.35}
 @media (max-width:860px){.medios-grid{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:220px}.medios-card:first-child{grid-row:auto;grid-column:span 2}}
+/* --- Vigilancia Entomológica --- */
+.entomo-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(0,280px));gap:14px}
+.entomo-card{position:relative;overflow:hidden;border-radius:18px;border:0;padding:0;margin:0;cursor:pointer;background:var(--navy);box-shadow:var(--shadow);color:#fff;text-align:left;font:inherit}
+.entomo-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left top;transition:transform .5s ease}
+.entomo-card:hover img{transform:scale(1.04)}
+.entomo-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,20,32,.85) 0%,rgba(8,20,32,.2) 45%,transparent 70%)}
+.entomo-cap{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:16px 18px;display:grid;gap:3px}
+.entomo-cap b{font:600 16px/1.25 var(--f-display)}
+.entomo-cap span{font-size:13px;opacity:.9;line-height:1.3}
+@media (max-width:700px){.entomo-grid{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:240px}}
 /* --- Contenido educativo --- */
 .edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}
 .edu-card{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-rows:auto 1fr;text-align:left;border:0;padding:0;cursor:pointer;color:inherit;font:inherit;transition:transform .2s ease,box-shadow .2s ease}
@@ -1318,6 +1328,10 @@ body.sp-lock{overflow:hidden}
     <section class="l-sec" id="l-medios-sec">
       <div class="l-sec-h"><span class="l-kicker">Comunicación</span><h2>Vigilancia y Control de Vectores en los Medios</h2><p>El IDS Norte de Santander lleva el mensaje de prevención y educación en salud a las emisoras comunitarias del departamento, tejiendo alianzas con los territorios.</p></div>
       <div class="medios-grid" id="medios-grid"></div>
+    </section>
+    <section class="l-sec" id="l-entomo-sec">
+      <div class="l-sec-h"><span class="l-kicker">Cartografía de campo</span><h2>Vigilancia Entomológica</h2><p>Mapas de localidades inspeccionadas en vigilancia peridomiciliar e intradomiciliar por municipio y período, elaborados por el Subgrupo de Vigilancia y Control de Vectores del IDS Norte de Santander.</p></div>
+      <div class="entomo-grid" id="entomo-grid"></div>
     </section>
     <section class="l-sec" id="l-edu-sec">
       <div class="l-sec-h"><span class="l-kicker">Aprende</span><h2>Infórmate y cuídate</h2></div>
@@ -2046,8 +2060,8 @@ function restartGallery(){clearTimeout(gTimer);const p=$("#gprog");p.classList.r
 /* ---------- Inicio: casos de éxito ---------- */
 // Para publicar un caso real: reemplaza un elemento de esta lista y quita "reservado: true".
 const CASOS_EXITO = [
-  {imagen:"media/educativo/chagas-mapa-limpio.jpg", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
-   alt:"Banner Norte de Santander combate la enfermedad de Chagas — Cuídate del pito — y mapa de municipios a certificar y recertificar en el Plan Nacional contra el Chagas."}
+  {imagen:"media/educativo/chagas-infografia-banner.jpg", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
+   alt:"Infografía Norte de Santander combate la enfermedad de Chagas — Cuídate del pito — Plan Nacional de interrupción de la transmisión de Trypanosoma cruzi por Rhodnius prolixus."}
 ];
 let heroIdx=0, heroTimer=null;
 function renderHero(){
@@ -2078,8 +2092,22 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
     ctx.fillStyle=`rgba(243,178,107,${0.03+((i*37)%9)/120})`;ctx.fill();ctx.strokeStyle=ink;ctx.globalAlpha=.22;ctx.lineWidth=1;ctx.stroke();ctx.globalAlpha=1}));
 
 }
+/* ---------- Vigilancia Entomológica ---------- */
+const ENTOMOLOGICA=[
+  {src:"media/mapas/el-carmen-peri-2021-2023.jpg", municipio:"El Carmen", tipo:"Peridomiciliar 2021–2023", titulo:"Vigilancia Peridomiciliar 2021–2023 — El Carmen", descripcion:"Mapa de localidades inspeccionadas en vigilancia entomológica peridomiciliar. Municipio de El Carmen, Norte de Santander."},
+  {src:"media/mapas/el-carmen-intra-2021-2023.jpg", municipio:"El Carmen", tipo:"Intradomiciliar 2021–2023", titulo:"Vigilancia Intradomiciliar 2021–2023 — El Carmen", descripcion:"Mapa de localidades inspeccionadas en vigilancia entomológica intradomiciliar. Municipio de El Carmen, Norte de Santander."},
+  {src:"media/mapas/teorama-peri-2022-2023.jpg", municipio:"Teorama", tipo:"Peridomiciliar 2022–2023", titulo:"Vigilancia Peridomiciliar 2022–2023 — Teorama", descripcion:"Mapa de localidades encuestadas en vigilancia entomológica peridomiciliar. Municipio de Teorama, Norte de Santander."},
+  {src:"media/mapas/teorama-intra-2022-2023.jpg", municipio:"Teorama", tipo:"Intradomiciliar 2022–2023", titulo:"Vigilancia Intradomiciliar 2022–2023 — Teorama", descripcion:"Mapa de localidades encuestadas en vigilancia entomológica intradomiciliar. Municipio de Teorama, Norte de Santander."},
+];
+function initEntomologica(){const g=$("#entomo-grid");if(!g)return;
+  g.innerHTML=ENTOMOLOGICA.map((c,i)=>`<button type="button" class="entomo-card" data-i="${i}" aria-label="${esc(c.titulo)}"><img src="${esc(c.src)}" alt="" loading="lazy"><span class="entomo-cap"><b>${esc(c.titulo)}</b><span>${esc(c.tipo)} · ${esc(c.municipio)}</span></span></button>`).join("");
+  g.querySelectorAll(".entomo-card").forEach(b=>b.onclick=()=>{const c=ENTOMOLOGICA[+b.dataset.i];
+    $("#edu-m-media").innerHTML=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;$("#edu-m-k").textContent=c.tipo;$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
+    document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
+    $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
+
 function initLanding(){
-  initQR();initEdu();initPrep();initMedios();initWelcomeAudio();
+  initQR();initEdu();initPrep();initMedios();initEntomologica();initWelcomeAudio();
   if($("#l-se"))$("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
@@ -2130,7 +2158,7 @@ const CONTENIDO_EDU = [
   {src:"media/educativo/chagas-san-cayetano.jpg", titulo:"¡Detectarlo a tiempo salva vidas!", descripcion:"San Cayetano. Conoce la enfermedad de Chagas y cuida tu corazón.", evento:"chagas"},
   {src:"media/educativo/chagas-el-carmen.jpg", titulo:"Toma de muestras rápidas para Chagas", descripcion:"El Carmen. Jornada del 21 de abril en el parque principal.", evento:"chagas"},
   {src:"media/educativo/chagas-juan-frio.jpg", titulo:"¿Qué es el Chagas? Juan Frío", descripcion:"Juan Frío. Conoce la enfermedad de Chagas, sus síntomas y cómo prevenirla. Tamizajes casa a casa el sábado 12 de septiembre.", evento:"chagas"},
-  {src:"media/educativo/chagas-mapa-limpio.jpg", titulo:"Municipios a certificar y recertificar", descripcion:"Norte de Santander. Mapa de municipios en proceso de certificación y recertificación del Plan Nacional contra el Chagas.", evento:"chagas"}
+  {src:"media/educativo/chagas-mapa-solo.jpg", titulo:"Municipios a certificar y recertificar", descripcion:"Norte de Santander. Mapa de municipios en proceso de certificación y recertificación del Plan Nacional contra el Chagas.", evento:"chagas"}
 ];
 /* Sin clasificación por tipo de archivo: el formato se deduce solo para saber cómo mostrarlo. */
 const eduKind=c=>c.id?"youtube":/\.(mp4|webm|mov)$/i.test(c.src||"")?"video":/\.(mp3|m4a|ogg|wav)$/i.test(c.src||"")?"audio":/\.pdf$/i.test(c.src||"")?"documento":"imagen";
