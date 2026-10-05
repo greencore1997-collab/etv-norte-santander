@@ -1053,6 +1053,10 @@ footer{padding-top:8px}
 .hero.img-on{min-height:0}
 html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:100%}
 
+.vcard{outline:3px solid transparent;outline-offset:3px;transition:outline-color .3s ease,transform .2s ease,box-shadow .2s ease}
+.vcard.is-on{outline-color:var(--amber,#F29F2E)}
+.vnum{position:absolute;left:10px;top:10px;z-index:2;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(10,20,20,.72);color:#fff;font:700 13px var(--f-body);border:1px solid rgba(255,255,255,.25)}
+.vcard.is-on .vnum{background:var(--amber,#F29F2E);color:#14202B;border-color:transparent}
 /* --- Nos preparamos para atender a nuestro territorio --- */
 .prep-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,250px));gap:14px}
 .prep-card{position:relative;overflow:hidden;border-radius:18px;border:0;padding:0;margin:0;cursor:pointer;background:var(--navy);box-shadow:var(--shadow);color:#fff;text-align:left;font:inherit}
@@ -1810,9 +1814,9 @@ let started=false;
 // Ejemplos: {tipo:"archivo", src:"media/videos/jornada-tibu.mp4", titulo:"…", descripcion:"…"}
 //           {tipo:"youtube", id:"dQw4w9WgXcQ", titulo:"…", descripcion:"…"}
 const VIDEOS = [
-  {reservado:true, titulo:"Video 1", descripcion:"Espacio reservado para un video del subprograma."},
-  {reservado:true, titulo:"Video 2", descripcion:"Espacio reservado para un video del subprograma."},
-  {reservado:true, titulo:"Video 3", descripcion:"Espacio reservado para un video del subprograma."}
+  {tipo:"archivo", src:"media/videos/comunidad-01.mp4", poster:"media/videos/comunidad-01.jpg", titulo:"Estudiantes contra el Chagas", descripcion:"Jóvenes presentan su mural sobre el Chagas y sus vectores."},
+  {tipo:"archivo", src:"media/videos/comunidad-02.mp4", poster:"media/videos/comunidad-02.jpg", titulo:"Niñas y niños, guardianes de su salud", descripcion:"En el aula comparten sus dibujos sobre la enfermedad de Chagas."},
+  {tipo:"archivo", src:"media/videos/comunidad-03.mp4", poster:"media/videos/comunidad-03.jpg", titulo:"Día Mundial del Chagas en El Zulia", descripcion:"Comunidad y equipos de salud se unen en la conmemoración."}
 ];
 // FOTOS: archivos en media/fotos del sitio. Ejemplo: {src:"media/fotos/control-larvario.jpg", titulo:"…", descripcion:"…"}
 const FOTOS = [
@@ -1831,24 +1835,36 @@ const ICON_SOUND_OFF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
 const ICON_SOUND_ON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
 const ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></svg>';
 const ICON_PHOTO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 8.5"/></svg>';
+/* Videos en secuencia: se reproducen uno a uno, de izquierda a derecha, y vuelven a empezar.
+   Un solo control de audio por tarjeta: activa o silencia el sonido de la secuencia. */
+let vCur=0,vSound=false,vInView=false;
 function renderVideos(){
   const box=$("#l-videos");
   box.innerHTML=VIDEOS.map((v,i)=>{let media;
     if(v.reservado||(!v.src&&!v.id))media=`<div class="ph">${ICON_PLAY}<small>Video por publicar</small></div>`;
-    else if(v.tipo==="youtube")media=`<iframe id="yt-${i}" src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&mute=1&loop=1&playlist=${encodeURIComponent(v.id)}&controls=1&playsinline=1&rel=0&enablejsapi=1" title="${esc(v.titulo)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-      <button class="vmute" type="button" data-v="${i}" aria-pressed="false">${ICON_SOUND_OFF}<span>Activar audio</span></button>`;
-    else media=`<video id="vid-${i}" src="${esc(v.src)}" ${v.poster?`poster="${esc(v.poster)}"`:""} muted loop playsinline preload="metadata" controls></video>
-      <button class="vmute" type="button" data-v="${i}" aria-pressed="false">${ICON_SOUND_OFF}<span>Activar audio</span></button>`;
-    return `<article class="vcard"><div class="vframe">${media}</div><div class="vbody"><b>${esc(v.titulo)}</b><span>${esc(v.descripcion||"")}</span></div></article>`}).join("");
-  box.querySelectorAll(".vmute").forEach(b=>b.onclick=()=>{const i=+b.dataset.v;const v=VIDEOS[i];const on=b.getAttribute("aria-pressed")!=="true";
-    if(v.tipo==="youtube"){const f=document.getElementById("yt-"+i);f?.contentWindow?.postMessage(JSON.stringify({event:"command",func:on?"unMute":"mute",args:[]}),"*");if(on)f?.contentWindow?.postMessage(JSON.stringify({event:"command",func:"playVideo",args:[]}),"*")}
-    else{const el=document.getElementById("vid-"+i);el.muted=!on;if(on){el.volume=1;el.play().catch(()=>{})}}
-    if(on){pauseWelcomeAudio();box.querySelectorAll('.vmute[aria-pressed="true"]').forEach(o=>{if(o!==b)o.click()})}
-    b.setAttribute("aria-pressed",on);b.innerHTML=(on?ICON_SOUND_ON:ICON_SOUND_OFF)+`<span>${on?"Silenciar":"Activar audio"}</span>`});
-  // reproducir solo los videos visibles
-  const vids=[...box.querySelectorAll("video")];
-  if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>es.forEach(e=>{const el=e.target;if(e.isIntersecting&&!$("#landing").hidden)el.play().catch(()=>{});else el.pause()}),{threshold:.35});vids.forEach(v=>io.observe(v))}
-  else vids.forEach(v=>v.play().catch(()=>{}));
+    else if(v.tipo==="youtube")media=`<iframe id="yt-${i}" src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?mute=1&controls=1&playsinline=1&rel=0&enablejsapi=1" title="${esc(v.titulo)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    else media=`<video id="vid-${i}" src="${esc(v.src)}" ${v.poster?`poster="${esc(v.poster)}"`:""} muted playsinline preload="auto" controls></video>
+      <button class="vmute" type="button" data-v="${i}" aria-pressed="false">${ICON_SOUND_OFF}<span>Activar audio</span></button>
+      <span class="vnum" aria-hidden="true">${i+1}</span>`;
+    return `<article class="vcard" data-v="${i}"><div class="vframe">${media}</div><div class="vbody"><b>${esc(v.titulo)}</b><span>${esc(v.descripcion||"")}</span></div></article>`}).join("");
+  const vids=VIDEOS.map((v,i)=>document.getElementById("vid-"+i));
+  const seq=vids.map((el,i)=>el?i:-1).filter(i=>i>=0);
+  if(!seq.length)return;
+  vCur=seq[0];
+  const paint=()=>{box.querySelectorAll(".vcard").forEach(c=>c.classList.toggle("is-on",+c.dataset.v===vCur));
+    box.querySelectorAll(".vmute").forEach(b=>{b.setAttribute("aria-pressed",vSound);b.innerHTML=(vSound?ICON_SOUND_ON:ICON_SOUND_OFF)+`<span>${vSound?"Silenciar":"Activar audio"}</span>`})};
+  const playCur=()=>{vids.forEach((el,i)=>{if(!el)return;if(i===vCur){el.muted=!vSound;if(vSound)el.volume=1;if(vInView&&!$("#landing").hidden)el.play().catch(()=>{el.muted=true;vSound=false;paint();el.play().catch(()=>{})})}else{el.pause()}});paint()};
+  const goTo=i=>{vCur=i;const el=vids[i];try{el.currentTime=0}catch(e){}playCur()};
+  vids.forEach((el,i)=>{if(!el)return;
+    el.addEventListener("ended",()=>{const k=seq.indexOf(i);goTo(seq[(k+1)%seq.length])});
+    el.addEventListener("play",()=>{if(i!==vCur){vCur=i;playCur()}});});
+  box.querySelectorAll(".vmute").forEach(b=>b.onclick=()=>{const i=+b.dataset.v;vSound=!vSound;
+    if(vSound)pauseWelcomeAudio();
+    if(i!==vCur){vCur=i;try{vids[i].currentTime=0}catch(e){}}
+    playCur()});
+  paint();
+  if("IntersectionObserver" in window){new IntersectionObserver(es=>es.forEach(e=>{vInView=e.isIntersecting;if(vInView)playCur();else vids.forEach(el=>el&&el.pause())}),{threshold:.3}).observe(box)}
+  else{vInView=true;playCur()}
 }
 let gIdx=0,gTimer=null;
 function renderGallery(){
