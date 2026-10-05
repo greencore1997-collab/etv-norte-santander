@@ -1081,6 +1081,18 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
 .prep-cap span{font-size:13.5px;opacity:.9;line-height:1.35}
 @media (max-width:860px){.prep-grid{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:220px}.prep-card:first-child{grid-row:auto;grid-column:span 2}}
 @media (prefers-reduced-motion:reduce){.prep-card img{transition:none}}
+/* --- Vigilancia y Control de Vectores en los Medios --- */
+.medios-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,250px));gap:14px}
+.medios-card{position:relative;overflow:hidden;border-radius:18px;border:0;padding:0;margin:0;cursor:pointer;background:var(--navy);box-shadow:var(--shadow);color:#fff;text-align:left;font:inherit}
+.medios-card:first-child{grid-row:span 2}
+.medios-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.medios-card:hover img{transform:scale(1.04)}
+.medios-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,20,32,.82) 0%,rgba(8,20,32,.25) 45%,transparent 70%)}
+.medios-cap{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:16px 18px;display:grid;gap:3px}
+.medios-cap b{font:600 17px/1.25 var(--f-display)}
+.medios-card:first-child .medios-cap b{font-size:21px}
+.medios-cap span{font-size:13.5px;opacity:.9;line-height:1.35}
+@media (max-width:860px){.medios-grid{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:220px}.medios-card:first-child{grid-row:auto;grid-column:span 2}}
 /* --- Contenido educativo --- */
 .edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}
 .edu-card{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-rows:auto 1fr;text-align:left;border:0;padding:0;cursor:pointer;color:inherit;font:inherit;transition:transform .2s ease,box-shadow .2s ease}
@@ -1302,6 +1314,10 @@ body.sp-lock{overflow:hidden}
     <section class="l-sec" id="l-prep-sec">
       <div class="l-sec-h"><span class="l-kicker">Capacidades</span><h2>Nos preparamos para atender a nuestro territorio</h2></div>
       <div class="prep-grid" id="prep-grid"></div>
+    </section>
+    <section class="l-sec" id="l-medios-sec">
+      <div class="l-sec-h"><span class="l-kicker">Comunicación</span><h2>Vigilancia y Control de Vectores en los Medios</h2><p>El IDS Norte de Santander lleva el mensaje de prevención y educación en salud a las emisoras comunitarias del departamento, tejiendo alianzas con los territorios.</p></div>
+      <div class="medios-grid" id="medios-grid"></div>
     </section>
     <section class="l-sec" id="l-edu-sec">
       <div class="l-sec-h"><span class="l-kicker">Aprende</span><h2>Infórmate y cuídate</h2></div>
@@ -2063,7 +2079,7 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
 
 }
 function initLanding(){
-  initQR();initEdu();initPrep();initWelcomeAudio();
+  initQR();initEdu();initPrep();initMedios();initWelcomeAudio();
   if($("#l-se"))$("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
@@ -2089,6 +2105,20 @@ function initPrep(){const g=$("#prep-grid");if(!g)return;
   g.innerHTML=PREPARACION.map((c,i)=>`<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}"><img src="${esc(c.src)}" alt="" loading="lazy"><span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`).join("");
   g.querySelectorAll(".prep-card").forEach(b=>b.onclick=()=>{const c=PREPARACION[+b.dataset.i];
     $("#edu-m-media").innerHTML=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;$("#edu-m-k").textContent="Nos preparamos";$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
+    document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
+    $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
+/* ---------- Vigilancia y Control de Vectores en los Medios ---------- */
+const MEDIOS = [
+  {src:"media/medios/radio-municipal.jpg", emisora:"Emisora Municipal", titulo:"IDS en las ondas del territorio", descripcion:"Funcionarios del IDS Norte de Santander en emisora local sensibilizando sobre enfermedades transmitidas por vectores."},
+  {src:"media/medios/voltaje-stereo.jpg", emisora:"Voltaje Stereo", titulo:"Día Mundial del Chagas — Voltaje Stereo", descripcion:"San Calixto, Teorama, El Carmen y Convención presentes en Voltaje Stereo por el Día Internacional del Chagas."},
+  {src:"media/medios/cafe-stereo.jpg", emisora:"Café Stereo 102.7 FM", titulo:"Chagas en Café Stereo", descripcion:"San Calixto. Equipo del IDS y aliados en Café Stereo 102.7 FM dialogando sobre la enfermedad de Chagas y su prevención."},
+  {src:"media/medios/voltaje-stereo-2.jpg", emisora:"Voltaje Stereo", titulo:"Chagas: Convención Presente", descripcion:"Convención se suma a la conmemoración del Día Internacional del Chagas en Voltaje Stereo, Guamalito y El Carmen."},
+  {src:"media/medios/palmas-stereo.jpg", emisora:"Palmas Stereo", titulo:"14 de Abril — Palmas Stereo", descripcion:"Día Mundial de la Enfermedad de Chagas. El IDS lleva materiales educativos y triatominos a Palmas Stereo para sensibilizar a la comunidad."}
+];
+function initMedios(){const g=$("#medios-grid");if(!g)return;
+  g.innerHTML=MEDIOS.map((c,i)=>`<button type="button" class="medios-card" data-i="${i}" aria-label="${esc(c.titulo)}"><img src="${esc(c.src)}" alt="" loading="lazy"><span class="medios-cap"><b>${esc(c.titulo)}</b><span>${esc(c.emisora)}</span></span></button>`).join("");
+  g.querySelectorAll(".medios-card").forEach(b=>b.onclick=()=>{const c=MEDIOS[+b.dataset.i];
+    $("#edu-m-media").innerHTML=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;$("#edu-m-k").textContent=c.emisora;$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
     document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
     $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
 /* ---------- Contenido educativo ---------- */
