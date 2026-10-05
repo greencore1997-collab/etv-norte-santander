@@ -1893,23 +1893,22 @@ function initEdu(){renderEdu();$("#edu-close").onclick=closeEdu;
   $("#edu-modal").addEventListener("click",e=>{if(e.target.id==="edu-modal")closeEdu()});
   $("#edu-modal").addEventListener("keydown",e=>{if(e.key==="Escape")closeEdu()})}
 
-/* ---------- Audio de bienvenida (volumen 20 %) ---------- */
-const BGA_VOL=0.2;
+/* ---------- Audio de bienvenida (volumen 40 %, sin control de pausa) ---------- */
+const BGA_VOL=0.4;
 const ICO_PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
 const ICO_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 function initWelcomeAudio(){
   const a=$("#bg-audio"),b=$("#bg-audio-btn");if(!a||!b)return;a.volume=BGA_VOL;let userPaused=false;
-  const ui=()=>{const on=!a.paused&&!a.ended;b.classList.toggle("playing",on);b.setAttribute("aria-pressed",on);
+  const ui=()=>{if(!b.isConnected)return;const on=!a.paused&&!a.ended;b.classList.toggle("playing",on);b.setAttribute("aria-pressed",on);
     $("#bga-ic").innerHTML=on?ICO_PAUSE:ICO_PLAY;$("#bga-tx").textContent=on?"Pausar audio de bienvenida":(a.ended?"Escuchar de nuevo":"Reproducir audio de bienvenida")};
   const start=()=>{a.volume=BGA_VOL;return a.play().then(()=>{try{sessionStorage.setItem("etv-audio","1")}catch(e){}ui()})};
   a.addEventListener("play",ui);a.addEventListener("pause",ui);a.addEventListener("ended",ui);
-  b.onclick=()=>{if(a.paused||a.ended){userPaused=false;if(a.ended)a.currentTime=0;start().catch(()=>{})}else{userPaused=true;a.pause()}};
-  b.hidden=false;ui();
+  b.remove();
   let ya=false;try{ya=sessionStorage.getItem("etv-audio")==="1"}catch(e){}
   if(ya)return;
   start().catch(()=>{
     // El navegador bloquea el sonido automático hasta la primera interacción: se inicia al primer clic, toque o tecla.
-    const go=e=>{if(e&&e.target&&e.target.closest&&e.target.closest("#bg-audio-btn"))return;off();if(!userPaused&&a.paused)start().catch(()=>{})};
+    const go=e=>{off();if(!userPaused&&a.paused)start().catch(()=>{})};
     const off=()=>["pointerdown","keydown","touchstart"].forEach(ev=>document.removeEventListener(ev,go,true));
     ["pointerdown","keydown","touchstart"].forEach(ev=>document.addEventListener(ev,go,{capture:true,once:false}));
   });
