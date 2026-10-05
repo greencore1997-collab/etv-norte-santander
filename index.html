@@ -1100,9 +1100,64 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
 .bga-hint svg{width:17px;height:17px;color:var(--cta)}
 .is-phone .bga-hint{font-size:30px;padding:18px 32px;gap:14px;bottom:40px}
 .is-phone .bga-hint svg{width:32px;height:32px}
+
+/* --- Pantalla de bienvenida --- */
+#splash{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:24px 16px;overflow:auto;color:#fff;background:#0A1E33;transition:opacity .6s ease,visibility .6s}
+#splash.out{opacity:0;visibility:hidden}
+.sp-bg{position:absolute;inset:-40px;background:url("media/banner/chagas-pito.jpg") center/cover no-repeat;filter:blur(18px) saturate(1.1);opacity:.35}
+.sp-glow{position:absolute;inset:0;background:radial-gradient(55% 60% at 80% 15%,rgba(18,163,156,.55),transparent 65%),radial-gradient(50% 60% at 10% 90%,rgba(46,139,216,.45),transparent 65%),linear-gradient(160deg,rgba(14,42,71,.92),rgba(10,30,51,.85))}
+.sp-card{position:relative;max-width:760px;width:100%;display:grid;gap:18px;justify-items:center;text-align:center;animation:spIn .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes spIn{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+.sp-logo{width:104px;height:104px;filter:drop-shadow(0 10px 28px rgba(0,0,0,.4));animation:spFloat 3.6s ease-in-out infinite}
+@keyframes spFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+.sp-eyebrow{font:700 12.5px var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+#splash h1{font:700 clamp(40px,6.4vw,72px)/1.02 var(--f-display);letter-spacing:-.03em;margin:0;color:#fff;text-wrap:balance}
+#splash h1 span{display:block;color:#F7B455}
+.sp-lead{margin:0;max-width:60ch;font-size:18px;line-height:1.55;color:rgba(255,255,255,.88)}
+.sp-tips{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
+@media (max-width:720px){.sp-tips{grid-template-columns:1fr}}
+.sp-tips li{display:flex;gap:10px;align-items:center;text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px 14px;font:600 14.5px/1.3 var(--f-body);backdrop-filter:blur(4px)}
+.sp-tips svg{width:26px;height:26px;flex:none;color:#F7B455}
+.sp-btn{margin-top:10px;display:inline-flex;gap:12px;align-items:center;background:#F29F2E;color:#2A1700;border:0;border-radius:999px;padding:18px 42px;font:700 20px var(--f-display);letter-spacing:.04em;cursor:pointer;box-shadow:0 14px 36px rgba(242,159,46,.45);animation:spPulse 2.2s ease-in-out infinite;transition:transform .15s}
+.sp-btn:hover{transform:translateY(-2px) scale(1.02)}
+.sp-btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.sp-btn svg{width:22px;height:22px}
+@keyframes spPulse{0%,100%{box-shadow:0 14px 36px rgba(242,159,46,.45),0 0 0 0 rgba(242,159,46,.55)}50%{box-shadow:0 14px 36px rgba(242,159,46,.45),0 0 0 14px rgba(242,159,46,0)}}
+.sp-note{font-size:13px;color:rgba(255,255,255,.6)}
+body.sp-lock{overflow:hidden}
+@media (prefers-reduced-motion:reduce){.sp-card,.sp-logo,.sp-btn{animation:none}}
+
+.is-phone .sp-card{max-width:1120px;gap:34px}
+.is-phone .sp-logo{width:220px;height:220px}
+.is-phone .sp-eyebrow{font-size:24px}
+.is-phone #splash h1{font-size:128px}
+.is-phone .sp-lead{font-size:36px;max-width:none}
+.is-phone .sp-tips{grid-template-columns:1fr;gap:20px}
+.is-phone .sp-tips li{font-size:34px;padding:24px 28px;border-radius:24px;gap:20px}
+.is-phone .sp-tips svg{width:48px;height:48px}
+.is-phone .sp-btn{font-size:46px;padding:34px 80px;gap:20px}
+.is-phone .sp-btn svg{width:44px;height:44px}
+.is-phone .sp-note{font-size:26px}
 </style>
 </head>
 <body>
+<div id="splash" role="dialog" aria-modal="true" aria-labelledby="sp-t">
+  <div class="sp-bg" aria-hidden="true"></div>
+  <div class="sp-glow" aria-hidden="true"></div>
+  <div class="sp-card">
+    <svg class="sp-logo" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="sp-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E8BD8"/><stop offset="1" stop-color="#12A39C"/></linearGradient></defs><rect x="1" y="1" width="46" height="46" rx="14" fill="url(#sp-g)"/><ellipse cx="22" cy="14.5" rx="9.5" ry="4.2" transform="rotate(-38 22 14.5)" fill="#fff" opacity=".55" stroke="#fff" stroke-width=".6"/><ellipse cx="28.5" cy="15.5" rx="8.5" ry="3.8" transform="rotate(-12 28.5 15.5)" fill="#fff" opacity=".7" stroke="#fff" stroke-width=".6"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><ellipse cx="32" cy="28.5" rx="9.5" ry="4.3" transform="rotate(28 32 28.5)" fill="#16202E"/><path d="M28.6 23.9l-2 5.3M32.3 25.7l-2.1 5.4M36 27.6l-2 5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><circle cx="22" cy="24.5" r="6" fill="#16202E"/><path d="M19.6 21.2c-1 1.6-1 3.6.2 5.2M24.4 21.2c1 1.6 1 3.6-.2 5.2" stroke="#fff" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M11 17.5c-1-2.2-2.8-3.4-4.4-3.6M13.4 16.6c-.2-2.4-1.3-4.2-2.8-5" stroke="#16202E" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M9.6 24.2L3.6 29" stroke="#16202E" stroke-width="1.5" stroke-linecap="round"/><circle cx="13.5" cy="21.5" r="5.3" fill="#16202E"/><circle cx="12.6" cy="20.3" r="3" fill="#fff"/><circle cx="11.9" cy="20.6" r="1.55" fill="#16202E"/><circle cx="12.5" cy="19.9" r=".6" fill="#fff"/><path d="M11.8 24.3q1.6 1.1 3.3-.1" stroke="#fff" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="16.4" cy="23.3" r=".9" fill="#F29F2E" opacity=".9"/></svg>
+    <div class="sp-eyebrow">Instituto Departamental de Salud · Norte de Santander</div>
+    <h1 id="sp-t">Cuidar tu casa <span>es cuidar tu vida</span></h1>
+    <p class="sp-lead">El Subprograma de Vigilancia y Control de Vectores trabaja de la mano con las comunidades de los 40 municipios para prevenir el dengue, el Chagas, la malaria y la leishmaniasis.</p>
+    <ul class="sp-tips">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M6 7v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7M9 4h6"/></svg>Lava, tapa y cepilla tanques y recipientes</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11 12 4l9 7M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>Revisa paredes y techos: ¡cuidado con el pito!</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 3"/></svg>Ante fiebre, consulta a tiempo</li>
+    </ul>
+    <button type="button" class="sp-btn" id="sp-go">Continuar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <small class="sp-note">Al continuar escucharás un mensaje de bienvenida.</small>
+  </div>
+</div>
 <section id="landing">
   <div class="l-band">
   <header class="l-top">
@@ -1904,17 +1959,11 @@ const ICO_PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 const ICO_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 function initWelcomeAudio(){
   const a=$("#bg-audio"),b=$("#bg-audio-btn");if(!a)return;if(b)b.remove();a.volume=BGA_VOL;
-  const hint=$("#bga-hint");let done=false;
-  const evs=["pointerdown","pointerup","mousedown","click","touchend","keydown"];
-  const off=()=>evs.forEach(ev=>document.removeEventListener(ev,go,true));
-  const ok=()=>{done=true;off();if(hint)hint.hidden=true};
-  const start=()=>{if(done||!$("#app").hidden)return Promise.resolve();a.volume=BGA_VOL;return a.play().then(ok)};
-  // Suena apenas carga la página. Si el navegador bloquea el sonido automático, arranca en silencio con el primer clic, toque o tecla.
-  function go(){start().catch(()=>{})}
-  evs.forEach(ev=>document.addEventListener(ev,go,true));
-  start().catch(()=>{});
-  a.addEventListener("canplay",()=>{if(!done)start().catch(()=>{})},{once:true});
-  a.addEventListener("ended",()=>{if(hint)hint.hidden=true});
+  const sp=$("#splash");document.body.classList.add("sp-lock");
+  const go=()=>{a.volume=BGA_VOL;a.currentTime=0;a.play().catch(()=>{});
+    sp.classList.add("out");document.body.classList.remove("sp-lock");setTimeout(()=>{sp.hidden=true},650)};
+  $("#sp-go").addEventListener("click",go);
+  setTimeout(()=>{try{$("#sp-go").focus({preventScroll:true})}catch(e){}},400);
 }
 function pauseWelcomeAudio(){const a=$("#bg-audio");if(a&&!a.paused)a.pause()}
 function initQR(){
