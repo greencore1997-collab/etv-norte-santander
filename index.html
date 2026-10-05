@@ -1909,10 +1909,11 @@ function initWelcomeAudio(){
   const off=()=>evs.forEach(ev=>document.removeEventListener(ev,go,true));
   const ok=()=>{done=true;off();if(hint)hint.hidden=true};
   const start=()=>{if(done||!$("#app").hidden)return Promise.resolve();a.volume=BGA_VOL;return a.play().then(ok)};
-  // Suena 2 s después de cargar. Si el navegador bloquea el sonido automático, arranca en silencio con el primer clic, toque o tecla.
+  // Suena apenas carga la página. Si el navegador bloquea el sonido automático, arranca en silencio con el primer clic, toque o tecla.
   function go(){start().catch(()=>{})}
   evs.forEach(ev=>document.addEventListener(ev,go,true));
-  setTimeout(()=>{start().catch(()=>{})},2000);
+  start().catch(()=>{});
+  a.addEventListener("canplay",()=>{if(!done)start().catch(()=>{})},{once:true});
   a.addEventListener("ended",()=>{if(hint)hint.hidden=true});
 }
 function pauseWelcomeAudio(){const a=$("#bg-audio");if(a&&!a.paused)a.pause()}
