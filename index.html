@@ -1158,7 +1158,6 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
 </section>
 
 <audio id="bg-audio" src="media/audio/bienvenida.mp3" preload="auto"></audio>
-<div class="bga-hint" id="bga-hint" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>Toca o haz clic en la página para escuchar el mensaje de bienvenida</div>
 <button type="button" class="bg-audio-btn" id="bg-audio-btn" hidden aria-pressed="false"><span class="bga-ic" id="bga-ic"></span><span id="bga-tx">Audio de bienvenida</span></button>
 <div id="edu-modal" role="dialog" aria-modal="true" aria-labelledby="edu-m-t" hidden>
   <div class="edu-m-card">
@@ -1910,10 +1909,10 @@ function initWelcomeAudio(){
   const off=()=>evs.forEach(ev=>document.removeEventListener(ev,go,true));
   const ok=()=>{done=true;off();if(hint)hint.hidden=true};
   const start=()=>{if(done||!$("#app").hidden)return Promise.resolve();a.volume=BGA_VOL;return a.play().then(ok)};
-  // Los navegadores bloquean el sonido automático hasta que la persona interactúa: se reintenta en cada clic, toque o tecla hasta que suene.
+  // Suena 2 s después de cargar. Si el navegador bloquea el sonido automático, arranca en silencio con el primer clic, toque o tecla.
   function go(){start().catch(()=>{})}
   evs.forEach(ev=>document.addEventListener(ev,go,true));
-  start().catch(()=>{if(hint&&!done)hint.hidden=false});
+  setTimeout(()=>{start().catch(()=>{})},2000);
   a.addEventListener("ended",()=>{if(hint)hint.hidden=true});
 }
 function pauseWelcomeAudio(){const a=$("#bg-audio");if(a&&!a.paused)a.pause()}
