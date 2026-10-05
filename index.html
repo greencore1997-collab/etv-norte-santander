@@ -1094,6 +1094,19 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
 .edu-m-body h2{font-size:22px}
 .edu-m-body p{margin:0;color:var(--muted)}
 
+/* --- Sección Educativa con fondo tipo bienvenida --- */
+#l-edu-sec{
+  background:
+    radial-gradient(60% 80% at 85% 20%,color-mix(in srgb,var(--teal) 45%,transparent) 0%,transparent 60%),
+    radial-gradient(50% 70% at 10% 90%,color-mix(in srgb,var(--accent) 40%,transparent) 0%,transparent 65%),
+    linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#0F4A63 100%);
+  border-radius:20px;
+  padding:36px 28px 44px;
+}
+#l-edu-sec .l-kicker{color:#3CC0B8}
+#l-edu-sec .l-sec-h h2{color:#EEF4F2}
+#l-edu-sec .edu-card{box-shadow:0 8px 28px rgba(0,0,0,.35)}
+
 /* --- Audio de bienvenida --- */
 .bg-audio-btn{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:4000;display:inline-flex;gap:10px;align-items:center;background:color-mix(in srgb,var(--navy) 88%,transparent);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:9px 16px 9px 10px;font:600 13.5px var(--f-body);cursor:pointer;box-shadow:var(--shadow-lg);backdrop-filter:blur(6px)}
 .bg-audio-btn:hover{background:var(--navy)}
@@ -1936,8 +1949,8 @@ function restartGallery(){clearTimeout(gTimer);const p=$("#gprog");p.classList.r
 /* ---------- Inicio: casos de éxito ---------- */
 // Para publicar un caso real: reemplaza un elemento de esta lista y quita "reservado: true".
 const CASOS_EXITO = [
-  {imagen:"media/banner/chagas-pito.jpg", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
-   alt:"Pieza informativa: Norte de Santander combate la enfermedad de Chagas. Cuídate del pito y así evitarás tener la enfermedad de Chagas. Ciclo de transmisión: el pito pica al animal infectado, llega a las viviendas, se alimenta del humano, defeca sobre la piel y regresa al bosque."}
+  {imagen:"media/educativo/chagas-banner-mapa.jpg", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
+   alt:"Banner Norte de Santander combate la enfermedad de Chagas — Cuídate del pito — y mapa de municipios a certificar y recertificar en el Plan Nacional contra el Chagas."}
 ];
 let heroIdx=0, heroTimer=null;
 function renderHero(){
@@ -2005,7 +2018,8 @@ const CONTENIDO_EDU = [
   {src:"media/educativo/chagas-teorama.jpg", titulo:"Teorama se une contra el Chagas", descripcion:"Teorama. Mensaje de sensibilización por el Día Mundial de la Enfermedad de Chagas.", evento:"chagas"},
   {src:"media/educativo/chagas-san-cayetano.jpg", titulo:"¡Detectarlo a tiempo salva vidas!", descripcion:"San Cayetano. Conoce la enfermedad de Chagas y cuida tu corazón.", evento:"chagas"},
   {src:"media/educativo/chagas-el-carmen.jpg", titulo:"Toma de muestras rápidas para Chagas", descripcion:"El Carmen. Jornada del 21 de abril en el parque principal.", evento:"chagas"},
-  {src:"media/educativo/chagas-juan-frio.jpg", titulo:"¿Qué es el Chagas? Juan Frío", descripcion:"Juan Frío. Conoce la enfermedad de Chagas, sus síntomas y cómo prevenirla. Tamizajes casa a casa el sábado 12 de septiembre.", evento:"chagas"}
+  {src:"media/educativo/chagas-juan-frio.jpg", titulo:"¿Qué es el Chagas? Juan Frío", descripcion:"Juan Frío. Conoce la enfermedad de Chagas, sus síntomas y cómo prevenirla. Tamizajes casa a casa el sábado 12 de septiembre.", evento:"chagas"},
+  {src:"media/educativo/chagas-banner-mapa.jpg", titulo:"Municipios a certificar y recertificar", descripcion:"Norte de Santander. Mapa de municipios en proceso de certificación y recertificación del Plan Nacional contra el Chagas.", evento:"chagas"}
 ];
 /* Sin clasificación por tipo de archivo: el formato se deduce solo para saber cómo mostrarlo. */
 const eduKind=c=>c.id?"youtube":/\.(mp4|webm|mov)$/i.test(c.src||"")?"video":/\.(mp3|m4a|ogg|wav)$/i.test(c.src||"")?"audio":/\.pdf$/i.test(c.src||"")?"documento":"imagen";
