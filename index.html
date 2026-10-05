@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.05g -->
+<!doctype html><!-- v2026.10.05h -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -1341,6 +1341,10 @@ body.sp-lock{overflow:hidden}
       <div class="l-sec-h"><span class="l-kicker">Cartografía de campo</span><h2>Vigilancia Serológica Población 0–4 Años</h2><p>Mapas de localidades tamizadas en vigilancia serológica de población de 0 a 4 años por municipio y período, elaborados por el Subgrupo de Vigilancia y Control de Vectores del IDS Norte de Santander.</p></div>
       <div class="sero-grid" id="sero-grid"></div>
     </section>
+    <section class="l-sec" id="l-sero514-sec">
+      <div class="l-sec-h"><span class="l-kicker">Cartografía de campo</span><h2>Vigilancia Serológica Población 5–14 Años</h2><p>Mapas de localidades tamizadas en vigilancia serológica de población de 5 a 14 años por municipio y período, elaborados por el Subgrupo de Vigilancia y Control de Vectores del IDS Norte de Santander.</p></div>
+      <div class="sero-grid" id="sero514-grid"></div>
+    </section>
     <section class="l-sec" id="l-edu-sec">
       <div class="l-sec-h"><span class="l-kicker">Aprende</span><h2>Infórmate y cuídate</h2></div>
       <div class="edu-grid" id="edu-grid"></div>
@@ -2077,8 +2081,21 @@ function initSerologica(){const g=$("#sero-grid");if(!g)return;
     document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
     $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
 
+/* ---------- Vigilancia Serológica 5-14 Años ---------- */
+const SEROLOGICA514=[
+  {src:"media/mapas/el-carmen-serologica-514-2021-2026.jpg", municipio:"El Carmen", tipo:"Período 2 · 2021–2026", titulo:"Vigilancia Serológica 5–14 Años Período 2 (2021–2026) — El Carmen", descripcion:"Mapa de 88 localidades tamizadas en vigilancia serológica de población de 5 a 14 años. Municipio de El Carmen, Norte de Santander, período 2 (2021–2026). Se señalan en rojo las localidades con caso positivo."},
+  {src:"media/mapas/el-carmen-serologica-514-2018-2019.jpg", municipio:"El Carmen", tipo:"2018–2019", titulo:"Vigilancia Serológica 5–14 Años (2018–2019) — El Carmen", descripcion:"Mapa de 53 localidades tamizadas en vigilancia serológica de población de 5 a 14 años. Municipio de El Carmen, Norte de Santander, período 2018–2019."},
+  {src:"media/mapas/teorama-serologica-514-2018-2020.jpg", municipio:"Teorama", tipo:"Período 1 · 2018–2020", titulo:"Vigilancia Serológica 5–14 Años Período 1 (2018–2020) — Teorama", descripcion:"Mapa de 43 localidades encuestadas en vigilancia serológica de población de 5 a 14 años. Municipio de Teorama, Norte de Santander, período 1 (2018–2020)."},
+];
+function initSerologica514(){const g=$("#sero514-grid");if(!g)return;
+  g.innerHTML=SEROLOGICA514.map((c,i)=>`<button type="button" class="sero-card" data-i="${i}" aria-label="${esc(c.titulo)}"><img src="${esc(c.src)}" alt="" loading="lazy"><span class="sero-cap"><b>${esc(c.titulo)}</b><span>${esc(c.tipo)} · ${esc(c.municipio)}</span></span></button>`).join("");
+  g.querySelectorAll(".sero-card").forEach(b=>b.onclick=()=>{const c=SEROLOGICA514[+b.dataset.i];
+    $("#edu-m-media").innerHTML=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;$("#edu-m-k").textContent=c.tipo;$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
+    document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
+    $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
+
 function initLanding(){
-  initQR();initEdu();initPrep();initMedios();initEntomologica();initSerologica();initWelcomeAudio();
+  initQR();initEdu();initPrep();initMedios();initEntomologica();initSerologica();initSerologica514();initWelcomeAudio();
   if($("#l-se"))$("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
