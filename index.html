@@ -1053,6 +1053,20 @@ footer{padding-top:8px}
 .hero.img-on{min-height:0}
 html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:100%}
 
+/* --- Nos preparamos para atender a nuestro territorio --- */
+.prep-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,250px));gap:14px}
+.prep-card{position:relative;overflow:hidden;border-radius:18px;border:0;padding:0;margin:0;cursor:pointer;background:var(--navy);box-shadow:var(--shadow);color:#fff;text-align:left;font:inherit}
+.prep-card:first-child{grid-row:span 2}
+.prep-card:last-child{grid-column:span 2}
+.prep-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.prep-card:hover img{transform:scale(1.04)}
+.prep-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,20,32,.82) 0%,rgba(8,20,32,.25) 45%,transparent 70%)}
+.prep-cap{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:16px 18px;display:grid;gap:3px}
+.prep-cap b{font:600 17px/1.25 var(--f-display)}
+.prep-card:first-child .prep-cap b{font-size:21px}
+.prep-cap span{font-size:13.5px;opacity:.9;line-height:1.35}
+@media (max-width:860px){.prep-grid{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:220px}.prep-card:first-child{grid-row:auto;grid-column:span 2}}
+@media (prefers-reduced-motion:reduce){.prep-card img{transition:none}}
 /* --- Contenido educativo --- */
 .edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}
 .edu-card{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-rows:auto 1fr;text-align:left;border:0;padding:0;cursor:pointer;color:inherit;font:inherit;transition:transform .2s ease,box-shadow .2s ease}
@@ -1187,6 +1201,10 @@ body.sp-lock{overflow:hidden}
         <div class="gtrack" id="gtrack"></div>
         <div class="gnav"><div class="dots" id="gdots"></div><button type="button" class="gbtn" id="gprev" aria-label="Foto anterior">&#8592;</button><button type="button" class="gbtn" id="gnext" aria-label="Foto siguiente">&#8594;</button></div>
       </div>
+    </section>
+    <section class="l-sec" id="l-prep-sec">
+      <div class="l-sec-h"><span class="l-kicker">Capacidades</span><h2>Nos preparamos para atender a nuestro territorio</h2></div>
+      <div class="prep-grid" id="prep-grid"></div>
     </section>
     <section class="l-sec" id="l-edu-sec">
       <div class="l-sec-h"><span class="l-kicker">Aprende</span><h2>Infórmate y cuídate</h2></div>
@@ -1885,7 +1903,7 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
 
 }
 function initLanding(){
-  initQR();initEdu();initWelcomeAudio();
+  initQR();initEdu();initPrep();initWelcomeAudio();
   $("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
@@ -1900,6 +1918,19 @@ function initLanding(){
 }
 
 
+/* ---------- Nos preparamos para atender a nuestro territorio ---------- */
+const PREPARACION = [
+  {src:"media/preparacion/lab-microscopia.jpg", titulo:"Capacitación en diagnóstico por microscopía", descripcion:"Profesionales de laboratorio fortalecen la lectura de muestras para la detección oportuna."},
+  {src:"media/preparacion/riesgo-entomologico.jpg", titulo:"Análisis del riesgo entomológico", descripcion:"Mesa de trabajo con el mapa de riesgo entomológico de Norte de Santander."},
+  {src:"media/preparacion/lab-practica.jpg", titulo:"Práctica de procesamiento de muestras", descripcion:"Entrenamiento práctico con bioseguridad en el laboratorio."},
+  {src:"media/preparacion/lab-red.jpg", titulo:"Red de laboratorios preparada", descripcion:"Equipos de los municipios se actualizan para responder en el territorio."}
+];
+function initPrep(){const g=$("#prep-grid");if(!g)return;
+  g.innerHTML=PREPARACION.map((c,i)=>`<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}"><img src="${esc(c.src)}" alt="" loading="lazy"><span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`).join("");
+  g.querySelectorAll(".prep-card").forEach(b=>b.onclick=()=>{const c=PREPARACION[+b.dataset.i];
+    $("#edu-m-media").innerHTML=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;$("#edu-m-k").textContent="Nos preparamos";$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
+    document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
+    $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
 /* ---------- Contenido educativo ---------- */
 // tipo: "video" (MP4 en media/educativo), "youtube" (id), "audio" (MP3), "imagen" (JPG/PNG), "documento" (PDF).
 // Ejemplo: {tipo:"video", src:"media/educativo/lavado-tanques.mp4", miniatura:"media/educativo/lavado.jpg", titulo:"…", descripcion:"…", evento:"dengue", duracion:"2:30"}
