@@ -1938,9 +1938,9 @@ const ICO_PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 const ICO_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 function initWelcomeAudio(){
   const a=$("#bg-audio"),b=$("#bg-audio-btn");if(!a)return;if(b)b.remove();a.volume=BGA_VOL;
-  const sp=$("#splash");document.body.classList.add("sp-lock");
+  const sp=$("#splash");document.body.classList.add("sp-lock");try{history.scrollRestoration="manual"}catch(e){}window.scrollTo(0,0);
   const go=()=>{a.volume=BGA_VOL;a.currentTime=0;a.play().catch(()=>{});
-    sp.classList.add("out");document.body.classList.remove("sp-lock");setTimeout(()=>{sp.hidden=true},650)};
+    document.body.classList.remove("sp-lock");window.scrollTo({top:0,left:0,behavior:"instant"});document.documentElement.scrollTop=0;document.body.scrollTop=0;sp.classList.add("out");setTimeout(()=>{sp.hidden=true},650)};
   $("#sp-go").addEventListener("click",go);
   setTimeout(()=>{try{$("#sp-go").focus({preventScroll:true})}catch(e){}},400);
 }
