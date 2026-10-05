@@ -2030,7 +2030,7 @@ function restartGallery(){clearTimeout(gTimer);const p=$("#gprog");p.classList.r
 /* ---------- Inicio: casos de éxito ---------- */
 // Para publicar un caso real: reemplaza un elemento de esta lista y quita "reservado: true".
 const CASOS_EXITO = [
-  {imagen:"media/educativo/chagas-banner-mapa.jpg", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
+  {imagen:"media/educativo/chagas-banner-mapa.jpg?v=2", evento:"chagas", etiqueta:"Norte de Santander combate la enfermedad de Chagas",
    alt:"Banner Norte de Santander combate la enfermedad de Chagas — Cuídate del pito — y mapa de municipios a certificar y recertificar en el Plan Nacional contra el Chagas."}
 ];
 let heroIdx=0, heroTimer=null;
@@ -2100,7 +2100,7 @@ const CONTENIDO_EDU = [
   {src:"media/educativo/chagas-san-cayetano.jpg", titulo:"¡Detectarlo a tiempo salva vidas!", descripcion:"San Cayetano. Conoce la enfermedad de Chagas y cuida tu corazón.", evento:"chagas"},
   {src:"media/educativo/chagas-el-carmen.jpg", titulo:"Toma de muestras rápidas para Chagas", descripcion:"El Carmen. Jornada del 21 de abril en el parque principal.", evento:"chagas"},
   {src:"media/educativo/chagas-juan-frio.jpg", titulo:"¿Qué es el Chagas? Juan Frío", descripcion:"Juan Frío. Conoce la enfermedad de Chagas, sus síntomas y cómo prevenirla. Tamizajes casa a casa el sábado 12 de septiembre.", evento:"chagas"},
-  {src:"media/educativo/chagas-banner-mapa.jpg", titulo:"Municipios a certificar y recertificar", descripcion:"Norte de Santander. Mapa de municipios en proceso de certificación y recertificación del Plan Nacional contra el Chagas.", evento:"chagas"}
+  {src:"media/educativo/chagas-banner-mapa.jpg?v=2", titulo:"Municipios a certificar y recertificar", descripcion:"Norte de Santander. Mapa de municipios en proceso de certificación y recertificación del Plan Nacional contra el Chagas.", evento:"chagas"}
 ];
 /* Sin clasificación por tipo de archivo: el formato se deduce solo para saber cómo mostrarlo. */
 const eduKind=c=>c.id?"youtube":/\.(mp4|webm|mov)$/i.test(c.src||"")?"video":/\.(mp3|m4a|ogg|wav)$/i.test(c.src||"")?"audio":/\.pdf$/i.test(c.src||"")?"documento":"imagen";
