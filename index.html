@@ -1086,6 +1086,15 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
 .edu-m-body{padding:16px 22px 22px;display:grid;gap:6px}
 .edu-m-body h2{font-size:22px}
 .edu-m-body p{margin:0;color:var(--muted)}
+
+/* --- Audio de bienvenida --- */
+.bg-audio-btn{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:4000;display:inline-flex;gap:10px;align-items:center;background:color-mix(in srgb,var(--navy) 88%,transparent);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:9px 16px 9px 10px;font:600 13.5px var(--f-body);cursor:pointer;box-shadow:var(--shadow-lg);backdrop-filter:blur(6px)}
+.bg-audio-btn:hover{background:var(--navy)}
+.bga-ic{width:30px;height:30px;border-radius:999px;background:var(--cta);color:var(--cta-ink);display:grid;place-items:center}
+.bga-ic svg{width:16px;height:16px}
+.bg-audio-btn.playing .bga-ic{animation:bgaPulse 1.6s ease-in-out infinite}
+@keyframes bgaPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,159,46,.5)}50%{box-shadow:0 0 0 7px rgba(242,159,46,0)}}
+@media (prefers-reduced-motion:reduce){.bg-audio-btn.playing .bga-ic{animation:none}}
 </style>
 </head>
 <body>
@@ -1143,6 +1152,8 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
   <footer class="l-foot"><div class="l-foot-in"><div><b>Subprograma de Vigilancia y Control de Vectores</b></div><div>Instituto Departamental de Salud · Norte de Santander</div></div></footer>
 </section>
 
+<audio id="bg-audio" src="media/audio/bienvenida.mp3" preload="auto"></audio>
+<button type="button" class="bg-audio-btn" id="bg-audio-btn" hidden aria-pressed="false"><span class="bga-ic" id="bga-ic"></span><span id="bga-tx">Audio de bienvenida</span></button>
 <div id="edu-modal" role="dialog" aria-modal="true" aria-labelledby="edu-m-t" hidden>
   <div class="edu-m-card">
     <button class="qr-x" type="button" id="edu-close" aria-label="Cerrar">&#10005;</button>
@@ -1763,7 +1774,7 @@ function renderVideos(){
   box.querySelectorAll(".vmute").forEach(b=>b.onclick=()=>{const i=+b.dataset.v;const v=VIDEOS[i];const on=b.getAttribute("aria-pressed")!=="true";
     if(v.tipo==="youtube"){const f=document.getElementById("yt-"+i);f?.contentWindow?.postMessage(JSON.stringify({event:"command",func:on?"unMute":"mute",args:[]}),"*");if(on)f?.contentWindow?.postMessage(JSON.stringify({event:"command",func:"playVideo",args:[]}),"*")}
     else{const el=document.getElementById("vid-"+i);el.muted=!on;if(on){el.volume=1;el.play().catch(()=>{})}}
-    if(on)box.querySelectorAll('.vmute[aria-pressed="true"]').forEach(o=>{if(o!==b)o.click()});
+    if(on){pauseWelcomeAudio();box.querySelectorAll('.vmute[aria-pressed="true"]').forEach(o=>{if(o!==b)o.click()})}
     b.setAttribute("aria-pressed",on);b.innerHTML=(on?ICON_SOUND_ON:ICON_SOUND_OFF)+`<span>${on?"Silenciar":"Activar audio"}</span>`});
   // reproducir solo los videos visibles
   const vids=[...box.querySelectorAll("video")];
@@ -1823,7 +1834,7 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
 
 }
 function initLanding(){
-  initQR();initEdu();
+  initQR();initEdu();initWelcomeAudio();
   $("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
@@ -1875,12 +1886,35 @@ function openEdu(i){const c=CONTENIDO_EDU[i];const T=EDU_TIPOS[c.tipo]||EDU_TIPO
   else if(c.tipo==="audio")m=`${c.miniatura?`<img src="${esc(c.miniatura)}" alt="">`:""}<audio src="${esc(c.src)}" controls autoplay></audio>`;
   else if(c.tipo==="imagen")m=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;
   $("#edu-m-media").innerHTML=m;$("#edu-m-k").textContent=T.s+(EVENTOS[c.evento]?" · "+EVENTOS[c.evento].n:"");$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion||"";
-  document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
+  document.querySelectorAll("#l-videos video").forEach(v=>v.pause());pauseWelcomeAudio();
   $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)}
 function closeEdu(){$("#edu-m-media").innerHTML="";$("#edu-modal").hidden=true}
 function initEdu(){renderEdu();$("#edu-close").onclick=closeEdu;
   $("#edu-modal").addEventListener("click",e=>{if(e.target.id==="edu-modal")closeEdu()});
   $("#edu-modal").addEventListener("keydown",e=>{if(e.key==="Escape")closeEdu()})}
+
+/* ---------- Audio de bienvenida (volumen 20 %) ---------- */
+const BGA_VOL=0.2;
+const ICO_PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+const ICO_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+function initWelcomeAudio(){
+  const a=$("#bg-audio"),b=$("#bg-audio-btn");if(!a||!b)return;a.volume=BGA_VOL;let userPaused=false;
+  const ui=()=>{const on=!a.paused&&!a.ended;b.classList.toggle("playing",on);b.setAttribute("aria-pressed",on);
+    $("#bga-ic").innerHTML=on?ICO_PAUSE:ICO_PLAY;$("#bga-tx").textContent=on?"Pausar audio de bienvenida":(a.ended?"Escuchar de nuevo":"Reproducir audio de bienvenida")};
+  const start=()=>{a.volume=BGA_VOL;return a.play().then(()=>{try{sessionStorage.setItem("etv-audio","1")}catch(e){}ui()})};
+  a.addEventListener("play",ui);a.addEventListener("pause",ui);a.addEventListener("ended",ui);
+  b.onclick=()=>{if(a.paused||a.ended){userPaused=false;if(a.ended)a.currentTime=0;start().catch(()=>{})}else{userPaused=true;a.pause()}};
+  b.hidden=false;ui();
+  let ya=false;try{ya=sessionStorage.getItem("etv-audio")==="1"}catch(e){}
+  if(ya)return;
+  start().catch(()=>{
+    // El navegador bloquea el sonido automático hasta la primera interacción: se inicia al primer clic, toque o tecla.
+    const go=e=>{if(e&&e.target&&e.target.closest&&e.target.closest("#bg-audio-btn"))return;off();if(!userPaused&&a.paused)start().catch(()=>{})};
+    const off=()=>["pointerdown","keydown","touchstart"].forEach(ev=>document.removeEventListener(ev,go,true));
+    ["pointerdown","keydown","touchstart"].forEach(ev=>document.addEventListener(ev,go,{capture:true,once:false}));
+  });
+}
+function pauseWelcomeAudio(){const a=$("#bg-audio");if(a&&!a.paused)a.pause()}
 function initQR(){
   const m=$("#qr-modal");const open=()=>{m.hidden=false;setTimeout(()=>$("#qr-close").focus(),30)};const close=()=>{m.hidden=true;$("#qr-open").focus()};
   $("#qr-open").onclick=open;$("#qr-close").onclick=close;
