@@ -1887,7 +1887,7 @@ function initLanding(){
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
   $(".hero").addEventListener("mouseenter",()=>clearInterval(heroTimer));$(".hero").addEventListener("mouseleave",restartHero);
-  $("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev" style="--evc:${E.col}"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span><span><i>${E.vec}</i></span></div>`}).join("");
+  $("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev" style="--evc:${E.col}"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span></div>`}).join("");
   document.querySelectorAll("[data-office]").forEach(b=>b.onclick=openOffice);
   $("#gate-cancel").onclick=closeGate;
   $("#gate").addEventListener("keydown",e=>{if(e.key==="Escape")closeGate()});
