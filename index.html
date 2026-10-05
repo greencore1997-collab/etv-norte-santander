@@ -1052,6 +1052,40 @@ footer{padding-top:8px}
 @media (max-width:760px){.hero{min-height:0}}
 .hero.img-on{min-height:0}
 html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:100%}
+
+/* --- Contenido educativo --- */
+.edu-filters{display:flex;flex-wrap:wrap;gap:8px}
+.edu-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font:600 13.5px var(--f-body);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.edu-chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.edu-chip svg{width:15px;height:15px}
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}
+.edu-card{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-rows:auto 1fr;text-align:left;border:0;padding:0;cursor:pointer;color:inherit;font:inherit;transition:transform .2s ease,box-shadow .2s ease}
+.edu-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.edu-card[disabled]{cursor:default}
+.edu-card[disabled]:hover{transform:none;box-shadow:var(--shadow)}
+.edu-thumb{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg,var(--navy),var(--navy-2));display:grid;place-items:center;color:rgba(255,255,255,.85);overflow:hidden}
+.edu-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.edu-thumb .ic{position:relative;width:54px;height:54px;border-radius:999px;background:rgba(255,255,255,.14);display:grid;place-items:center;backdrop-filter:blur(2px)}
+.edu-thumb .ic svg{width:26px;height:26px}
+.edu-type{position:absolute;left:12px;top:12px;background:rgba(10,20,30,.6);color:#fff;border-radius:999px;padding:3px 10px;font:700 11px var(--f-body);letter-spacing:.08em;text-transform:uppercase}
+.edu-dur{position:absolute;right:12px;bottom:12px;background:rgba(10,20,30,.7);color:#fff;border-radius:6px;padding:2px 7px;font:600 12px var(--f-mono)}
+.edu-body{padding:14px 16px 16px;display:grid;gap:4px;align-content:start}
+.edu-body b{font:600 16.5px/1.25 var(--f-display)}
+.edu-body p{margin:0;font-size:14px;color:var(--muted)}
+.edu-meta{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);margin-top:4px}
+.edu-meta i{width:9px;height:9px;border-radius:50%}
+.edu-tag{display:inline-block;border:1px dashed var(--line);color:var(--muted);border-radius:999px;padding:1px 8px;font-size:11.5px;font-weight:600}
+.edu-empty{grid-column:1/-1;color:var(--muted);padding:12px 0}
+#edu-modal{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--navy) 65%,transparent);backdrop-filter:blur(4px)}
+.edu-m-card{position:relative;width:100%;max-width:960px;max-height:calc(100% - 20px);overflow:auto;background:var(--surface);border-radius:20px;box-shadow:var(--shadow-lg)}
+.edu-m-card .qr-x{z-index:2}
+.edu-m-media{background:#0B1622;display:grid;place-items:center}
+.edu-m-media video,.edu-m-media iframe{display:block;width:100%;aspect-ratio:16/9;border:0;background:#000}
+.edu-m-media img{display:block;max-width:100%;max-height:70vh;margin:0 auto}
+.edu-m-media audio{width:calc(100% - 40px);margin:40px 20px}
+.edu-m-body{padding:16px 22px 22px;display:grid;gap:6px}
+.edu-m-body h2{font-size:22px}
+.edu-m-body p{margin:0;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -1096,6 +1130,11 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
         <div class="gnav"><div class="dots" id="gdots"></div><button type="button" class="gbtn" id="gprev" aria-label="Foto anterior">&#8592;</button><button type="button" class="gbtn" id="gnext" aria-label="Foto siguiente">&#8594;</button></div>
       </div>
     </section>
+    <section class="l-sec" id="l-edu-sec">
+      <div class="l-sec-h"><span class="l-kicker">Aprende</span><h2>Contenido educativo</h2></div>
+      <div class="edu-filters" id="edu-filters" role="toolbar" aria-label="Filtrar contenido educativo"></div>
+      <div class="edu-grid" id="edu-grid"></div>
+    </section>
     <section class="l-events">
       <div class="l-sec-h" style="margin-bottom:14px"><span class="l-kicker">Vigilancia</span><h2>Eventos que vigila el subprograma</h2></div>
       <div class="l-evgrid" id="l-events"></div>
@@ -1104,6 +1143,13 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
   <footer class="l-foot"><div class="l-foot-in"><div><b>Subprograma de Vigilancia y Control de Vectores</b></div><div>Instituto Departamental de Salud · Norte de Santander</div></div></footer>
 </section>
 
+<div id="edu-modal" role="dialog" aria-modal="true" aria-labelledby="edu-m-t" hidden>
+  <div class="edu-m-card">
+    <button class="qr-x" type="button" id="edu-close" aria-label="Cerrar">&#10005;</button>
+    <div class="edu-m-media" id="edu-m-media"></div>
+    <div class="edu-m-body"><span class="l-kicker" id="edu-m-k"></span><h2 id="edu-m-t"></h2><p id="edu-m-d"></p></div>
+  </div>
+</div>
 <div id="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qr-t" hidden>
   <div class="qr-card">
     <button class="qr-x" type="button" id="qr-close" aria-label="Cerrar">&#10005;</button>
@@ -1777,7 +1823,7 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
 
 }
 function initLanding(){
-  initQR();
+  initQR();initEdu();
   $("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
@@ -1791,6 +1837,50 @@ function initLanding(){
   mq.addEventListener?.("change",drawHeroMap);
 }
 
+
+/* ---------- Contenido educativo ---------- */
+// tipo: "video" (MP4 en media/educativo), "youtube" (id), "audio" (MP3), "imagen" (JPG/PNG), "documento" (PDF).
+// Ejemplo: {tipo:"video", src:"media/educativo/lavado-tanques.mp4", miniatura:"media/educativo/lavado.jpg", titulo:"…", descripcion:"…", evento:"dengue", duracion:"2:30"}
+const CONTENIDO_EDU = [
+  {reservado:true, tipo:"video", titulo:"Video educativo", descripcion:"Espacio para un video sobre prevención de enfermedades transmitidas por vectores.", evento:"dengue"},
+  {reservado:true, tipo:"audio", titulo:"Cuña radial o pódcast", descripcion:"Espacio para un audio educativo para emisoras comunitarias.", evento:"chagas"},
+  {reservado:true, tipo:"imagen", titulo:"Infografía", descripcion:"Espacio para una pieza gráfica con mensajes clave para la comunidad.", evento:"malaria"},
+  {reservado:true, tipo:"documento", titulo:"Cartilla descargable", descripcion:"Espacio para una cartilla o guía en PDF.", evento:"leish"}
+];
+const EDU_TIPOS={video:{n:"Videos",s:"Video",ic:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>'},
+  youtube:{n:"Videos",s:"Video",ic:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>'},
+  audio:{n:"Audios",s:"Audio",ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>'},
+  imagen:{n:"Infografías",s:"Infografía",ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>'},
+  documento:{n:"Documentos",s:"Documento",ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>'}};
+let eduFiltro="todos";
+const eduGrupo=t=>t==="youtube"?"video":t;
+function renderEdu(){
+  const grupos=["todos","video","audio","imagen","documento"];
+  $("#edu-filters").innerHTML=grupos.map(g=>`<button type="button" class="edu-chip" data-g="${g}" aria-pressed="${g===eduFiltro}">${g==="todos"?"Todo":EDU_TIPOS[g].ic+EDU_TIPOS[g].n}</button>`).join("");
+  $("#edu-filters").querySelectorAll(".edu-chip").forEach(b=>b.onclick=()=>{eduFiltro=b.dataset.g;renderEdu()});
+  const items=CONTENIDO_EDU.map((c,i)=>({c,i})).filter(({c})=>eduFiltro==="todos"||eduGrupo(c.tipo)===eduFiltro);
+  $("#edu-grid").innerHTML=items.length?items.map(({c,i})=>{const T=EDU_TIPOS[c.tipo]||EDU_TIPOS.video;const E=EVENTOS[c.evento];
+    const thumb=c.miniatura?`<img src="${esc(c.miniatura)}" alt="" loading="lazy">`:(c.tipo==="imagen"&&c.src?`<img src="${esc(c.src)}" alt="" loading="lazy">`:(c.tipo==="youtube"&&c.id?`<img src="https://i.ytimg.com/vi/${encodeURIComponent(c.id)}/hqdefault.jpg" alt="" loading="lazy">`:""));
+    return `<button type="button" class="edu-card" data-i="${i}" ${c.reservado?"disabled":""} aria-label="${esc(T.s)}: ${esc(c.titulo)}">
+      <div class="edu-thumb">${thumb}<span class="edu-type">${T.s}</span><span class="ic">${T.ic}</span>${c.duracion?`<span class="edu-dur">${esc(c.duracion)}</span>`:""}</div>
+      <div class="edu-body"><b>${esc(c.titulo)}</b><p>${esc(c.descripcion||"")}</p>
+      <div class="edu-meta">${E?`<i style="background:${E.col}"></i>${E.n}`:""}${c.reservado?` <span class="edu-tag">Por publicar</span>`:""}</div></div></button>`}).join(""):`<p class="edu-empty">Aún no hay contenido de este tipo.</p>`;
+  $("#edu-grid").querySelectorAll(".edu-card:not([disabled])").forEach(b=>b.onclick=()=>openEdu(+b.dataset.i));
+}
+function openEdu(i){const c=CONTENIDO_EDU[i];const T=EDU_TIPOS[c.tipo]||EDU_TIPOS.video;
+  if(c.tipo==="documento"){window.open(c.src,"_blank","noopener");return}
+  let m="";
+  if(c.tipo==="video")m=`<video src="${esc(c.src)}" ${c.miniatura?`poster="${esc(c.miniatura)}"`:""} controls autoplay playsinline></video>`;
+  else if(c.tipo==="youtube")m=`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(c.id)}?autoplay=1&rel=0" title="${esc(c.titulo)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  else if(c.tipo==="audio")m=`${c.miniatura?`<img src="${esc(c.miniatura)}" alt="">`:""}<audio src="${esc(c.src)}" controls autoplay></audio>`;
+  else if(c.tipo==="imagen")m=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;
+  $("#edu-m-media").innerHTML=m;$("#edu-m-k").textContent=T.s+(EVENTOS[c.evento]?" · "+EVENTOS[c.evento].n:"");$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion||"";
+  document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
+  $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)}
+function closeEdu(){$("#edu-m-media").innerHTML="";$("#edu-modal").hidden=true}
+function initEdu(){renderEdu();$("#edu-close").onclick=closeEdu;
+  $("#edu-modal").addEventListener("click",e=>{if(e.target.id==="edu-modal")closeEdu()});
+  $("#edu-modal").addEventListener("keydown",e=>{if(e.key==="Escape")closeEdu()})}
 function initQR(){
   const m=$("#qr-modal");const open=()=>{m.hidden=false;setTimeout(()=>$("#qr-close").focus(),30)};const close=()=>{m.hidden=true;$("#qr-open").focus()};
   $("#qr-open").onclick=open;$("#qr-close").onclick=close;
