@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.05h -->
+<!doctype html><!-- v2026.10.05i -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -906,6 +906,14 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
 .gslide{overflow:hidden;background:var(--navy)}
 .gslide .gbg{position:absolute;inset:-30px;width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;filter:blur(24px) brightness(.55) saturate(1.15)}
 .gslide .gimg{position:relative;width:100%;height:100%;object-fit:contain;display:block}
+.gslide-inner{display:grid;grid-template-columns:1fr 1fr;height:100%;gap:2px;background:#000}
+.ghalf{position:relative;overflow:hidden;min-height:0}
+.ghalf.solo{grid-column:1/-1}
+.ghalf img{width:100%;height:100%;object-fit:cover;display:block}
+.ghcap{position:absolute;left:0;right:0;bottom:0;padding:32px 12px 44px;background:linear-gradient(transparent,rgba(5,15,15,.85));color:#fff;pointer-events:none}
+.ghcap b{display:block;font:600 14px/1.2 var(--f-display)}
+.ghcap span{display:block;font-size:12px;opacity:.82;margin-top:2px}
+@media (max-width:700px){.ghcap b{font-size:12px}.ghcap span{display:none}}
 @media (prefers-reduced-motion:reduce){.gtrack{transition:none}.gprog{display:none}}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -1965,7 +1973,18 @@ const FOTOS = [
   {src:"media/fotos/accion-04.jpg", titulo:"Visitas casa a casa", descripcion:"Educación en la vivienda con el apoyo de un modelo del pito."},
   {src:"media/fotos/accion-05.jpg", titulo:"El Chagas en el aula", descripcion:"Estudiantes explican la zona de riesgo para el Chagas en el municipio de Los Patios."},
   {src:"media/fotos/accion-06.jpg", titulo:"Los Patios, libre de Chagas", descripcion:"Jornada de sensibilización: «Cuídate del pito»."},
-  {src:"media/fotos/accion-07.jpg", titulo:"Muralismo comunitario", descripcion:"La comunidad pinta el ciclo de transmisión del Chagas."}
+  {src:"media/fotos/accion-07.jpg", titulo:"Muralismo comunitario", descripcion:"La comunidad pinta el ciclo de transmisión del Chagas."},
+  {src:"media/acciones/accion-fumigacion.jpg", titulo:"Control Peridomiciliario", descripcion:"Jornada de rociado peridomiciliario contra vectores de la enfermedad de Chagas."},
+  {src:"media/acciones/accion-tamizaje-escolar.jpg", titulo:"Tamizaje en Instituciones Educativas", descripcion:"Toma de muestra de sangre para la vigilancia serológica de la enfermedad de Chagas."},
+  {src:"media/acciones/accion-prtc-convencion.jpg", titulo:"Punto de Recolección de Triatominos — Convención", descripcion:"Instalación del Punto de Recolección de Triatominos Comunitario (PRTC) en Convención."},
+  {src:"media/acciones/accion-entrega-muestras-01.jpg", titulo:"Entrega de Muestras", descripcion:"Traslado de muestras biológicas en cadena de frío para análisis de Chagas."},
+  {src:"media/acciones/accion-entrega-muestras-02.jpg", titulo:"Recepción de Muestras", descripcion:"Recepción de muestras en la institución de salud para análisis de laboratorio."},
+  {src:"media/acciones/accion-capacitacion-comunidad.jpg", titulo:"Capacitación Comunitaria", descripcion:"Sesión de educación comunitaria sobre prevención y vigilancia de Chagas."},
+  {src:"media/acciones/accion-entrega-muestras-03.jpg", titulo:"Entrega en Centro de Salud", descripcion:"Entrega de muestras biológicas en el centro de salud para diagnóstico oportuno."},
+  {src:"media/acciones/accion-entrega-medicamento.jpg", titulo:"Entrega de Medicamento", descripcion:"Distribución de medicamento a la comunidad en el marco de la vigilancia y control de Chagas."},
+  {src:"media/acciones/accion-reunion-equipo.jpg", titulo:"Coordinación con Equipos de Salud", descripcion:"Reunión de coordinación del equipo ETV con personal de la institución de salud."},
+  {src:"media/acciones/accion-banner-tamizaje.jpg", titulo:"Jornada de Tamizaje — Guamalito", descripcion:"Jornada de tamizaje para Chagas del 5 al 9 de abril en el Centro de Salud de Guamalito."},
+  {src:"media/acciones/accion-cartilla-chagas.jpg", titulo:"Chagas en el Aula", descripcion:"Niñas participan en actividad educativa sobre Chagas con cartilla didáctica."}
 ];
 const ICON_SOUND_OFF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></svg>';
 const ICON_SOUND_ON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
@@ -2003,21 +2022,27 @@ function renderVideos(){
   else{vInView=true;playCur()}
 }
 let gIdx=0,gTimer=null;
+function gSlides(){const s=[];for(let i=0;i<FOTOS.length;i+=2)s.push(FOTOS.slice(i,i+2));return s}
 function renderGallery(){
-  $("#gtrack").innerHTML=FOTOS.map((f,i)=>`<figure class="gslide" style="margin:0" aria-roledescription="diapositiva" aria-label="${i+1} de ${FOTOS.length}">
-    ${f.reservado||!f.src?`<div class="ph">${ICON_PHOTO}<small>Foto por publicar</small></div>`:`<img class="gbg" src="${esc(f.src)}" alt="" aria-hidden="true" loading="${i<2?"eager":"lazy"}"><img class="gimg" src="${esc(f.src)}" alt="${esc(f.titulo)}: ${esc(f.descripcion||"")}" loading="${i<2?"eager":"lazy"}">`}
-    <figcaption class="gcap"><b>${esc(f.titulo)}</b>${f.descripcion?`<span>${esc(f.descripcion)}</span>`:""}</figcaption></figure>`).join("");
-  $("#gdots").innerHTML=FOTOS.map((_,i)=>`<button type="button" aria-label="Ir a la foto ${i+1}" aria-current="${i===gIdx}"></button>`).join("");
+  const slides=gSlides(),N=slides.length;
+  $("#gtrack").innerHTML=slides.map((pair,si)=>{
+    const inner=pair.map(f=>{
+      if(f.reservado||!f.src)return`<div class="ghalf${pair.length===1?" solo":""} ph">${ICON_PHOTO}<small>Foto por publicar</small></div>`;
+      return`<div class="ghalf${pair.length===1?" solo":""}"><img src="${esc(f.src)}" alt="${esc(f.titulo)}" loading="${si<1?"eager":"lazy"}"><figcaption class="ghcap"><b>${esc(f.titulo)}</b>${f.descripcion?`<span>${esc(f.descripcion)}</span>`:""}</figcaption></div>`;
+    }).join("");
+    return`<figure class="gslide" style="margin:0" aria-roledescription="diapositiva" aria-label="${si+1} de ${N}"><div class="gslide-inner">${inner}</div></figure>`;
+  }).join("");
+  $("#gdots").innerHTML=slides.map((_,i)=>`<button type="button" aria-label="Ir a la diapositiva ${i+1}" aria-current="${i===gIdx}"></button>`).join("");
   $("#gdots").querySelectorAll("button").forEach((b,i)=>b.onclick=()=>{goPhoto(i);restartGallery()});
   $("#gprev").onclick=()=>{goPhoto(gIdx-1);restartGallery()};$("#gnext").onclick=()=>{goPhoto(gIdx+1);restartGallery()};
   $("#gallery").addEventListener("mouseenter",()=>{clearTimeout(gTimer);$("#gprog").classList.remove("run");$("#gprog").style.width="0"});
   $("#gallery").addEventListener("mouseleave",restartGallery);
   goPhoto(0);restartGallery();
 }
-function goPhoto(i){gIdx=(i+FOTOS.length)%FOTOS.length;$("#gtrack").style.transform=`translateX(-${gIdx*100}%)`;
+function goPhoto(i){const N=gSlides().length;gIdx=(i+N)%N;$("#gtrack").style.transform=`translateX(-${gIdx*100}%)`;
   $("#gdots").querySelectorAll("button").forEach((b,k)=>b.setAttribute("aria-current",k===gIdx))}
 function restartGallery(){clearTimeout(gTimer);const p=$("#gprog");p.classList.remove("run");p.style.width="";void p.offsetWidth;
-  if(FOTOS.length<2)return;p.classList.add("run");gTimer=setTimeout(()=>{goPhoto(gIdx+1);restartGallery()},7000)}
+  if(gSlides().length<2)return;p.classList.add("run");gTimer=setTimeout(()=>{goPhoto(gIdx+1);restartGallery()},7000)}
 
 /* ---------- Inicio: casos de éxito ---------- */
 // Para publicar un caso real: reemplaza un elemento de esta lista y quita "reservado: true".
