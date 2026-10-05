@@ -1246,12 +1246,6 @@ body.sp-lock{overflow:hidden}
   <svg class="l-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40C180 70 360 10 560 22s380 46 600 30 280-36 280-36V70H0z"/></svg>
   </div>
   <main class="l-main">
-    <section class="l-stats" aria-label="El subprograma en cifras">
-      <div class="l-stat"><i style="background:#1D5FA6"></i><b>40</b><span>municipios acompañados</span></div>
-      <div class="l-stat"><i style="background:#0E8A86"></i><b>1.635</b><span>veredas en el mapa de vigilancia</span></div>
-      <div class="l-stat"><i style="background:#F29F2E"></i><b>7</b><span>eventos transmitidos por vectores bajo vigilancia</span></div>
-      <div class="l-stat"><i style="background:#C9542A"></i><b id="l-se">SE —</b><span>semana epidemiológica en curso</span></div>
-    </section>
 
     <section class="l-sec" id="l-videos-sec">
       <div class="l-sec-h"><span class="l-kicker">Videos</span><h2>Primero la comunidad</h2></div>
@@ -1272,10 +1266,6 @@ body.sp-lock{overflow:hidden}
     <section class="l-sec" id="l-edu-sec">
       <div class="l-sec-h"><span class="l-kicker">Aprende</span><h2>Infórmate y cuídate</h2></div>
       <div class="edu-grid" id="edu-grid"></div>
-    </section>
-    <section class="l-events">
-      <div class="l-sec-h" style="margin-bottom:14px"><span class="l-kicker">Vigilancia</span><h2>Eventos que vigila el subprograma</h2></div>
-      <div class="l-evgrid" id="l-events"></div>
     </section>
   </main>
   <footer class="l-foot"><div class="l-foot-in"><div><b>Subprograma de Vigilancia y Control de Vectores</b></div><div>Instituto Departamental de Salud · Norte de Santander</div></div></footer>
@@ -1979,11 +1969,11 @@ function drawHeroMap(){const cv=$("#hero-map");const r=cv.getBoundingClientRect(
 }
 function initLanding(){
   initQR();initEdu();initPrep();initWelcomeAudio();
-  $("#l-se").textContent=`SE ${NOW.wk}`;
+  if($("#l-se"))$("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
   $(".hero").addEventListener("mouseenter",()=>clearInterval(heroTimer));$(".hero").addEventListener("mouseleave",restartHero);
-  $("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev" style="--evc:${E.col}"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span></div>`}).join("");
+  if($("#l-events"))$("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev" style="--evc:${E.col}"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span></div>`}).join("");
   document.querySelectorAll("[data-office]").forEach(b=>b.onclick=openOffice);
   $("#gate-cancel").onclick=closeGate;
   $("#gate").addEventListener("keydown",e=>{if(e.key==="Escape")closeGate()});
