@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.05i -->
+<!doctype html><!-- v2026.10.12b -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -916,6 +916,24 @@ footer{max-width:1280px;margin:0 auto;padding:0 16px 30px;color:var(--muted);fon
 @media (max-width:700px){.ghcap b{font-size:12px}.ghcap span{display:none}}
 @media (prefers-reduced-motion:reduce){.gtrack{transition:none}.gprog{display:none}}
 
+.dist-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:560px){.dist-grid{grid-template-columns:1fr}}
+.distcard{background:var(--navy,#0E1E1D);border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.35)}
+.distcard video{width:100%;display:block;object-fit:cover}
+.distcard.portrait video{aspect-ratio:9/16}
+.distcard.landscape video{aspect-ratio:16/9}
+.distbody{padding:12px 14px 14px;color:#EEF4F2}
+.distbody b{display:block;font-size:15px;font-weight:600;line-height:1.25}
+.distbody span{display:block;font-size:13px;margin-top:3px;opacity:.72}
+
+.noolv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:740px}
+@media (max-width:540px){.noolv-grid{grid-template-columns:1fr;max-width:340px}}
+.nolvcard{background:var(--navy,#0E1E1D);border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.35)}
+.nolvcard video{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;background:#000}
+.nolvbody{padding:12px 14px 14px;color:#EEF4F2}
+.nolvbody b{display:block;font-size:15px;font-weight:600;line-height:1.25}
+.nolvbody span{display:block;font-size:13px;margin-top:3px;opacity:.72}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ================= Rediseño visual ================= */
@@ -1332,6 +1350,14 @@ body.sp-lock{overflow:hidden}
         <div class="gtrack" id="gtrack"></div>
         <div class="gnav"><div class="dots" id="gdots"></div><button type="button" class="gbtn" id="gprev" aria-label="Foto anterior">&#8592;</button><button type="button" class="gbtn" id="gnext" aria-label="Foto siguiente">&#8594;</button></div>
       </div>
+    </section>
+    <section class="l-sec" id="l-dist-sec">
+      <div class="l-sec-h"><span class="l-kicker">Territorio</span><h2>No importa la distancia, allá llegamos</h2></div>
+      <div class="dist-grid" id="dist-grid"></div>
+    </section>
+    <section class="l-sec" id="l-noolv-sec">
+      <div class="l-sec-h"><span class="l-kicker">Reconócelos</span><h2>Y no te olvides cómo son</h2></div>
+      <div class="noolv-grid" id="noolv-grid"></div>
     </section>
     <section class="l-sec" id="l-prep-sec">
       <div class="l-sec-h"><span class="l-kicker">Capacidades</span><h2>Nos preparamos para atender a nuestro territorio</h2></div>
@@ -2021,6 +2047,22 @@ function renderVideos(){
   if("IntersectionObserver" in window){new IntersectionObserver(es=>es.forEach(e=>{vInView=e.isIntersecting;if(vInView)playCur();else vids.forEach(el=>el&&el.pause())}),{threshold:.3}).observe(box)}
   else{vInView=true;playCur()}
 }
+const DISTANCIA=[
+  {src:"media/videos/distancia-01.mp4",poster:"media/videos/distancia-01-poster.jpg",titulo:"Presencia en el territorio",descripcion:"El equipo ETV llega a las veredas más alejadas para la vigilancia y control de vectores.",orient:"portrait"},
+  {src:"media/videos/distancia-02.mp4",poster:"media/videos/distancia-02-poster.jpg",titulo:"Jornada de campo",descripcion:"Actividades de inspección y control en localidades rurales de Norte de Santander.",orient:"portrait"},
+  {src:"media/videos/distancia-03.mp4",poster:"media/videos/distancia-03-poster.jpg",titulo:"El IDS llega a cada rincón",descripcion:"Recorridos de campo del Subprograma de Vigilancia y Control de Vectores en el departamento.",orient:"landscape"},
+  {src:"media/videos/distancia-04.mp4",poster:"media/videos/distancia-04-poster.jpg",titulo:"Compromiso sin fronteras",descripcion:"La distancia no es un obstáculo para llegar a las comunidades que más nos necesitan.",orient:"landscape"}
+];
+function renderDistancia(){const g=$("#dist-grid");if(!g)return;
+  g.innerHTML=DISTANCIA.map(v=>`<div class="distcard ${v.orient}"><video src="${esc(v.src)}" poster="${esc(v.poster)}" muted playsinline controls preload="metadata"></video><div class="distbody"><b>${esc(v.titulo)}</b><span>${esc(v.descripcion)}</span></div></div>`).join("")}
+
+const NOOLV=[
+  {src:"media/videos/noolv-01.mp4",poster:"media/videos/noolv-01-poster.jpg",titulo:"El triatomino — el pito",descripcion:"Conoce al vector de la enfermedad de Chagas: el triatomino, conocido en Norte de Santander como 'el pito'."},
+  {src:"media/videos/noolv-02.mp4",poster:"media/videos/noolv-02-poster.jpg",titulo:"Aprende a reconocerlo",descripcion:"Aprende a identificar el pito para proteger a tu familia y reportarlo a las autoridades de salud."}
+];
+function renderNoolv(){const g=$("#noolv-grid");if(!g)return;
+  g.innerHTML=NOOLV.map(v=>`<div class="nolvcard"><video src="${esc(v.src)}" poster="${esc(v.poster)}" muted playsinline controls preload="metadata" style="aspect-ratio:9/16"></video><div class="nolvbody"><b>${esc(v.titulo)}</b><span>${esc(v.descripcion)}</span></div></div>`).join("")}
+
 let gIdx=0,gTimer=null;
 function gSlides(){const s=[];for(let i=0;i<FOTOS.length;i+=2)s.push(FOTOS.slice(i,i+2));return s}
 function renderGallery(){
@@ -2122,7 +2164,7 @@ function initSerologica514(){const g=$("#sero514-grid");if(!g)return;
 function initLanding(){
   initQR();initEdu();initPrep();initMedios();initEntomologica();initSerologica();initSerologica514();initWelcomeAudio();
   if($("#l-se"))$("#l-se").textContent=`SE ${NOW.wk}`;
-  renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();
+  renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();renderDistancia();renderNoolv();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
   $(".hero").addEventListener("mouseenter",()=>clearInterval(heroTimer));$(".hero").addEventListener("mouseleave",restartHero);
   if($("#l-events"))$("#l-events").innerHTML=EV_KEYS.map(ev=>{const E=EVENTOS[ev];return `<div class="l-ev" style="--evc:${E.col}"><b><i style="background:${E.col}"></i>${E.n}</b><span>Código INS ${E.cod}</span></div>`}).join("");
