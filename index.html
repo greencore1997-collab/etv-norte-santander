@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.12c -->
+<!doctype html><!-- v2026.10.12d -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -1379,6 +1379,10 @@ body.sp-lock{overflow:hidden}
       <div class="l-sec-h"><span class="l-kicker">Cartografía de campo</span><h2>Vigilancia Serológica Población 5–14 Años</h2><p>Mapas de localidades tamizadas en vigilancia serológica de población de 5 a 14 años por municipio y período, elaborados por el Subgrupo de Vigilancia y Control de Vectores del IDS Norte de Santander.</p></div>
       <div class="sero-grid" id="sero514-grid"></div>
     </section>
+    <section class="l-sec" id="l-prtc-sec">
+      <div class="l-sec-h"><span class="l-kicker">Cartografía de campo</span><h2>Puestos de Recolección de Triatominos Comunitarios</h2><p>Localidades con Puestos de Recolección de Triatominos Comunitarios (PRTC) instalados por municipio, elaborados por el Subgrupo de Vigilancia y Control de Vectores del IDS Norte de Santander.</p></div>
+      <div class="sero-grid" id="prtc-grid"></div>
+    </section>
     <section class="l-sec" id="l-edu-sec">
       <div class="l-sec-h"><span class="l-kicker">Aprende</span><h2>Infórmate y cuídate</h2></div>
       <div class="edu-grid" id="edu-grid"></div>
@@ -2160,8 +2164,24 @@ function initSerologica514(){const g=$("#sero514-grid");if(!g)return;
     document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
     $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
 
+/* ---------- Puestos de Recolección de Triatominos Comunitarios ---------- */
+const PRTC=[
+  {src:"media/mapas/prtc-el-zulia.jpg", municipio:"El Zulia", tipo:"7 localidades con PRTC", titulo:"PRTC — El Zulia", descripcion:"Puestos de Recolección de Triatominos Comunitarios instalados en 7 localidades del municipio de El Zulia, Norte de Santander: Santa Rosa, San Miguel, Astilleros, El Mestizo, Campo Alicia, Camilandia y La Colorada."},
+  {src:"media/mapas/prtc-los-patios.jpg", municipio:"Los Patios", tipo:"3 localidades con PRTC", titulo:"PRTC — Los Patios", descripcion:"Puestos de Recolección de Triatominos Comunitarios instalados en 3 localidades del municipio de Los Patios, Norte de Santander: Los Vados, El Helechal y La Mutis."},
+  {src:"media/mapas/prtc-san-calixto.jpg", municipio:"San Calixto", tipo:"4 localidades con PRTC", titulo:"PRTC — San Calixto", descripcion:"Puestos de Recolección de Triatominos Comunitarios instalados en 4 localidades del municipio de San Calixto, Norte de Santander: El Mesón, Santa Catalina, La Primavera y Encantados."},
+  {src:"media/mapas/prtc-san-cayetano.jpg", municipio:"San Cayetano", tipo:"9 localidades con PRTC", titulo:"PRTC — San Cayetano", descripcion:"Puestos de Recolección de Triatominos Comunitarios instalados en 9 localidades del municipio de San Cayetano, Norte de Santander: Cornejo, Santa Rosa, Urimaco, La Florida, San Cayetano, Guaduas, Puente Zulia, Tabiro y Ayacucho."},
+  {src:"media/mapas/prtc-santiago.jpg", municipio:"Santiago", tipo:"7 localidades con PRTC", titulo:"PRTC — Santiago", descripcion:"Puestos de Recolección de Triatominos Comunitarios instalados en 7 localidades del municipio de Santiago, Norte de Santander: Cacahuala, Cuperena, El Pijón, La Amarilla, Cañaguate, Agua Dulce y Quebrada Seca."},
+  {src:"media/mapas/prtc-villa-del-rosario.jpg", municipio:"Villa del Rosario", tipo:"4 localidades con PRTC", titulo:"PRTC — Villa del Rosario", descripcion:"Puestos de Recolección de Triatominos Comunitarios instalados en 4 localidades del municipio de Villa del Rosario, Norte de Santander: Juan Frío, La Uchema, Palogordo y Palogordo Sur."},
+];
+function initPRTC(){const g=$("#prtc-grid");if(!g)return;
+  g.innerHTML=PRTC.map((c,i)=>`<button type="button" class="sero-card" data-i="${i}" aria-label="${esc(c.titulo)}"><img src="${esc(c.src)}" alt="" loading="lazy"><span class="sero-cap"><b>${esc(c.municipio)}</b><span>${esc(c.tipo)}</span></span></button>`).join("");
+  g.querySelectorAll(".sero-card").forEach(b=>b.onclick=()=>{const c=PRTC[+b.dataset.i];
+    $("#edu-m-media").innerHTML=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;$("#edu-m-k").textContent=c.tipo;$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
+    document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
+    $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
+
 function initLanding(){
-  initQR();initEdu();initPrep();initMedios();initEntomologica();initSerologica();initSerologica514();initWelcomeAudio();
+  initQR();initEdu();initPrep();initMedios();initEntomologica();initSerologica();initSerologica514();initPRTC();initWelcomeAudio();
   if($("#l-se"))$("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();renderDistancia();renderNoolv();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
