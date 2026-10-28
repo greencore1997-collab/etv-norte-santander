@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.28d -->
+<!doctype html><!-- v2026.10.28e -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -2410,12 +2410,36 @@ const MALARIA_COLVOL = [
   {src:"media/malaria/colvol-clausura-certificacion-02.jpg", titulo:"Gran grupo en la clausura", descripcion:"M&#225;s de 30 colaboradores voluntarios al finalizar la jornada de capacitaci&#243;n del Hospital Regional Norte."},
   {src:"media/malaria/colvol-ceremonia-cierre.jpg", titulo:"Ceremonia de cierre ColVol", descripcion:"Foto oficial del encuentro de Colaboradores Voluntarios Malaria — Norte de Santander."},
   {src:"media/malaria/colvol-celebracion-clausura.jpg", titulo:"Celebraci&#243;n de logros", descripcion:"Voluntarios en traje institucional celebran el &#233;xito de la jornada de formaci&#243;n en el HRN."},
-  {src:"media/malaria/colvol-socializacion-programa.jpg", titulo:"Socializaci&#243;n del programa", descripcion:"Colaborador muestra el banner del punto de diagn&#243;stico y tratamiento gratuito de malaria."}
+  {src:"media/malaria/colvol-socializacion-programa.jpg", titulo:"Socializaci&#243;n del programa", descripcion:"Colaborador muestra el banner del punto de diagn&#243;stico y tratamiento gratuito de malaria."},
+  /* --- Encuentro ColVol Tib&#250; --- */
+  {src:"media/malaria/colvol-tibu-convocatoria.jpg", titulo:"Convocatoria Encuentro ColVol Tib&#250;", descripcion:"Flyer oficial del Encuentro ColVol celebrado el 5 de diciembre en el Hospital Regional Norte de Tib&#250;."},
+  {src:"media/malaria/colvol-tibu-voluntarios-signos-01.jpg", titulo:"Voluntarios con material promocional", descripcion:"Gran grupo de Colaboradores Voluntarios en el lobby del HRN portando las se&#241;ales moradas de diagn&#243;stico y tratamiento gratuito de malaria."},
+  {src:"media/malaria/colvol-tibu-voluntarios-signos-02.jpg", titulo:"Voluntarios con material ColVol", descripcion:"ColVol del programa malaria con material de promoci&#243;n en las instalaciones del Hospital Regional Norte Tib&#250;."},
+  {src:"media/malaria/colvol-tibu-voluntarios-signos-03.jpg", titulo:"Muestra de puntos de atenci&#243;n", descripcion:"Colaboradores Voluntarios exhiben los avisos identificadores de los puntos de diagn&#243;stico y tratamiento gratuito de la malaria."},
+  {src:"media/malaria/colvol-tibu-capacitacion-01.jpg", titulo:"Capacitaci&#243;n ColVol Tib&#250;", descripcion:"Supervisora orienta a los colaboradores voluntarios en sesi&#243;n formativa en sala del HRN."},
+  {src:"media/malaria/colvol-tibu-capacitacion-02.jpg", titulo:"Sesi&#243;n de capacitaci&#243;n ColVol", descripcion:"Instructora frente al grupo de ColVol durante la jornada de formaci&#243;n en diagn&#243;stico y tratamiento de malaria — Tib&#250;."},
+  {src:"media/malaria/colvol-tibu-capacitacion-visual.jpg", titulo:"Capacitaci&#243;n con material visual", descripcion:"Voluntarios atentos a la ense&#241;anza con se&#241;ales y material informativo del programa ColVol en el HRN."},
+  {src:"media/malaria/colvol-tibu-dotacion-material.jpg", titulo:"Dotaci&#243;n de material promocional", descripcion:"Dos colaboradoras voluntarias reciben el material informativo ColVol para su punto de diagn&#243;stico en la comunidad."},
+  {src:"media/malaria/colvol-tibu-coordinadoras-insumos.jpg", titulo:"Coordinadoras con insumos ColVol", descripcion:"Coordinadoras del programa reciben las cajas de insumos de diagn&#243;stico r&#225;pido para distribuir entre los puntos comunitarios."},
+  {src:"media/malaria/colvol-tibu-entrega-insumos.jpg", titulo:"Entrega individual de insumos", descripcion:"Colaboradora voluntaria recibe su caja de insumos de manos de la coordinadora del programa malaria."},
+  {src:"media/malaria/colvol-tibu-batuta-01.jpg", titulo:"Encuentro ColVol Tib&#250; — Batuta", descripcion:"Ni&#241;os del programa Batuta Tib&#250; con marimbas acompa&#241;an la jornada de los Colaboradores Voluntarios en el HRN."},
+  {src:"media/malaria/colvol-tibu-batuta-02.jpg", titulo:"Presentaci&#243;n Batuta Tib&#250;", descripcion:"Los ni&#241;os de Batuta Tib&#250; ofrecen una presentaci&#243;n musical durante el encuentro ColVol — Hospital Regional Norte."},
+  {src:"media/malaria/colvol-tibu-foto-grupal-batuta.jpg", titulo:"Foto grupal ColVol-Batuta Tib&#250;", descripcion:"Foto oficial del encuentro: Colaboradores Voluntarios y ni&#241;os de Batuta Tib&#250; con sus marimbas en el Hospital Regional Norte."},
+  /* --- Videos del Encuentro ColVol Tib&#250; --- */
+  {src:"media/malaria/colvol-tibu-video-01.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 1", descripcion:"Registro en video de la jornada de Colaboradores Voluntarios Malaria en el Hospital Regional Norte de Tib&#250;.", tipo:"video"},
+  {src:"media/malaria/colvol-tibu-video-02.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 2", descripcion:"Momento de la jornada de formaci&#243;n y dotaci&#243;n del programa ColVol en Tib&#250; Norte de Santander.", tipo:"video"},
+  {src:"media/malaria/colvol-tibu-video-03.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 3", descripcion:"ColVol en acci&#243;n: capacitaci&#243;n y entrega de insumos de diagn&#243;stico r&#225;pido para la malaria.", tipo:"video"},
+  {src:"media/malaria/colvol-tibu-video-04.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 4", descripcion:"Cierre del encuentro de Colaboradores Voluntarios Malaria — Hospital Regional Norte, Tib&#250;.", tipo:"video"}
 ];
 function initMalariaPrep(){const g=$("#malaria-colvol-grid");if(!g)return;
-  g.innerHTML=MALARIA_COLVOL.map((c,i)=>`<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}"><img src="${esc(c.src)}" alt="" loading="lazy"><span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`).join("");
+  g.innerHTML=MALARIA_COLVOL.map((c,i)=>{
+    const isVid=c.tipo==="video";
+    const thumb=isVid?`<div style="position:relative;width:100%;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center"><video src="${esc(c.src)}" muted preload="metadata" style="width:100%;height:100%;object-fit:cover"></video><span style="position:absolute;font-size:2.2rem;color:#fff;text-shadow:0 2px 8px #0008;pointer-events:none">&#9654;</span></div>`:`<img src="${esc(c.src)}" alt="" loading="lazy">`;
+    return`<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}">${thumb}<span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`}).join("");
   g.querySelectorAll(".prep-card").forEach(b=>b.onclick=()=>{const c=MALARIA_COLVOL[+b.dataset.i];
-    $("#edu-m-media").innerHTML=`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;$("#edu-m-k").textContent="ColVol Malaria";$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
+    const isVid=c.tipo==="video";
+    $("#edu-m-media").innerHTML=isVid?`<video src="${esc(c.src)}" controls autoplay style="max-width:100%;max-height:70vh;border-radius:8px"></video>`:`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;
+    $("#edu-m-k").textContent="ColVol Malaria";$("#edu-m-t").textContent=c.titulo;$("#edu-m-d").textContent=c.descripcion;
     $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
 /* ---------- Vigilancia y Control de Vectores en los Medios ---------- */
 const MEDIOS = [
