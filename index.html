@@ -1313,7 +1313,7 @@ body.sp-lock{overflow:hidden}
 </style>
 </head>
 <body>
-<div id="splash" role="dialog" aria-modal="true" aria-labelledby="sp-t">
+<div id="splash" role="dialog" aria-modal="true" aria-labelledby="sp-t" hidden>
   <div class="sp-bg" aria-hidden="true"></div>
   <div class="sp-glow" aria-hidden="true"></div>
 <div class="sp-bug" aria-hidden="true"><svg viewBox="0 0 400 400">
@@ -2342,9 +2342,7 @@ function goInicio(){
 function initInicio(){
   $("#ini-btn-chagas").onclick=()=>{
     $("#inicio").hidden=true;
-    $("#landing").hidden=false;
-    window.scrollTo(0,0);
-    requestAnimationFrame(drawHeroMap);
+    const sp=$("#splash");if(sp){sp.hidden=false;document.body.classList.add("sp-lock");window.scrollTo(0,0);}
   };
   $("#ini-btn-malaria").onclick=()=>{
     $("#inicio").hidden=true;
@@ -2449,7 +2447,7 @@ function initWelcomeAudio(){
   const a=$("#bg-audio"),b=$("#bg-audio-btn");if(!a)return;if(b)b.remove();a.volume=BGA_VOL;
   const sp=$("#splash");document.body.classList.add("sp-lock");try{history.scrollRestoration="manual"}catch(e){}window.scrollTo(0,0);
   const go=()=>{a.volume=BGA_VOL;a.currentTime=0;a.play().catch(()=>{});
-    document.body.classList.remove("sp-lock");window.scrollTo({top:0,left:0,behavior:"instant"});document.documentElement.scrollTop=0;document.body.scrollTop=0;sp.classList.add("out");setTimeout(()=>{sp.hidden=true},650)};
+    document.body.classList.remove("sp-lock");window.scrollTo({top:0,left:0,behavior:"instant"});document.documentElement.scrollTop=0;document.body.scrollTop=0;sp.classList.add("out");setTimeout(()=>{sp.hidden=true;$("#landing").hidden=false;requestAnimationFrame(drawHeroMap)},650)};
   $("#sp-go").addEventListener("click",go);
   setTimeout(()=>{try{$("#sp-go").focus({preventScroll:true})}catch(e){}},400);
 }
