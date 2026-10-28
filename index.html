@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.12d -->
+<!doctype html><!-- v2026.10.28b -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -1276,6 +1276,40 @@ body.sp-lock{overflow:hidden}
 .is-phone .sp-tips li span{font-size:28px}
 .is-phone .sp-tips li b{font-size:34px}
 .is-phone .sp-bug{width:520px;top:-60px;right:-60px;opacity:1}
+
+/* ── Inicio — Selector de Enfermedad ── */
+#inicio{display:flex;flex-direction:column;min-height:100vh;background:var(--bg)}
+.ini-band{position:relative;color:#fff;overflow:hidden;background:
+  radial-gradient(60% 80% at 85% 20%,color-mix(in srgb,var(--teal) 55%,transparent) 0%,transparent 60%),
+  radial-gradient(50% 70% at 10% 90%,color-mix(in srgb,var(--accent) 50%,transparent) 0%,transparent 65%),
+  linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,#0F4A63 100%)}
+.ini-band::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1.2px);background-size:22px 22px;mask-image:linear-gradient(180deg,#000 0%,transparent 85%);pointer-events:none}
+.ini-band .l-top{position:relative;z-index:3}
+.ini-band .eyebrow{color:rgba(255,255,255,.72)}
+.ini-band .logo h1{color:#fff}
+.ini-main{flex:1;max-width:1100px;width:100%;margin:0 auto;padding:48px 16px 64px;display:grid;gap:36px}
+.ini-intro{text-align:center}
+.ini-intro h2{font-size:clamp(20px,3.5vw,32px);color:var(--ink);margin:0 0 8px}
+.ini-intro p{color:var(--muted);font-size:16px;margin:0}
+.ini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px;max-width:760px;margin:0 auto;width:100%}
+.ini-card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:36px 24px 28px;display:flex;flex-direction:column;align-items:center;gap:14px;cursor:pointer;text-align:center;transition:transform .18s,box-shadow .18s,border-color .18s;font:inherit}
+.ini-card:hover{transform:translateY(-5px);box-shadow:0 12px 36px rgba(0,0,0,.13)}
+.ini-card-ico{width:80px;height:80px;border-radius:50%;display:grid;place-items:center}
+.ini-card-ico svg{width:44px;height:44px}
+.ini-card strong{font-size:19px;font-family:var(--f-display);font-weight:600;color:var(--ink)}
+.ini-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.ini-cta{margin-top:4px;font-weight:700;font-size:14px;letter-spacing:.03em;display:inline-flex;align-items:center;gap:5px}
+.ini-card.chagas .ini-card-ico{background:color-mix(in srgb,#A81627 10%,transparent)}
+.ini-card.chagas .ini-cta{color:#A81627}
+.ini-card.chagas:hover{border-color:#A81627}
+.ini-card.malaria .ini-card-ico{background:color-mix(in srgb,#C87800 12%,transparent)}
+.ini-card.malaria .ini-cta{color:#A86000}
+.ini-card.malaria:hover{border-color:var(--cta)}
+.btn-inicio{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:7px 13px;font:600 13px/1 inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.btn-inicio:hover{background:rgba(255,255,255,.22)}
+.malaria-placeholder{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:40px 24px;text-align:center;color:var(--muted);display:grid;gap:10px}
+.malaria-placeholder svg{width:40px;height:40px;margin:0 auto;opacity:.35}
+.malaria-placeholder b{color:var(--ink);font-size:16px}
 </style>
 </head>
 <body>
@@ -1316,11 +1350,64 @@ body.sp-lock{overflow:hidden}
     <small class="sp-note">Al continuar escucharás un mensaje de bienvenida.</small>
   </div>
 </div>
-<section id="landing">
+<section id="inicio">
+  <div class="l-band ini-band">
+    <div class="l-top">
+      <div class="logo"><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="mq-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E8BD8"/><stop offset="1" stop-color="#12A39C"/></linearGradient></defs><rect x="1" y="1" width="46" height="46" rx="14" fill="url(#mq-1)"/><ellipse cx="22" cy="14.5" rx="9.5" ry="4.2" transform="rotate(-38 22 14.5)" fill="#fff" opacity=".55" stroke="#fff" stroke-width=".6"/><ellipse cx="28.5" cy="15.5" rx="8.5" ry="3.8" transform="rotate(-12 28.5 15.5)" fill="#fff" opacity=".7" stroke="#fff" stroke-width=".6"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><ellipse cx="32" cy="28.5" rx="9.5" ry="4.3" transform="rotate(28 32 28.5)" fill="#16202E"/><path d="M28.6 23.9l-2 5.3M32.3 25.7l-2.1 5.4M36 27.6l-2 5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><circle cx="22" cy="24.5" r="6" fill="#16202E"/><path d="M19.6 21.2c-1 1.6-1 3.6.2 5.2M24.4 21.2c1 1.6 1 3.6-.2 5.2" stroke="#fff" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M11 17.5c-1-2.2-2.8-3.4-4.4-3.6M13.4 16.6c-.2-2.4-1.3-4.2-2.8-5" stroke="#16202E" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M9.6 24.2L3.6 29" stroke="#16202E" stroke-width="1.5" stroke-linecap="round"/><circle cx="13.5" cy="21.5" r="5.3" fill="#16202E"/><circle cx="12.6" cy="20.3" r="3" fill="#fff"/><circle cx="11.9" cy="20.6" r="1.55" fill="#16202E"/><circle cx="12.5" cy="19.9" r=".6" fill="#fff"/><path d="M11.8 24.3q1.6 1.1 3.3-.1" stroke="#fff" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="16.4" cy="23.3" r=".9" fill="#F29F2E" opacity=".9"/></svg><div class="l-brand"><div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div><h1>Subprograma de Vigilancia y Control de Vectores</h1></div></div>
+      <div class="l-actions">
+        <button class="btn-qr" type="button" id="qr-open-ini" aria-label="Compartir esta página" title="Compartir con código QR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg><span>Compartir</span></button>
+        <button class="btn-office sm" type="button" data-office><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Oficina virtual</button>
+      </div>
+    </div>
+  </div>
+  <main class="ini-main">
+    <div class="ini-intro">
+      <p class="eyebrow">Instituto Departamental de Salud · Norte de Santander</p>
+      <h2>Subprograma de Vigilancia y Control de Vectores</h2>
+      <p>Selecciona la enfermedad para explorar sus actividades de vigilancia, control y educación en Norte de Santander.</p>
+    </div>
+    <div class="ini-grid">
+      <button type="button" class="ini-card chagas" id="ini-btn-chagas">
+        <div class="ini-card-ico">
+          <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <ellipse cx="24" cy="22" rx="11" ry="8" fill="#A81627" opacity=".9"/>
+            <ellipse cx="24" cy="22" rx="7" ry="5" fill="#C0192F" opacity=".7"/>
+            <path d="M13 20 C8 16 5 12 7 8" stroke="#A81627" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M35 20 C40 16 43 12 41 8" stroke="#A81627" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M16 28 C12 34 10 38 8 42" stroke="#A81627" stroke-width="2" stroke-linecap="round"/>
+            <path d="M32 28 C36 34 38 38 40 42" stroke="#A81627" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="18" cy="22" r="2.5" fill="#fff" opacity=".8"/>
+            <circle cx="30" cy="22" r="2.5" fill="#fff" opacity=".8"/>
+            <path d="M20 27 Q24 30 28 27" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <strong>Enfermedad de Chagas</strong>
+        <p>Vigilancia vectorial, serológica y comunitaria en Norte de Santander</p>
+        <span class="ini-cta">Explorar <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+      </button>
+      <button type="button" class="ini-card malaria" id="ini-btn-malaria">
+        <div class="ini-card-ico">
+          <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle cx="24" cy="24" r="16" fill="#C87800" opacity=".15"/>
+            <path d="M16 32 L20 20 L24 28 L28 16 L32 32" stroke="#C87800" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 32 h28" stroke="#C87800" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="24" cy="14" r="4" fill="#F4AA45"/>
+            <path d="M22 10 Q24 6 26 10" stroke="#F4AA45" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <strong>Malaria</strong>
+        <p>Diagnóstico, tratamiento y control vectorial de la malaria en el departamento</p>
+        <span class="ini-cta">Explorar <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+      </button>
+    </div>
+  </main>
+  <footer class="l-foot"><div class="l-foot-in"><div><b>Subprograma de Vigilancia y Control de Vectores</b></div><div>Instituto Departamental de Salud · Norte de Santander</div></div></footer>
+</section>
+<section id="landing" hidden>
   <div class="l-band">
   <header class="l-top">
     <div class="logo"><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="mq-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E8BD8"/><stop offset="1" stop-color="#12A39C"/></linearGradient></defs><rect x="1" y="1" width="46" height="46" rx="14" fill="url(#mq-1)"/><ellipse cx="22" cy="14.5" rx="9.5" ry="4.2" transform="rotate(-38 22 14.5)" fill="#fff" opacity=".55" stroke="#fff" stroke-width=".6"/><ellipse cx="28.5" cy="15.5" rx="8.5" ry="3.8" transform="rotate(-12 28.5 15.5)" fill="#fff" opacity=".7" stroke="#fff" stroke-width=".6"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><ellipse cx="32" cy="28.5" rx="9.5" ry="4.3" transform="rotate(28 32 28.5)" fill="#16202E"/><path d="M28.6 23.9l-2 5.3M32.3 25.7l-2.1 5.4M36 27.6l-2 5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><circle cx="22" cy="24.5" r="6" fill="#16202E"/><path d="M19.6 21.2c-1 1.6-1 3.6.2 5.2M24.4 21.2c1 1.6 1 3.6-.2 5.2" stroke="#fff" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M11 17.5c-1-2.2-2.8-3.4-4.4-3.6M13.4 16.6c-.2-2.4-1.3-4.2-2.8-5" stroke="#16202E" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M9.6 24.2L3.6 29" stroke="#16202E" stroke-width="1.5" stroke-linecap="round"/><circle cx="13.5" cy="21.5" r="5.3" fill="#16202E"/><circle cx="12.6" cy="20.3" r="3" fill="#fff"/><circle cx="11.9" cy="20.6" r="1.55" fill="#16202E"/><circle cx="12.5" cy="19.9" r=".6" fill="#fff"/><path d="M11.8 24.3q1.6 1.1 3.3-.1" stroke="#fff" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="16.4" cy="23.3" r=".9" fill="#F29F2E" opacity=".9"/></svg><div class="l-brand"><div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div><h1>Subprograma de Vigilancia y Control de Vectores</h1></div></div>
-    <div class="l-actions"><button class="btn-qr" type="button" id="qr-open" aria-label="Compartir esta página con código QR" title="Compartir con código QR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg><span>Compartir</span></button>
+    <div class="l-actions"><button class="btn-inicio" type="button" id="btn-volver-chagas">&#8592; Inicio</button><button class="btn-qr" type="button" id="qr-open" aria-label="Compartir esta página con código QR" title="Compartir con código QR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg><span>Compartir</span></button>
     <button class="btn-office sm" type="button" data-office>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Oficina virtual</button></div>
   </header>
@@ -1391,6 +1478,70 @@ body.sp-lock{overflow:hidden}
 
   </main>
   <footer class="l-foot"><div class="l-foot-in"><div><b>Subprograma de Vigilancia y Control de Vectores</b></div><div>Instituto Departamental de Salud · Norte de Santander</div></div></footer>
+</section>
+
+<section id="malaria-landing" hidden>
+  <div class="l-band" style="position:relative;color:#fff;overflow:hidden;background:
+    radial-gradient(55% 70% at 85% 20%,color-mix(in srgb,#C87800 60%,transparent) 0%,transparent 65%),
+    radial-gradient(45% 65% at 10% 85%,color-mix(in srgb,var(--teal) 45%,transparent) 0%,transparent 70%),
+    linear-gradient(135deg,#3A1F00 0%,#5C3200 55%,#3A4800 100%)">
+    <div class="l-top" style="position:relative;z-index:3">
+      <div class="logo"><svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="mq-fa" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E8BD8"/><stop offset="1" stop-color="#12A39C"/></linearGradient></defs><rect x="1" y="1" width="46" height="46" rx="14" fill="url(#mq-fa)"/><ellipse cx="22" cy="14.5" rx="9.5" ry="4.2" transform="rotate(-38 22 14.5)" fill="#fff" opacity=".55" stroke="#fff" stroke-width=".6"/><ellipse cx="28.5" cy="15.5" rx="8.5" ry="3.8" transform="rotate(-12 28.5 15.5)" fill="#fff" opacity=".7" stroke="#fff" stroke-width=".6"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M20 27.5 C17 31 15 34 11.5 39.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M22.5 28.5 C22 32.5 21.5 36 19.5 42" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#16202E" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M25 28 C28 31.5 30 35 31 41.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="1.3 2.2" stroke-dashoffset="-1.5"/><ellipse cx="32" cy="28.5" rx="9.5" ry="4.3" transform="rotate(28 32 28.5)" fill="#16202E"/><path d="M28.6 23.9l-2 5.3M32.3 25.7l-2.1 5.4M36 27.6l-2 5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><circle cx="22" cy="24.5" r="6" fill="#16202E"/><path d="M19.6 21.2c-1 1.6-1 3.6.2 5.2M24.4 21.2c1 1.6 1 3.6-.2 5.2" stroke="#fff" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M11 17.5c-1-2.2-2.8-3.4-4.4-3.6M13.4 16.6c-.2-2.4-1.3-4.2-2.8-5" stroke="#16202E" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M9.6 24.2L3.6 29" stroke="#16202E" stroke-width="1.5" stroke-linecap="round"/><circle cx="13.5" cy="21.5" r="5.3" fill="#16202E"/><circle cx="12.6" cy="20.3" r="3" fill="#fff"/><circle cx="11.9" cy="20.6" r="1.55" fill="#16202E"/><circle cx="12.5" cy="19.9" r=".6" fill="#fff"/><path d="M11.8 24.3q1.6 1.1 3.3-.1" stroke="#fff" stroke-width=".9" fill="none" stroke-linecap="round"/><circle cx="16.4" cy="23.3" r=".9" fill="#F29F2E" opacity=".9"/></svg><div class="l-brand"><div class="eyebrow">Instituto Departamental de Salud · Norte de Santander</div><h1>Malaria — Vigilancia y Control</h1></div></div>
+      <div class="l-actions">
+        <button class="btn-inicio" type="button" id="btn-volver-malaria">&#8592; Inicio</button>
+        <button class="btn-office sm" type="button" data-office><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Oficina virtual</button>
+      </div>
+    </div>
+    <div style="max-width:1280px;margin:0 auto;padding:20px 16px 52px;position:relative;z-index:2">
+      <div class="eyebrow" style="color:rgba(255,255,255,.72);margin-bottom:8px">Instituto Departamental de Salud · Norte de Santander</div>
+      <h1 style="color:#fff;font-size:clamp(26px,4vw,52px);margin:0 0 16px;font-family:var(--f-display);font-weight:700;letter-spacing:-.02em">Malaria <em style="display:block;font-style:normal;font-size:.45em;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-top:.4em">Norte de Santander</em></h1>
+      <p style="color:rgba(255,240,200,.85);max-width:620px;font-size:17px;margin:0;line-height:1.5">Vigilancia epidemiológica, control vectorial y educación comunitaria frente a la malaria en el departamento.</p>
+    </div>
+    <svg class="l-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40C180 70 360 10 560 22s380 46 600 30 280-36 280-36V70H0z"/></svg>
+  </div>
+  <main class="l-main" style="--kicker-color:#C87800">
+    <section class="l-sec" id="malaria-info-sec">
+      <div class="l-sec-h">
+        <span class="l-kicker" style="color:#C87800">Vigilancia</span>
+        <h2>&#191;Qu&#233; es la Malaria?</h2>
+        <p>Enfermedad parasitaria febril causada por <i>Plasmodium</i> spp., transmitida por el mosquito <i>Anopheles</i>. En Colombia es de notificaci&#243;n obligatoria inmediata ante el SIVIGILA. El departamento de Norte de Santander cuenta con municipios en zona de riesgo selvático y urbano.</p>
+      </div>
+      <div class="malaria-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C87800" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+        <b>Videos y galería — Pr&#243;ximamente</b>
+        <span>Las secciones de actividades de campo, videos educativos, galería y cartografía para Malaria (Paludismo) estar&#225;n disponibles en la pr&#243;xima actualizaci&#243;n del sitio.</span>
+      </div>
+    </section>
+    <section class="l-sec" id="malaria-vacuna-sec">
+      <div class="l-sec-h">
+        <span class="l-kicker" style="color:#C87800">Diagn&#243;stico</span>
+        <h2>Diagn&#243;stico y tratamiento</h2>
+        <p>Detecci&#243;n oportuna mediante gota gruesa y pruebas de diagn&#243;stico r&#225;pido (PDR). El tratamiento es gratuito y el cumplimiento del esquema antiparas&#237;tico es el mecanismo m&#225;s efectivo de curaci&#243;n.</p>
+      </div>
+      <div class="malaria-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C87800" stroke-width="1.5" aria-hidden="true"><path d="M9 12l2 2 4-4"/><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/></svg>
+        <b>Datos de diagn&#243;stico y tratamiento — En preparaci&#243;n</b>
+        <span>Febriles captados, láminas positivas, índice parasitario anual (IPA) y tratamientos suministrados por municipio.</span>
+      </div>
+    </section>
+    <section class="l-sec" id="malaria-edu-sec">
+      <div class="l-sec-h">
+        <span class="l-kicker" style="color:#C87800">Aprende</span>
+        <h2>Inf&#243;rmate y cu&#237;date</h2>
+      </div>
+      <div class="malaria-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C87800" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <b>Material educativo en preparaci&#243;n</b>
+        <span>Videos, infograf&#237;as y piezas de comunicaci&#243;n sobre prevenci&#243;n, s&#237;ntomas y uso correcto del toldillo contra la Malaria para la comunidad nortesantandereana.</span>
+      </div>
+    </section>
+  </main>
+  <footer class="l-foot" style="background:linear-gradient(135deg,#3A1F00,#5C3200)">
+    <div class="l-foot-in">
+      <div><b>Subprograma de Vigilancia y Control de Vectores</b></div>
+      <div>Instituto Departamental de Salud · Norte de Santander</div>
+    </div>
+  </footer>
 </section>
 
 <audio id="bg-audio" src="media/audio/bienvenida.mp3" preload="auto"></audio>
@@ -2180,8 +2331,34 @@ function initPRTC(){const g=$("#prtc-grid");if(!g)return;
     document.querySelectorAll("#l-videos video").forEach(v=>v.pause());
     $("#edu-modal").hidden=false;setTimeout(()=>$("#edu-close").focus(),30)})}
 
+
+function goInicio(){
+  document.querySelectorAll("#l-videos video,#malaria-landing video").forEach(v=>v.pause());
+  $("#landing").hidden=true;
+  if($("#malaria-landing"))$("#malaria-landing").hidden=true;
+  $("#inicio").hidden=false;
+  window.scrollTo(0,0);
+}
+function initInicio(){
+  $("#ini-btn-chagas").onclick=()=>{
+    $("#inicio").hidden=true;
+    $("#landing").hidden=false;
+    window.scrollTo(0,0);
+    requestAnimationFrame(drawHeroMap);
+  };
+  $("#ini-btn-malaria").onclick=()=>{
+    $("#inicio").hidden=true;
+    $("#malaria-landing").hidden=false;
+    window.scrollTo(0,0);
+  };
+  if($("#btn-volver-chagas"))$("#btn-volver-chagas").onclick=goInicio;
+  if($("#btn-volver-malaria"))$("#btn-volver-malaria").onclick=goInicio;
+  // Wire QR and office buttons in #inicio
+  const qrIni=$("#qr-open-ini");if(qrIni)qrIni.onclick=()=>{const m=$("#qr-modal");m.hidden=false;setTimeout(()=>$("#qr-close").focus(),30)};
+  document.querySelectorAll("[data-office]").forEach(b=>b.onclick=openOffice);
+}
 function initLanding(){
-  initQR();initEdu();initPrep();initMedios();initEntomologica();initSerologica();initSerologica514();initPRTC();initWelcomeAudio();
+  initQR();initEdu();initPrep();initMedios();initEntomologica();initSerologica();initSerologica514();initPRTC();initWelcomeAudio();initInicio();
   if($("#l-se"))$("#l-se").textContent=`SE ${NOW.wk}`;
   renderHero();goHero(heroIdx);restartHero();renderVideos();renderGallery();renderDistancia();renderNoolv();
   $("#hero-prev").onclick=()=>{goHero(heroIdx-1);restartHero()};$("#hero-next").onclick=()=>{goHero(heroIdx+1);restartHero()};
@@ -2286,8 +2463,8 @@ function initQR(){
 function authed(){try{return sessionStorage.getItem("etv-ok")==="1"}catch(e){return false}}
 function openOffice(){if(authed())return enterApp();$("#gate-err").textContent="";$("#gate-pw").value="";$("#gate").hidden=false;setTimeout(()=>$("#gate-pw").focus(),30)}
 function closeGate(){$("#gate").hidden=true}
-function goHome(){$("#app").hidden=true;$("#landing").hidden=false;window.scrollTo(0,0);drawHeroMap()}
-function enterApp(){const _h=document.getElementById("bga-hint");if(_h)_h.hidden=true;document.querySelectorAll("#l-videos video").forEach(v=>v.pause());$("#gate").hidden=true;$("#landing").hidden=true;$("#app").hidden=false;window.scrollTo(0,0);
+function goHome(){$("#app").hidden=true;$("#landing").hidden=true;if($("#malaria-landing"))$("#malaria-landing").hidden=true;$("#inicio").hidden=false;window.scrollTo(0,0)}
+function enterApp(){const _h=document.getElementById("bga-hint");if(_h)_h.hidden=true;document.querySelectorAll("#l-videos video,#malaria-landing video").forEach(v=>v.pause());$("#gate").hidden=true;$("#landing").hidden=true;if($("#malaria-landing"))$("#malaria-landing").hidden=true;$("#app").hidden=false;window.scrollTo(0,0);
   if(!started){started=true;initUI();connect()}else{renderCurrent();if(map)setTimeout(()=>map.invalidateSize(),60)}}
 $("#gate-form").onsubmit=async e=>{e.preventDefault();const v=$("#gate-pw").value.trim();const h=await sha(v);
   if(h===PASS_HASH){try{sessionStorage.setItem("etv-ok","1")}catch(_){}enterApp()}
