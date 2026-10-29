@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.28e -->
+<!doctype html><!-- v2026.10.29a -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -1426,6 +1426,10 @@ body.sp-lock{overflow:hidden}
   </div>
   <main class="l-main">
 
+    <section class="l-sec" id="malaria-colvol-sec">
+      <div class="l-sec-h"><span class="l-kicker" style="color:#C87800">ColVol</span><h2>Colaboradores Voluntarios en acci&#243;n</h2><p>El programa Colaboradores Voluntarios (ColVol) del Ministerio de Salud y la OPS forma l&#237;deres comunitarios para la detecci&#243;n oportuna y el tratamiento gratuito de la malaria. Estas im&#225;genes registran la jornada de capacitaci&#243;n y dotaci&#243;n realizada en el Hospital Regional Norte — Norte de Santander.</p></div>
+      <div class="prep-grid" id="malaria-colvol-grid"></div>
+    </section>
     <section class="l-sec" id="l-videos-sec">
       <div class="l-sec-h"><span class="l-kicker">Videos</span><h2>Primero la comunidad</h2></div>
       <div class="vgrid" id="l-videos"></div>
@@ -1534,10 +1538,6 @@ body.sp-lock{overflow:hidden}
         <b>Material educativo en preparaci&#243;n</b>
         <span>Videos, infograf&#237;as y piezas de comunicaci&#243;n sobre prevenci&#243;n, s&#237;ntomas y uso correcto del toldillo contra la Malaria para la comunidad nortesantandereana.</span>
       </div>
-    </section>
-    <section class="l-sec" id="malaria-colvol-sec">
-      <div class="l-sec-h"><span class="l-kicker" style="color:#C87800">ColVol</span><h2>Colaboradores Voluntarios en acci&#243;n</h2><p>El programa Colaboradores Voluntarios (ColVol) del Ministerio de Salud y la OPS forma l&#237;deres comunitarios para la detecci&#243;n oportuna y el tratamiento gratuito de la malaria. Estas im&#225;genes registran la jornada de capacitaci&#243;n y dotaci&#243;n realizada en el Hospital Regional Norte — Norte de Santander.</p></div>
-      <div class="prep-grid" id="malaria-colvol-grid"></div>
     </section>
   </main>
   <footer class="l-foot" style="background:linear-gradient(135deg,#3A1F00,#5C3200)">
@@ -2391,45 +2391,45 @@ function initPrep(){const g=$("#prep-grid");if(!g)return;
 
 /* ---------- ColVol Malaria ─ Colaboradores Voluntarios en acción ---------- */
 const MALARIA_COLVOL = [
-  {src:"media/malaria/colvol-capacitacion-01.jpg", titulo:"Capacitaci&#243;n comunitaria en el HRN", descripcion:"Participantes de las comunidades en sesi&#243;n formativa sobre diagn&#243;stico y prevenci&#243;n de la malaria."},
-  {src:"media/malaria/colvol-capacitacion-02.jpg", titulo:"Sesi&#243;n con proyecci&#243;n ColVol", descripcion:"Proyecci&#243;n de diapositivas del programa de Colaboradores Voluntarios del Ministerio de Salud y OPS."},
-  {src:"media/malaria/colvol-capacitacion-ops.jpg", titulo:"Capacitaci&#243;n liderada por OPS", descripcion:"Instructora de OPS orienta a los colaboradores voluntarios en el manejo del kit de diagn&#243;stico r&#225;pido."},
-  {src:"media/malaria/colvol-capacitacion-voluntarios.jpg", titulo:"Equipo de Colaboradores Voluntarios", descripcion:"ColVol en formaci&#243;n: reconocimiento de signos de malaria y uso correcto del toldillo."},
+  {src:"media/malaria/colvol-capacitacion-01.jpg", titulo:"Capacitación comunitaria en el HRN", descripcion:"Participantes de las comunidades en sesión formativa sobre diagnóstico y prevención de la malaria."},
+  {src:"media/malaria/colvol-capacitacion-02.jpg", titulo:"Sesión con proyección ColVol", descripcion:"Proyección de diapositivas del programa de Colaboradores Voluntarios del Ministerio de Salud y OPS."},
+  {src:"media/malaria/colvol-capacitacion-ops.jpg", titulo:"Capacitación liderada por OPS", descripcion:"Instructora de OPS orienta a los colaboradores voluntarios en el manejo del kit de diagnóstico rápido."},
+  {src:"media/malaria/colvol-capacitacion-voluntarios.jpg", titulo:"Equipo de Colaboradores Voluntarios", descripcion:"ColVol en formación: reconocimiento de signos de malaria y uso correcto del toldillo."},
   {src:"media/malaria/colvol-capacitacion-comunitaria.jpg", titulo:"Comunidad activa en el taller", descripcion:"Aproximadamente 30 participantes de las veredas en jornada de aprendizaje sobre malaria."},
-  {src:"media/malaria/colvol-jornada-preparacion.jpg", titulo:"Jornada de preparaci&#243;n de insumos", descripcion:"Voluntarios organizan los kits de insumos para su distribuci&#243;n por comunidad."},
-  {src:"media/malaria/colvol-insumos-diagnostico.jpg", titulo:"Insumos de diagn&#243;stico r&#225;pido", descripcion:"Personal con kits Anigen y caja de muestras para las pruebas de diagn&#243;stico r&#225;pido de malaria."},
-  {src:"media/malaria/colvol-dotacion-equipos.jpg", titulo:"Dotaci&#243;n de equipos diagn&#243;sticos", descripcion:"Colaboradores con kits de diagn&#243;stico frente al banner ColVol del IDS Norte de Santander."},
-  {src:"media/malaria/colvol-kits-comunidades.jpg", titulo:"Kits entregados por comunidad", descripcion:"Cajas rotuladas para Villa del Carmen, KM 23, KM 22, La Bol&#237;var/Campo Manuel, La Neiva/Mate Coco y KM 41."},
-  {src:"media/malaria/colvol-dotacion-km23.jpg", titulo:"Dotaci&#243;n Vereda KM 23", descripcion:"Colaboradoras del KM 23 reciben su caja de insumos y carpeta de seguimiento de casos."},
-  {src:"media/malaria/colvol-registro-seguimiento.jpg", titulo:"Registro y seguimiento de casos", descripcion:"Voluntarios documentan febriles y resultados de l&#225;minas en los formatos de vigilancia epidemiol&#243;gica."},
+  {src:"media/malaria/colvol-jornada-preparacion.jpg", titulo:"Jornada de preparación de insumos", descripcion:"Voluntarios organizan los kits de insumos para su distribución por comunidad."},
+  {src:"media/malaria/colvol-insumos-diagnostico.jpg", titulo:"Insumos de diagnóstico rápido", descripcion:"Personal con kits Anigen y caja de muestras para las pruebas de diagnóstico rápido de malaria."},
+  {src:"media/malaria/colvol-dotacion-equipos.jpg", titulo:"Dotación de equipos diagnósticos", descripcion:"Colaboradores con kits de diagnóstico frente al banner ColVol del IDS Norte de Santander."},
+  {src:"media/malaria/colvol-kits-comunidades.jpg", titulo:"Kits entregados por comunidad", descripcion:"Cajas rotuladas para Villa del Carmen, KM 23, KM 22, La Bolívar/Campo Manuel, La Neiva/Mate Coco y KM 41."},
+  {src:"media/malaria/colvol-dotacion-km23.jpg", titulo:"Dotación Vereda KM 23", descripcion:"Colaboradoras del KM 23 reciben su caja de insumos y carpeta de seguimiento de casos."},
+  {src:"media/malaria/colvol-registro-seguimiento.jpg", titulo:"Registro y seguimiento de casos", descripcion:"Voluntarios documentan febriles y resultados de láminas en los formatos de vigilancia epidemiológica."},
   {src:"media/malaria/colvol-entrega-incentivos-01.jpg", titulo:"Entrega de incentivos ColVol", descripcion:"Colaboradores reciben incentivos y certificados como reconocimiento a su labor voluntaria en campo."},
-  {src:"media/malaria/colvol-entrega-incentivos-02.jpg", titulo:"Incentivos para los voluntarios", descripcion:"Grupo de voluntarios con bolsas de incentivos y diplomas de participaci&#243;n en la jornada."},
+  {src:"media/malaria/colvol-entrega-incentivos-02.jpg", titulo:"Incentivos para los voluntarios", descripcion:"Grupo de voluntarios con bolsas de incentivos y diplomas de participación en la jornada."},
   {src:"media/malaria/colvol-entrega-incentivos-03.jpg", titulo:"Reconocimiento a la labor voluntaria", descripcion:"IDS Norte de Santander entrega incentivos a colaboradores por su aporte en la vigilancia de la malaria."},
-  {src:"media/malaria/colvol-entrega-certificados.jpg", titulo:"Entrega de certificados", descripcion:"Voluntarios reciben su certificado de participaci&#243;n en la jornada de formaci&#243;n ColVol — Hospital Regional Norte."},
-  {src:"media/malaria/colvol-clausura-certificacion-01.jpg", titulo:"Clausura y certificaci&#243;n", descripcion:"Grupo de colaboradores en la ceremonia de clausura con diplomas de formaci&#243;n en malaria."},
-  {src:"media/malaria/colvol-clausura-certificacion-02.jpg", titulo:"Gran grupo en la clausura", descripcion:"M&#225;s de 30 colaboradores voluntarios al finalizar la jornada de capacitaci&#243;n del Hospital Regional Norte."},
+  {src:"media/malaria/colvol-entrega-certificados.jpg", titulo:"Entrega de certificados", descripcion:"Voluntarios reciben su certificado de participación en la jornada de formación ColVol — Hospital Regional Norte."},
+  {src:"media/malaria/colvol-clausura-certificacion-01.jpg", titulo:"Clausura y certificación", descripcion:"Grupo de colaboradores en la ceremonia de clausura con diplomas de formación en malaria."},
+  {src:"media/malaria/colvol-clausura-certificacion-02.jpg", titulo:"Gran grupo en la clausura", descripcion:"Más de 30 colaboradores voluntarios al finalizar la jornada de capacitación del Hospital Regional Norte."},
   {src:"media/malaria/colvol-ceremonia-cierre.jpg", titulo:"Ceremonia de cierre ColVol", descripcion:"Foto oficial del encuentro de Colaboradores Voluntarios Malaria — Norte de Santander."},
-  {src:"media/malaria/colvol-celebracion-clausura.jpg", titulo:"Celebraci&#243;n de logros", descripcion:"Voluntarios en traje institucional celebran el &#233;xito de la jornada de formaci&#243;n en el HRN."},
-  {src:"media/malaria/colvol-socializacion-programa.jpg", titulo:"Socializaci&#243;n del programa", descripcion:"Colaborador muestra el banner del punto de diagn&#243;stico y tratamiento gratuito de malaria."},
-  /* --- Encuentro ColVol Tib&#250; --- */
-  {src:"media/malaria/colvol-tibu-convocatoria.jpg", titulo:"Convocatoria Encuentro ColVol Tib&#250;", descripcion:"Flyer oficial del Encuentro ColVol celebrado el 5 de diciembre en el Hospital Regional Norte de Tib&#250;."},
-  {src:"media/malaria/colvol-tibu-voluntarios-signos-01.jpg", titulo:"Voluntarios con material promocional", descripcion:"Gran grupo de Colaboradores Voluntarios en el lobby del HRN portando las se&#241;ales moradas de diagn&#243;stico y tratamiento gratuito de malaria."},
-  {src:"media/malaria/colvol-tibu-voluntarios-signos-02.jpg", titulo:"Voluntarios con material ColVol", descripcion:"ColVol del programa malaria con material de promoci&#243;n en las instalaciones del Hospital Regional Norte Tib&#250;."},
-  {src:"media/malaria/colvol-tibu-voluntarios-signos-03.jpg", titulo:"Muestra de puntos de atenci&#243;n", descripcion:"Colaboradores Voluntarios exhiben los avisos identificadores de los puntos de diagn&#243;stico y tratamiento gratuito de la malaria."},
-  {src:"media/malaria/colvol-tibu-capacitacion-01.jpg", titulo:"Capacitaci&#243;n ColVol Tib&#250;", descripcion:"Supervisora orienta a los colaboradores voluntarios en sesi&#243;n formativa en sala del HRN."},
-  {src:"media/malaria/colvol-tibu-capacitacion-02.jpg", titulo:"Sesi&#243;n de capacitaci&#243;n ColVol", descripcion:"Instructora frente al grupo de ColVol durante la jornada de formaci&#243;n en diagn&#243;stico y tratamiento de malaria — Tib&#250;."},
-  {src:"media/malaria/colvol-tibu-capacitacion-visual.jpg", titulo:"Capacitaci&#243;n con material visual", descripcion:"Voluntarios atentos a la ense&#241;anza con se&#241;ales y material informativo del programa ColVol en el HRN."},
-  {src:"media/malaria/colvol-tibu-dotacion-material.jpg", titulo:"Dotaci&#243;n de material promocional", descripcion:"Dos colaboradoras voluntarias reciben el material informativo ColVol para su punto de diagn&#243;stico en la comunidad."},
-  {src:"media/malaria/colvol-tibu-coordinadoras-insumos.jpg", titulo:"Coordinadoras con insumos ColVol", descripcion:"Coordinadoras del programa reciben las cajas de insumos de diagn&#243;stico r&#225;pido para distribuir entre los puntos comunitarios."},
+  {src:"media/malaria/colvol-celebracion-clausura.jpg", titulo:"Celebración de logros", descripcion:"Voluntarios en traje institucional celebran el éxito de la jornada de formación en el HRN."},
+  {src:"media/malaria/colvol-socializacion-programa.jpg", titulo:"Socialización del programa", descripcion:"Colaborador muestra el banner del punto de diagnóstico y tratamiento gratuito de malaria."},
+  /* --- Encuentro ColVol Tibú --- */
+  {src:"media/malaria/colvol-tibu-convocatoria.jpg", titulo:"Convocatoria Encuentro ColVol Tibú", descripcion:"Flyer oficial del Encuentro ColVol celebrado el 5 de diciembre en el Hospital Regional Norte de Tibú."},
+  {src:"media/malaria/colvol-tibu-voluntarios-signos-01.jpg", titulo:"Voluntarios con material promocional", descripcion:"Gran grupo de Colaboradores Voluntarios en el lobby del HRN portando las señales moradas de diagnóstico y tratamiento gratuito de malaria."},
+  {src:"media/malaria/colvol-tibu-voluntarios-signos-02.jpg", titulo:"Voluntarios con material ColVol", descripcion:"ColVol del programa malaria con material de promoción en las instalaciones del Hospital Regional Norte Tibú."},
+  {src:"media/malaria/colvol-tibu-voluntarios-signos-03.jpg", titulo:"Muestra de puntos de atención", descripcion:"Colaboradores Voluntarios exhiben los avisos identificadores de los puntos de diagnóstico y tratamiento gratuito de la malaria."},
+  {src:"media/malaria/colvol-tibu-capacitacion-01.jpg", titulo:"Capacitación ColVol Tibú", descripcion:"Supervisora orienta a los colaboradores voluntarios en sesión formativa en sala del HRN."},
+  {src:"media/malaria/colvol-tibu-capacitacion-02.jpg", titulo:"Sesión de capacitación ColVol", descripcion:"Instructora frente al grupo de ColVol durante la jornada de formación en diagnóstico y tratamiento de malaria — Tibú."},
+  {src:"media/malaria/colvol-tibu-capacitacion-visual.jpg", titulo:"Capacitación con material visual", descripcion:"Voluntarios atentos a la enseñanza con señales y material informativo del programa ColVol en el HRN."},
+  {src:"media/malaria/colvol-tibu-dotacion-material.jpg", titulo:"Dotación de material promocional", descripcion:"Dos colaboradoras voluntarias reciben el material informativo ColVol para su punto de diagnóstico en la comunidad."},
+  {src:"media/malaria/colvol-tibu-coordinadoras-insumos.jpg", titulo:"Coordinadoras con insumos ColVol", descripcion:"Coordinadoras del programa reciben las cajas de insumos de diagnóstico rápido para distribuir entre los puntos comunitarios."},
   {src:"media/malaria/colvol-tibu-entrega-insumos.jpg", titulo:"Entrega individual de insumos", descripcion:"Colaboradora voluntaria recibe su caja de insumos de manos de la coordinadora del programa malaria."},
-  {src:"media/malaria/colvol-tibu-batuta-01.jpg", titulo:"Encuentro ColVol Tib&#250; — Batuta", descripcion:"Ni&#241;os del programa Batuta Tib&#250; con marimbas acompa&#241;an la jornada de los Colaboradores Voluntarios en el HRN."},
-  {src:"media/malaria/colvol-tibu-batuta-02.jpg", titulo:"Presentaci&#243;n Batuta Tib&#250;", descripcion:"Los ni&#241;os de Batuta Tib&#250; ofrecen una presentaci&#243;n musical durante el encuentro ColVol — Hospital Regional Norte."},
-  {src:"media/malaria/colvol-tibu-foto-grupal-batuta.jpg", titulo:"Foto grupal ColVol-Batuta Tib&#250;", descripcion:"Foto oficial del encuentro: Colaboradores Voluntarios y ni&#241;os de Batuta Tib&#250; con sus marimbas en el Hospital Regional Norte."},
-  /* --- Videos del Encuentro ColVol Tib&#250; --- */
-  {src:"media/malaria/colvol-tibu-video-01.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 1", descripcion:"Registro en video de la jornada de Colaboradores Voluntarios Malaria en el Hospital Regional Norte de Tib&#250;.", tipo:"video"},
-  {src:"media/malaria/colvol-tibu-video-02.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 2", descripcion:"Momento de la jornada de formaci&#243;n y dotaci&#243;n del programa ColVol en Tib&#250; Norte de Santander.", tipo:"video"},
-  {src:"media/malaria/colvol-tibu-video-03.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 3", descripcion:"ColVol en acci&#243;n: capacitaci&#243;n y entrega de insumos de diagn&#243;stico r&#225;pido para la malaria.", tipo:"video"},
-  {src:"media/malaria/colvol-tibu-video-04.mp4", titulo:"Video Encuentro ColVol Tib&#250; — 4", descripcion:"Cierre del encuentro de Colaboradores Voluntarios Malaria — Hospital Regional Norte, Tib&#250;.", tipo:"video"}
+  {src:"media/malaria/colvol-tibu-batuta-01.jpg", titulo:"Encuentro ColVol Tibú — Batuta", descripcion:"Niños del programa Batuta Tibú con marimbas acompañan la jornada de los Colaboradores Voluntarios en el HRN."},
+  {src:"media/malaria/colvol-tibu-batuta-02.jpg", titulo:"Presentación Batuta Tibú", descripcion:"Los niños de Batuta Tibú ofrecen una presentación musical durante el encuentro ColVol — Hospital Regional Norte."},
+  {src:"media/malaria/colvol-tibu-foto-grupal-batuta.jpg", titulo:"Foto grupal ColVol-Batuta Tibú", descripcion:"Foto oficial del encuentro: Colaboradores Voluntarios y niños de Batuta Tibú con sus marimbas en el Hospital Regional Norte."},
+  /* --- Videos del Encuentro ColVol Tibú --- */
+  {src:"media/malaria/colvol-tibu-video-01.mp4", titulo:"Video Encuentro ColVol Tibú — 1", descripcion:"Registro en video de la jornada de Colaboradores Voluntarios Malaria en el Hospital Regional Norte de Tibú.", tipo:"video"},
+  {src:"media/malaria/colvol-tibu-video-02.mp4", titulo:"Video Encuentro ColVol Tibú — 2", descripcion:"Momento de la jornada de formación y dotación del programa ColVol en Tibú Norte de Santander.", tipo:"video"},
+  {src:"media/malaria/colvol-tibu-video-03.mp4", titulo:"Video Encuentro ColVol Tibú — 3", descripcion:"ColVol en acción: capacitación y entrega de insumos de diagnóstico rápido para la malaria.", tipo:"video"},
+  {src:"media/malaria/colvol-tibu-video-04.mp4", titulo:"Video Encuentro ColVol Tibú — 4", descripcion:"Cierre del encuentro de Colaboradores Voluntarios Malaria — Hospital Regional Norte, Tibú.", tipo:"video"}
 ];
 function initMalariaPrep(){const g=$("#malaria-colvol-grid");if(!g)return;
   g.innerHTML=MALARIA_COLVOL.map((c,i)=>{
