@@ -2350,7 +2350,7 @@ function initInicio(){
   };
   $("#ini-btn-malaria").onclick=()=>{
     $("#inicio").hidden=true;
-    $("#malaria-landing").hidden=false;initMalariaPrep();
+    $("#malaria-landing").hidden=false;initMalariaPrep();document.body.classList.remove("sp-lock");
     window.scrollTo(0,0);
   };
   if($("#btn-volver-chagas"))$("#btn-volver-chagas").onclick=goInicio;
