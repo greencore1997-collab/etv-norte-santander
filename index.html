@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.10.29a -->
+<!doctype html><!-- v2026.11.05a -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -1223,6 +1223,7 @@ html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:1
 .sp-btn svg{width:22px;height:22px}
 @keyframes spPulse{0%,100%{box-shadow:0 14px 36px rgba(242,159,46,.45),0 0 0 0 rgba(242,159,46,.55)}50%{box-shadow:0 14px 36px rgba(242,159,46,.45),0 0 0 14px rgba(242,159,46,0)}}
 .sp-note{font-size:13px;color:rgba(255,255,255,.6)}
+.colvol-grp{grid-column:1/-1;margin:1.6rem 0 .3rem;font-size:1.1rem;color:#C87800;border-bottom:2px solid rgba(200,120,0,.25);padding-bottom:.4rem}.colvol-grp:first-child{margin-top:0}
 body.sp-lock{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.sp-card,.sp-logo,.sp-btn{animation:none}}
 
@@ -2391,6 +2392,35 @@ function initPrep(){const g=$("#prep-grid");if(!g)return;
 
 /* ---------- ColVol Malaria ─ Colaboradores Voluntarios en acción ---------- */
 const MALARIA_COLVOL = [
+  {"src":"media/malaria/colvol-oct-taller-01.jpg","titulo":"Apertura del taller","descripcion":"Las facilitadoras dan inicio a la jornada de formación con los líderes comunitarios.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-02.jpg","titulo":"Participantes en formación","descripcion":"Líderes de distintas veredas reciben orientación sobre detección temprana de la malaria.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-03.jpg","titulo":"Sala de capacitación e insumos","descripcion":"Botiquines y materiales del programa dispuestos para las prácticas del taller.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-04.jpg","titulo":"Trabajo práctico en mesas","descripcion":"Los participantes revisan materiales y registran información en grupos de trabajo.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-05.jpg","titulo":"Asistentes atentos a la sesión","descripcion":"Hombres y mujeres de las comunidades siguen la explicación del equipo técnico.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-06.jpg","titulo":"Presentación del contenido técnico","descripcion":"Exposición sobre diagnóstico rápido, tratamiento oportuno y notificación de casos.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-07.jpg","titulo":"Comunidad comprometida","descripcion":"Alta participación comunitaria en la formación de nuevos Colaboradores Voluntarios.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-08.jpg","titulo":"Dinámica con los ColVol","descripcion":"Actividad participativa con los voluntarios en el Hospital Regional Norte.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-09.jpg","titulo":"Voluntarios a la espera de la jornada","descripcion":"Colaboradores Voluntarios reunidos antes de iniciar las actividades del día.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-10.jpg","titulo":"Orientación previa a la entrega","descripcion":"El equipo explica el uso de los insumos antes de su entrega a los voluntarios.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-taller-11.jpg","titulo":"Cierre de la jornada en el HRN","descripcion":"Últimas indicaciones a los voluntarios al finalizar la jornada.","grupo":"Taller de formación"},
+  {"src":"media/malaria/colvol-oct-difusion-01.jpg","titulo":"Equipo ColVol con piezas de difusión","descripcion":"Voluntarios con los afiches que anuncian el diagnóstico y tratamiento gratuito de la malaria.","grupo":"Encuentro y difusión del servicio ColVol"},
+  {"src":"media/malaria/colvol-oct-difusion-02.jpg","titulo":"Listos para difundir el servicio","descripcion":"El equipo ColVol en el Hospital Regional Norte, preparado para llevar el mensaje a sus veredas.","grupo":"Encuentro y difusión del servicio ColVol"},
+  {"src":"media/malaria/colvol-oct-difusion-03.jpg","titulo":"Piezas informativas ColVol","descripcion":"Afiches que identifican los puntos donde la comunidad encuentra diagnóstico gratuito.","grupo":"Encuentro y difusión del servicio ColVol"},
+  {"src":"media/malaria/colvol-oct-difusion-04.jpg","titulo":"Celebración del equipo","descripcion":"Los voluntarios celebran el cierre del encuentro y su compromiso con la comunidad.","grupo":"Encuentro y difusión del servicio ColVol"},
+  {"src":"media/malaria/colvol-oct-difusion-05.jpg","titulo":"Encuentro con niños y niñas de Tibú","descripcion":"Integración de los voluntarios con niños y niñas de Tibú durante la jornada.","grupo":"Encuentro y difusión del servicio ColVol"},
+  {"src":"media/malaria/colvol-oct-kits-01.jpg","titulo":"Entrega de botiquines","descripcion":"Voluntarios reciben botiquines y certificados para su labor en territorio.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-kits-02.jpg","titulo":"Entrega de insumos a voluntarias","descripcion":"Voluntarias ColVol reciben su dotación en el Hospital Regional Norte.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-kits-03.jpg","titulo":"Voluntaria recibe su dotación","descripcion":"Entrega individual de insumos de diagnóstico a una Colaboradora Voluntaria.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-kits-04.jpg","titulo":"Entrega de caja de insumos","descripcion":"Caja organizadora con los materiales de trabajo para el puesto ColVol.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-kits-05.jpg","titulo":"Dotación completa por voluntario","descripcion":"Caja organizadora y equipo entregados para la atención en la vereda.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-kits-06.jpg","titulo":"Kits entregados en el HRN","descripcion":"Grupo de voluntarios con los kits recibidos durante la jornada.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-kits-07.jpg","titulo":"Voluntarios con sus kits","descripcion":"Cada Colaborador Voluntario recibe su kit y su certificado de participación.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-kits-08.jpg","titulo":"Cajas de dotación","descripcion":"Voluntarios con las cajas de dotación para sus puestos comunitarios.","grupo":"Entrega de kits e insumos"},
+  {"src":"media/malaria/colvol-oct-certificacion-01.jpg","titulo":"Graduación de participantes","descripcion":"Los participantes del taller muestran su certificado al culminar la formación.","grupo":"Certificación de voluntarios"},
+  {"src":"media/malaria/colvol-oct-certificacion-02.jpg","titulo":"Certificados del taller","descripcion":"Foto grupal de los nuevos colaboradores certificados.","grupo":"Certificación de voluntarios"},
+  {"src":"media/malaria/colvol-oct-certificacion-03.jpg","titulo":"Grupo certificado","descripcion":"Comunidad, equipo de salud y facilitadores celebran la certificación.","grupo":"Certificación de voluntarios"},
+  {"src":"media/malaria/colvol-oct-certificacion-04.jpg","titulo":"Certificación en el Hospital Regional Norte","descripcion":"Entrega de certificado a un voluntario en el HRN.","grupo":"Certificación de voluntarios"},
+  {"src":"media/malaria/colvol-oct-certificacion-05.jpg","titulo":"Voluntarios ColVol certificados","descripcion":"El equipo ColVol con sus certificados al cierre del encuentro.","grupo":"Certificación de voluntarios"},
   {src:"media/malaria/colvol-capacitacion-01.jpg", titulo:"Capacitación comunitaria en el HRN", descripcion:"Participantes de las comunidades en sesión formativa sobre diagnóstico y prevención de la malaria."},
   {src:"media/malaria/colvol-capacitacion-02.jpg", titulo:"Sesión con proyección ColVol", descripcion:"Proyección de diapositivas del programa de Colaboradores Voluntarios del Ministerio de Salud y OPS."},
   {src:"media/malaria/colvol-capacitacion-ops.jpg", titulo:"Capacitación liderada por OPS", descripcion:"Instructora de OPS orienta a los colaboradores voluntarios en el manejo del kit de diagnóstico rápido."},
@@ -2432,10 +2462,10 @@ const MALARIA_COLVOL = [
   {src:"media/malaria/colvol-tibu-video-04.mp4", titulo:"Video Encuentro ColVol Tibú — 4", descripcion:"Cierre del encuentro de Colaboradores Voluntarios Malaria — Hospital Regional Norte, Tibú.", tipo:"video"}
 ];
 function initMalariaPrep(){const g=$("#malaria-colvol-grid");if(!g)return;
-  g.innerHTML=MALARIA_COLVOL.map((c,i)=>{
+  let _pg;g.innerHTML=MALARIA_COLVOL.map((c,i)=>{const _gr=c.grupo||"Jornada inicial de capacitación y dotación";const _h=_gr!==_pg?(_pg=_gr,`<h3 class="colvol-grp">${esc(_gr)}</h3>`):"";
     const isVid=c.tipo==="video";
     const thumb=isVid?`<div style="position:relative;width:100%;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center"><video src="${esc(c.src)}" muted preload="metadata" style="width:100%;height:100%;object-fit:cover"></video><span style="position:absolute;font-size:2.2rem;color:#fff;text-shadow:0 2px 8px #0008;pointer-events:none">&#9654;</span></div>`:`<img src="${esc(c.src)}" alt="" loading="lazy">`;
-    return`<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}">${thumb}<span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`}).join("");
+    return _h+`<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}">${thumb}<span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`}).join("");
   g.querySelectorAll(".prep-card").forEach(b=>b.onclick=()=>{const c=MALARIA_COLVOL[+b.dataset.i];
     const isVid=c.tipo==="video";
     $("#edu-m-media").innerHTML=isVid?`<video src="${esc(c.src)}" controls autoplay style="max-width:100%;max-height:70vh;border-radius:8px"></video>`:`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;
