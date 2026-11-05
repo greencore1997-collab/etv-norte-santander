@@ -1,4 +1,4 @@
-<!doctype html><!-- v2026.11.05c -->
+<!doctype html><!-- v2026.11.05d -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -1503,7 +1503,7 @@ body.sp-lock{overflow:hidden}
   <main class="l-main" style="--kicker-color:#C87800">
     <section class="l-sec" id="malaria-colvol-sec">
       <div class="l-sec-h"><span class="l-kicker" style="color:#C87800">ColVol</span><h2>Colaboradores Voluntarios en acci&#243;n</h2><p>El programa Colaboradores Voluntarios (ColVol) del Ministerio de Salud y la OPS forma l&#237;deres comunitarios para la detecci&#243;n oportuna y el tratamiento gratuito de la malaria. Estas im&#225;genes registran la jornada de capacitaci&#243;n y dotaci&#243;n realizada en el Hospital Regional Norte — Norte de Santander.</p></div>
-      <div class="prep-grid" id="malaria-colvol-grid"></div>
+      <div id="malaria-colvol-grid"></div>
     </section>
     <section class="l-sec" id="malaria-info-sec">
       <div class="l-sec-h">
@@ -2463,10 +2463,16 @@ const MALARIA_COLVOL = [
   {src:"media/malaria/colvol-tibu-video-04.mp4", titulo:"Video Encuentro ColVol Tibú — 4", descripcion:"Cierre del encuentro de Colaboradores Voluntarios Malaria — Hospital Regional Norte, Tibú.", tipo:"video"}
 ];
 function initMalariaPrep(){const g=$("#malaria-colvol-grid");if(!g)return;
-  let _pg;g.innerHTML=MALARIA_COLVOL.map((c,i)=>{const _gr=c.grupo||"Jornada inicial de capacitación y dotación";const _h=_gr!==_pg?(_pg=_gr,`<h3 class="colvol-grp">${esc(_gr)}</h3>`):"";
-    const isVid=c.tipo==="video";
-    const thumb=isVid?`<div style="position:relative;width:100%;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center"><video src="${esc(c.src)}" muted preload="metadata" style="width:100%;height:100%;object-fit:cover"></video><span style="position:absolute;font-size:2.2rem;color:#fff;text-shadow:0 2px 8px #0008;pointer-events:none">&#9654;</span></div>`:`<img src="${esc(c.src)}" alt="" loading="lazy">`;
-    return _h+`<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}">${thumb}<span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`}).join("");
+  const groups={};
+  MALARIA_COLVOL.forEach((c,i)=>{const k=c.grupo||"Jornada inicial de capacitación y dotación";(groups[k]=groups[k]||[]).push([c,i]);});
+  g.innerHTML=Object.keys(groups).map(k=>{
+    const cards=groups[k].map(([c,i])=>{
+      const isVid=c.tipo==="video";
+      const thumb=isVid?`<div style="position:relative;width:100%;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center"><video src="${esc(c.src)}" muted preload="metadata" style="width:100%;height:100%;object-fit:cover"></video><span style="position:absolute;font-size:2.2rem;color:#fff;text-shadow:0 2px 8px #0008;pointer-events:none">&#9654;</span></div>`:`<img src="${esc(c.src)}" alt="" loading="lazy">`;
+      return `<button type="button" class="prep-card" data-i="${i}" aria-label="${esc(c.titulo)}">${thumb}<span class="prep-cap"><b>${esc(c.titulo)}</b><span>${esc(c.descripcion)}</span></span></button>`;
+    }).join("");
+    return `<h3 class="colvol-grp">${esc(k)}</h3><div class="prep-grid">${cards}</div>`;
+  }).join("");
   g.querySelectorAll(".prep-card").forEach(b=>b.onclick=()=>{const c=MALARIA_COLVOL[+b.dataset.i];
     const isVid=c.tipo==="video";
     $("#edu-m-media").innerHTML=isVid?`<video src="${esc(c.src)}" controls autoplay style="max-width:100%;max-height:70vh;border-radius:8px"></video>`:`<img src="${esc(c.src)}" alt="${esc(c.titulo)}">`;
